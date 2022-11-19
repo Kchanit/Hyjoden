@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "869386705241",
+    "project_id": "hyjoden",
+    "storage_bucket": "hyjoden.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869386705241:android:946c3237ffb6f33205d448",
+        "android_client_info": {
+          "package_name": "com.jaydee.hyjoden"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "869386705241-t0eh9o5h9vrm40vp2cvd2mmdnsgj3prt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCbpc_YjJP-ZoyZhSHR0Zacww5lvLiTiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "869386705241-t0eh9o5h9vrm40vp2cvd2mmdnsgj3prt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
