@@ -48,6 +48,11 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_neumorphic: ^3.2.0
   percent_indicator: ^4.2.2
+  motion_tab_bar: ^0.1.5
+  rive: ^0.9.1
+  fl_chart: ^0.55.2
+  achievement_view: ^1.0.0
+  
 
 dev_dependencies:
   flutter_test:
