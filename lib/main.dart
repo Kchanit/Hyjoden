@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
       //   lightSource: LightSource.topLeft,
       //   depth: 10,
       // ),
+      // home: MotionTabBarScreen(),
         initialRoute: "/home",
         routes: routes,
       ),
