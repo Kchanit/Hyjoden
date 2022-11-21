@@ -56,25 +56,47 @@ class _HomeScreenState extends State<HomeScreen> {
       super.initState();
       // Load the animation file from the bundle, note that you could also
       // download this. The RiveFile just expects a list of bytes.
-      rootBundle.load('assets/tree_demo.riv').then(
-        (data) async {
-          // Load the RiveFile from the binary data.
-          final file = RiveFile.import(data);
+      if (_treeProgress == 0) {
+        rootBundle.load('assets/tree_demo.riv').then(
+          (data) async {
+            // Load the RiveFile from the binary data.
+            final file = RiveFile.import(data);
 
-          // The artboard is the root of the animation and gets drawn in the
-          // Rive widget.
-          final artboard = file.mainArtboard;
-          var controller = StateMachineController.fromArtboard(artboard, 'State Machine 1');
-          if (controller != null) {
-            artboard.addController(controller);
-            _progress = controller.findInput('input');
-          }
-          setState(() => _riveArtboard = artboard);
-        },
-      );
+            // The artboard is the root of the animation and gets drawn in the
+            // Rive widget.
+            final artboard = file.mainArtboard;
+            var controller = StateMachineController.fromArtboard(artboard, 'State Machine 1');
+            if (controller != null) {
+              artboard.addController(controller);
+              _progress = controller.findInput('input');
+            }
+            setState(() => _riveArtboard = artboard);
+          },
+        );
+      }
+    }
+    // แบบถ้าทำ acheivement แล้วเราจะ load riv ใหม่
+    void evolution() {
+      setState(() {
+        if (_treeProgress == 100) {
+          rootBundle.load('assets/tree_demo (1).riv').then(
+          (data) async {
+            final file = RiveFile.import(data);
+            final artboard = file.mainArtboard;
+            var controller = StateMachineController.fromArtboard(artboard, 'State Machine 1');
+            if (controller != null) {
+              artboard.addController(controller);
+              _progress = controller.findInput('input');
+            }
+            setState(() => _riveArtboard = artboard);
+          },
+        );
+        _treeProgress = 0;
+        }
+      });
     }
 
-    void grow(){
+    void grow() {
       setState(() {
         _treeProgress += 10;
         _progress?.value = _treeProgress.toDouble();
@@ -154,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                   ),
                   onPressed: () {
+                    evolution();
                     if (_treeProgress < _treeMaxProgress){
                       grow();
                     } else {
