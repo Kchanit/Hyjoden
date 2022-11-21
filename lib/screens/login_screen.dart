@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:hyjoden/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -37,7 +42,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int visit = 4;
-
+  String? email, password;
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,44 +63,40 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-
       body: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(
-          children: [
-            SizedBox(height: 35),
-            Text('Login', style: Theme.of(context).textTheme.headline2,),
-      
-            SizedBox(height: 30),
-      
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
+        child: Column(children: [
+          SizedBox(height: 35),
+          Text(
+            'Login',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
                 decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Email',
-                )
-              ),
-            ),
-            SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
+              border: UnderlineInputBorder(),
+              labelText: 'Email',
+            )),
+          ),
+          SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
                 decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Password',
-                )
-              ),
-            ),
-
-            SizedBox(height: 40),
-            
-            InkWell(
+              border: UnderlineInputBorder(),
+              labelText: 'Password',
+            )),
+          ),
+          SizedBox(height: 40),
+          InkWell(
               onTap: () {
-
+                loginHandle(context: context);
               },
+<<<<<<< HEAD
               child: Text('Login', style: Theme.of(context).textTheme.headline3)
             ),
             SizedBox(height: 40),
@@ -106,6 +108,16 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ]
         ),
+=======
+              child:
+                  Text('Login', style: Theme.of(context).textTheme.headline3)),
+          SizedBox(height: 40),
+          InkWell(
+              onTap: () {},
+              child: Text('Register',
+                  style: Theme.of(context).textTheme.headline3))
+        ]),
+>>>>>>> a3879b311325515c550cdfb1401a3e49c37edb4a
       ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
@@ -128,5 +140,29 @@ class _LoginScreenState extends State<LoginScreen> {
         animated: true,
       ),
     );
+  }
+
+  Future<void> loginHandle({required BuildContext context}) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      showDialog(
+          context: context,
+          builder: ((context) => Center(
+                child: CircularProgressIndicator(strokeWidth: 4),
+              )));
+
+      try {
+        await authService.signInWithEmailAndPassword(
+            email: email, password: password);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (route) => false);
+      } on FirebaseAuthException catch (e) {
+        log(e.message!);
+        Navigator.pop(context);
+      }
+    }
   }
 }

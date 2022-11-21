@@ -96,7 +96,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     progressColor: kColorsBlue,
                     circularStrokeCap: CircularStrokeCap.round,
                     center: Text(
-                      '$perc%',
+                      '$perc%', style: TextStyle(fontSize: 40),
                       // style: GoogleFonts.getFont('Poppins', fontSize: 40),
                     ),
                   ),

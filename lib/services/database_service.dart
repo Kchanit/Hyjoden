@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hyjoden/models/user_model.dart';
 
+import '../models/drink_model.dart';
+
 class DatabaseService {
   final FirebaseFirestore _firebaseStore = FirebaseFirestore.instance;
 
@@ -26,5 +28,12 @@ class DatabaseService {
     final newUserInfo = user.toMap();
 
     docUser.set(newUserInfo);
+  }
+
+    Future<List<Drink?>> getFutureListDrink() async {
+    final snapshot = await _firebaseStore.collection('drinks').get();
+    return snapshot.docs
+        .map((doc) => Drink.fromMap(drinkMap: doc.data()))
+        .toList();
   }
 }
