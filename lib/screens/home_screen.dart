@@ -42,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        leading: null,
         backgroundColor: Colors.grey[300],
         title: Container(
           alignment: Alignment.bottomCenter,
@@ -64,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: (int index) => setState(() {
           visit = index;
           if (index == 0) {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
-            Navigator.pushNamed(context, '/summary');
+            Navigator.pushReplacementNamed(context, '/summary');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),

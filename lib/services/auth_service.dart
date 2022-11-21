@@ -2,15 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/database_service.dart';
 
-
 class AuthService {
-    final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
   final DatabaseService _databaseService;
 
   AuthService({required DatabaseService dbService})
       : _databaseService = dbService;
 
-  
   Future<User?> currentUser() async {
     return await _databaseService.getUserFromUid(
         uid: _firebaseAuth.currentUser?.uid);
@@ -30,13 +28,11 @@ class AuthService {
     return;
   }
 
-  Future<User> createUser(
-      {required email,
-      required username,
-      required password,
-      phone,
-      address,
-      coin}) async {
+  Future<User> createUser({
+    required email,
+    required username,
+    required password,
+  }) async {
     final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     if (userCredential.user == null) {
@@ -45,13 +41,10 @@ class AuthService {
 
     final firebaseUser = userCredential.user;
     final newUser = User(
-        uid: firebaseUser!.uid,
-        email: email,
-        username: username,
-        phone: phone,
-        address: address,
-        role: 'user',
-        coin: 0);
+      uid: firebaseUser!.uid,
+      email: email,
+      username: username,
+    );
 
     _databaseService.createUserFromModel(user: newUser);
 

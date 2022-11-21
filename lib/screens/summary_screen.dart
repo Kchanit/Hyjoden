@@ -38,7 +38,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Summary page")),
+      appBar: AppBar(
+        leading: null,
+        title: Text("Summary page")),
       body: Center(
           child: Text(
         'Summary screen',
@@ -53,9 +55,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
         onTap: (int index) => setState(() {
           visit = index;
           if (index == 0) {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
-            Navigator.pushNamed(context, '/summary');
+            Navigator.pushReplacementNamed(context, '/summary');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
