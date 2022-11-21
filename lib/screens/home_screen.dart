@@ -123,7 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
               ),
             ),
-       
+          const Padding(
+            padding: EdgeInsets.only(bottom: 30),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
             child: Column(
