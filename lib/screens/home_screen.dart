@@ -11,7 +11,7 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.bar_chart_rounded,
-    // title: 'Shop',
+    title: 'Summary',
   ),
   TabItem(
     icon: Icons.add_rounded,
@@ -19,11 +19,11 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    // title: 'Cart',
+    title: 'Achievement',
   ),
   TabItem(
     icon: Icons.person_rounded,
-    // title: 'profile',
+    title: 'Profile',
   ),
 ];
 

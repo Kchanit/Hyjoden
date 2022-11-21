@@ -2,6 +2,7 @@ class User {
   final String uid;
   final String email;
   final String username;
+  int? age;
   String? bedtime;
   String? waketime;
   double? favContainer;
@@ -17,6 +18,7 @@ class User {
       {required this.uid,
       required this.email,
       required this.username,
+      this.age,
       this.bedtime,
       this.waketime,
       this.favContainer,
@@ -33,6 +35,7 @@ class User {
       : uid = userMap['uid'],
         email = userMap['email'],
         username = userMap['username'],
+        age = userMap['age'],
         bedtime = userMap['bedtime'],
         waketime = userMap['waketime'],
         favContainer = userMap['favContainer'],
@@ -48,13 +51,14 @@ class User {
         'uid': uid,
         'email': email,
         'username': username,
+        'age': age,
         'bedtime' : bedtime,
         'waketime': waketime,
         'favContainer': favContainer,
         'gender': gender,
         'weight': weight,
         'height': height,
-        'target': target ?? 0,
+        'target': target,
         'targetHit': targetHit ?? 0,
         'todayDrink': todayDrink ?? 0,
         'totalDrink' : totalDrink ?? 0,
