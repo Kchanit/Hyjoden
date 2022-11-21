@@ -48,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _treeProgress = 0;
   int _treeMaxProgress = 60;
 
+  String buttonText = "";
+
   @override
     void initState() {
       super.initState();
@@ -61,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           // The artboard is the root of the animation and gets drawn in the
           // Rive widget.
           final artboard = file.mainArtboard;
-          var controller = StateMachineController.fromArtboard(artboard, 'Grow');
+          var controller = StateMachineController.fromArtboard(artboard, 'State Machine 1');
           if (controller != null) {
             artboard.addController(controller);
             _progress = controller.findInput('input');
@@ -74,12 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
     void grow(){
       setState(() {
         _treeProgress += 10;
+        _progress?.value = _treeProgress.toDouble();
       });
     }
 
     void deGrow(){
       setState(() {
         _treeProgress -= 10;
+        _progress?.value = _treeProgress.toDouble();
       });
     }
 
@@ -106,19 +110,72 @@ class _HomeScreenState extends State<HomeScreen> {
       
       body: Column(
         children: [
-          Expanded(
-            child: Center(
-              child: _riveArtboard == null ? const SizedBox() :
-               Container(
-                      width: treeWidth,
-                      height: treeWidth,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(treeWidth / 2),
-                          border: Border.all(color: Colors.white12, width: 10)),
-                        child: Rive(alignment: Alignment.center,artboard: _riveArtboard!),
-                    ),
+           Expanded(
+              child: Center(
+                child: _riveArtboard == null ? const SizedBox() :
+                 Container(
+                        width: treeWidth,
+                        height: treeWidth,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(treeWidth / 2),
+                            border: Border.all(color: Colors.white12, width: 10)),
+                          child: Rive(alignment: Alignment.center,artboard: _riveArtboard!),
+                      ),
+              ),
             ),
-          ),
+       
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: Column(
+              children: [
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    if (_treeProgress < _treeMaxProgress){
+                      grow();
+                    } else {
+                      return ;
+                    }
+                  },
+                  child: Text('GROW'),
+                )
+                // MaterialButton(
+                //   height: 40.0,
+                //   minWidth: 180.0,
+                //   elevation: 8.0,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(5.0)),
+                //   color: Colors.green,
+                //   textColor: Colors.white,
+                //   child: Text("Grow"),
+                //   onPressed: () {
+                //     if (_treeProgress < _treeMaxProgress){
+                //       grow();
+                //     } else {
+                //       return ;
+                //     }
+                //   },
+                //   splashColor: Colors.redAccent,
+                // ),
+                // MaterialButton(
+                //   height: 40.0,
+                //   minWidth: 180.0,
+                //   elevation: 8.0,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(5.0)),
+                //   color: Colors.green,
+                //   textColor: Colors.white,
+                //   child: Text("DeGrow"),
+                //   onPressed: () {
+                //     deGrow();
+                //   },
+                //   splashColor: Colors.redAccent,
+                // ),
+              ],
+            ),
+          )
         ],
       ),
 
