@@ -3,6 +3,7 @@ import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/route_manager.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -27,23 +28,23 @@ const List<TabItem> items = [
   ),
 ];
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int visit = 0;
+class _RegisterScreenState extends State<RegisterScreen> {
+  int visit = 4;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: null,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.bottomCenter,
           child: Text('HYJODEN',
@@ -55,6 +56,48 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         elevation: 0,
         toolbarHeight: 80,
+      ),
+
+      body: InkWell(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Column(
+          children: [
+            SizedBox(height: 35),
+            Text('Login', style: Theme.of(context).textTheme.headline2,),
+      
+            SizedBox(height: 30),
+      
+            Padding(
+              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                labelText: 'Email',
+                )
+              ),
+            ),
+            SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                labelText: 'Password',
+                )
+              ),
+            ),
+
+            SizedBox(height: 40),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              child: Text('Register', style: Theme.of(context).textTheme.headline3)
+            )
+          ]
+        ),
       ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,

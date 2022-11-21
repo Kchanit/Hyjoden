@@ -177,6 +177,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
             ),
           )
           ),
+        ),
+
+        NeumorphicRadio(
+
         )
       ]),
       bottomNavigationBar: BottomBarInspiredInside(
@@ -191,6 +195,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 4) {
+            Navigator.pushReplacementNamed(context, '/login');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
