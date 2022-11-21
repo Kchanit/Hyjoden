@@ -140,39 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   },
                   child: Text('GROW'),
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    if (_treeProgress > 0)
+                      deGrow();
+                  },
+                  child: Text('DeGROW'),
                 )
-                // MaterialButton(
-                //   height: 40.0,
-                //   minWidth: 180.0,
-                //   elevation: 8.0,
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(5.0)),
-                //   color: Colors.green,
-                //   textColor: Colors.white,
-                //   child: Text("Grow"),
-                //   onPressed: () {
-                //     if (_treeProgress < _treeMaxProgress){
-                //       grow();
-                //     } else {
-                //       return ;
-                //     }
-                //   },
-                //   splashColor: Colors.redAccent,
-                // ),
-                // MaterialButton(
-                //   height: 40.0,
-                //   minWidth: 180.0,
-                //   elevation: 8.0,
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(5.0)),
-                //   color: Colors.green,
-                //   textColor: Colors.white,
-                //   child: Text("DeGrow"),
-                //   onPressed: () {
-                //     deGrow();
-                //   },
-                //   splashColor: Colors.redAccent,
-                // ),
               ],
             ),
           )
