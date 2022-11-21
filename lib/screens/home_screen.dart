@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rive/rive.dart';
 
 const List<TabItem> items = [
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   SMIInput<double>? _progress;
 
   int _treeProgress = 0;
-  int _treeMaxProgress = 60;
+  int _treeMaxProgress = 100;
 
   String buttonText = "";
 
@@ -90,6 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     double treeWidth = MediaQuery.of(context).size.width - 40;
+
+    double result = _treeProgress / 100;
+    String percent = (result*100).toString() + "%";
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 235, 233, 233),
       appBar: AppBar(
@@ -125,6 +130,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           const Padding(
             padding: EdgeInsets.only(bottom: 30),
+          ),
+          SizedBox(height: 50),
+            LinearPercentIndicator(
+              // animation: true,
+              // animationDuration: 1000,
+              center: Text(percent, style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white,
+                  letterSpacing: 2)),
+              lineHeight: 30,
+              barRadius: Radius.circular(20),
+              percent: result,
+              progressColor: Color(0xFF3E3E3E),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
