@@ -4,6 +4,7 @@ import 'package:hyjoden/route.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/services/storage_service.dart';
+import 'package:hyjoden/themes/style.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
       //   depth: 10,
       // ),
       // home: MotionTabBarScreen(),
+        theme: appTheme(),
         initialRoute: "/home",
         routes: routes,
       ),

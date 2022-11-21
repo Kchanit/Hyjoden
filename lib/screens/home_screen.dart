@@ -12,11 +12,11 @@ import 'package:rive/rive.dart';
 const List<TabItem> items = [
   TabItem(
     icon: Icons.home_rounded,
-    title: 'Home',
+    title: 'HOME',
   ),
   TabItem(
     icon: Icons.bar_chart_rounded,
-    title: 'Summary',
+    title: 'SUMMARY',
   ),
   TabItem(
     icon: Icons.add_rounded,
@@ -24,11 +24,11 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'Achievement',
+    title: 'AWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
-    title: 'Profile',
+    title: 'PROFILE',
   ),
 ];
 
@@ -213,6 +213,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 4) {
+            Navigator.pushReplacementNamed(context, '/login');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
