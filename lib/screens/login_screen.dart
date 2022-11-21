@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: null,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.bottomCenter,
@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 40),
             InkWell(
               onTap: () {
-
+                Navigator.pushNamed(context, '/register');
               },
               child: Text('Register', style: Theme.of(context).textTheme.headline3)
             )

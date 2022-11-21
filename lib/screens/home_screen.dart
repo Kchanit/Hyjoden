@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        leading: null,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.grey[300],
         title: Container(
           alignment: Alignment.bottomCenter,

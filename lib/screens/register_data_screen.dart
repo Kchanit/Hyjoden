@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:hyjoden/themes/colors.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -28,15 +29,18 @@ const List<TabItem> items = [
   ),
 ];
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+const List<String> list = <String>['Men', 'Women'];
+
+class RegisterDataScreen extends StatefulWidget {
+  const RegisterDataScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterDataScreen> createState() => _RegisterDataScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterDataScreenState extends State<RegisterDataScreen> {
   int visit = 4;
+  String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +69,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           children: [
             SizedBox(height: 35),
-            Text('Register', style: Theme.of(context).textTheme.headline2,),
+            Text('Set up your data', style: Theme.of(context).textTheme.headline2,),
       
             SizedBox(height: 30),
+
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: const Icon(Icons.keyboard_arrow_down_rounded),
+              elevation: 16,
+              style: const TextStyle(color: kColorsGrey),
+              underline: Container(
+                height: 0.5,
+                color: kColorsGrey,
+              ),
+              onChanged: (String? value) {
+                // This is called when the user selects an item.
+                setState(() {
+                  dropdownValue = value!;
+                });
+              },
+              items: list.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
       
+            SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 35.0, right: 35.0),
               child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                labelText: 'Email',
+                labelText: 'Height',
                 )
               ),
             ),
@@ -84,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                labelText: 'Password',
+                labelText: 'Weight',
                 )
               ),
             ),
@@ -94,7 +122,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: TextFormField(
                 decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
-                labelText: 'Username',
+                labelText: 'Bedtime',
+                )
+              ),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                labelText: 'Wake up',
                 )
               ),
             ),
@@ -102,12 +140,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: 40),
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/register-data');
+                Navigator.pushReplacementNamed(context, '/home');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Next', style: Theme.of(context).textTheme.headline3),
+                  Text('Let\'s start', style: Theme.of(context).textTheme.headline3),
                   SizedBox(width: 5),
                   Icon(Icons.arrow_right_alt_rounded)
                 ],

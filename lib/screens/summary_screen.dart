@@ -52,7 +52,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: null,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.bottomCenter,
