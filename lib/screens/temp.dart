@@ -72,40 +72,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
           FocusScope.of(context).unfocus();
         },
         child: Column(children: [
-          Form(
-            key: formKey,
-            child: Column(
-              children: [
-                SizedBox(height: 35),
-                Text(
-                  'Register',
-                  style: Theme.of(context).textTheme.headline2,
-                ),
-                SizedBox(height: 30),
-                CreateUsername(),
-                SizedBox(height: 20),
-                CreateEmail(),
-                SizedBox(height: 20),
-                CreatePassword(),
-                SizedBox(height: 20),
-                CreateConfirmPassword(),
-                SizedBox(height: 40),
-                InkWell(
-                    onTap: () {
-                      registerHandle(context: context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Next',
-                            style: Theme.of(context).textTheme.headline3),
-                        SizedBox(width: 5),
-                        Icon(Icons.arrow_right_alt_rounded)
-                      ],
-                    ))
-              ],
-            ),
-          )
+          SizedBox(height: 35),
+          Text(
+            'Register',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          SizedBox(height: 30),
+          CreateUsername(),
+          SizedBox(height: 20),
+          CreateEmail(),
+          SizedBox(height: 20),
+          CreatePassword(),
+          SizedBox(height: 20),
+          CreateConfirmPassword(),
+          SizedBox(height: 40),
+          InkWell(
+              onTap: () {
+                registerHandle(context: context);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Next', style: Theme.of(context).textTheme.headline3),
+                  SizedBox(width: 5),
+                  Icon(Icons.arrow_right_alt_rounded)
+                ],
+              ))
         ]),
       ),
       bottomNavigationBar: BottomBarInspiredInside(

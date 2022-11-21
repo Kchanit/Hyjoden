@@ -96,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
               onTap: () {
                 loginHandle(context: context);
               },
-<<<<<<< HEAD
               child: Text('Login', style: Theme.of(context).textTheme.headline3)
             ),
             SizedBox(height: 40),
@@ -108,16 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ]
         ),
-=======
-              child:
-                  Text('Login', style: Theme.of(context).textTheme.headline3)),
-          SizedBox(height: 40),
-          InkWell(
-              onTap: () {},
-              child: Text('Register',
-                  style: Theme.of(context).textTheme.headline3))
-        ]),
->>>>>>> a3879b311325515c550cdfb1401a3e49c37edb4a
       ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
