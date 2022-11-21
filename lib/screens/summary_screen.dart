@@ -2,17 +2,18 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hyjoden/themes/colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 const List<TabItem> items = [
   TabItem(
     icon: Icons.home_rounded,
-    title: 'Home',
+    title: 'HOME',
   ),
   TabItem(
     icon: Icons.bar_chart_rounded,
-    title: 'Summary',
+    title: 'SUMMARY',
   ),
   TabItem(
     icon: Icons.add_rounded,
@@ -20,11 +21,11 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'Achievement',
+    title: 'AWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
-    title: 'Profile',
+    title: 'PROFILE',
   ),
 ];
 
@@ -40,15 +41,19 @@ class _SummaryScreenState extends State<SummaryScreen> {
   double currentProg = 1690;
   double target = 3700;
 
+  List<int> value = [
+    200, 300, 150, 600, 10
+  ];
+
   @override
   Widget build(BuildContext context) {
     double result = currentProg / target;
     int perc = (result * 100).toInt();
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: null,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.bottomCenter,
           child: Text('HYJODEN',
@@ -61,7 +66,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-      body: ListView(children: [
+      body: ListView(
+        
+        children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text('Today', style: Theme.of(context).textTheme.headline2),
+        ),
         Padding(
           padding: EdgeInsets.all(25),
           child: Container(
@@ -82,45 +93,89 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     radius: 100,
                     lineWidth: 20,
                     percent: result,
-                    progressColor: Color(0xFF3E3E3E),
+                    progressColor: kColorsBlue,
                     circularStrokeCap: CircularStrokeCap.round,
                     center: Text(
                       '$perc%',
-                      style: GoogleFonts.getFont('Poppins', fontSize: 40),
+                      // style: GoogleFonts.getFont('Poppins', fontSize: 40),
                     ),
                   ),
-                  SizedBox(height: 50),
-                  LinearPercentIndicator(
-                    animation: true,
-                    animationDuration: 1000,
-                    lineHeight: 30,
-                    barRadius: Radius.circular(20),
-                    percent: result,
-                    progressColor: Color(0xFF3E3E3E),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    width: 945,
-                    height: 569,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(42),
-                    ),
-                    child: Row(children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Image.asset(
-                          'assets/container1.png',
-                          scale: 6,
-                        ),
-                      )
-                    ]),
-                  ),
+                  // SizedBox(
+                  //   height: 50,
+                  // ),
+                  // Container(
+                  //   width: 945,
+                  //   height: 444,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey[200],
+                  //     borderRadius: BorderRadius.circular(42),
+                  //   ),
+                  //   child: Row(children: [
+                  //     Padding(
+                  //       padding: EdgeInsets.only(left: 10),
+                  //       child: Image.asset(
+                  //         'assets/container1.png',
+                  //         scale: 6,
+                  //       ),
+                  //     )
+                  //   ]),
+                  // ),
                 ],
               ),
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Text('Recent Drink', style: Theme.of(context).textTheme.headline3),
+        ),
+
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Neumorphic(
+          style: NeumorphicStyle(
+          shape: NeumorphicShape.concave,
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)), 
+          depth: -5,
+          lightSource: LightSource.topLeft,
+          color: Colors.white
+            ),
+          child: SizedBox(
+            height: 170,
+            child: ListView.builder(
+              itemCount: value.length,
+              itemBuilder: (context, index) {
+                return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset('assets/container2.png', width: 40, height: 70,),
+                            SizedBox(width: 15,),
+                            Text('${value[index]} ml', style: Theme.of(context).textTheme.subtitle1,)
+                          ],
+                        ),
+                        Text('10 : 30 am', style: Theme.of(context).textTheme.subtitle1,)
+                      ]
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Container(
+                    height: 1.5,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(color: kColorsLightGrey),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          )
           ),
         )
       ]),

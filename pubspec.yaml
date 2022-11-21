@@ -45,7 +45,6 @@ dependencies:
   provider: ^6.0.4
   google_sign_in: ^5.4.2
   get: ^4.6.5
-  google_fonts: ^3.0.1
   flutter_neumorphic: ^3.2.0
   percent_indicator: ^4.2.2
   rive: ^0.9.1
@@ -78,6 +77,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/icons/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -109,3 +109,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-Medium.ttf
+        - asset: fonts/Poppins-Light.ttf

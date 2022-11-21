@@ -7,11 +7,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 const List<TabItem> items = [
   TabItem(
     icon: Icons.home_rounded,
-    title: 'Home',
+    title: 'HOME',
   ),
   TabItem(
     icon: Icons.bar_chart_rounded,
-    title: 'Summary',
+    title: 'SUMMARY',
   ),
   TabItem(
     icon: Icons.add_rounded,
@@ -19,11 +19,11 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'Achievement',
+    title: 'AWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
-    title: 'Profile',
+    title: 'PROFILE',
   ),
 ];
 
