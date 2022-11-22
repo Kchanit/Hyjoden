@@ -67,45 +67,33 @@ class _LoginScreenState extends State<LoginScreen> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(children: [
-          SizedBox(height: 35),
-          Text(
-            'Login',
-            style: Theme.of(context).textTheme.headline2,
-          ),
-          SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-            child: TextFormField(
-                decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Email',
-            )),
-          ),
-          SizedBox(height: 30),
-          Padding(
-            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-            child: TextFormField(
-                decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Password',
-            )),
-          ),
-          SizedBox(height: 40),
-          InkWell(
-              onTap: () {
-                loginHandle(context: context);
-              },
-              child: Text('Login', style: Theme.of(context).textTheme.headline3)
+        child: Form(
+          key: formKey,
+          child: Column(children: [
+            SizedBox(height: 35),
+            Text(
+              'Login',
+              style: Theme.of(context).textTheme.headline2,
             ),
+            SizedBox(height: 30),
+            CreateEmail(),
+            SizedBox(height: 30),
+            CreatePassword(),
             SizedBox(height: 40),
             InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: Text('Register', style: Theme.of(context).textTheme.headline3)
-            )
-          ]
+                onTap: () {
+                  loginHandle(context: context);
+                },
+                child: Text('Login',
+                    style: Theme.of(context).textTheme.headline3)),
+            SizedBox(height: 40),
+            InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: Text('Register',
+                    style: Theme.of(context).textTheme.headline3))
+          ]),
         ),
       ),
       bottomNavigationBar: BottomBarInspiredInside(
@@ -157,5 +145,47 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pop(context);
       }
     }
+  }
+
+  CreateEmail() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+      child: TextFormField(
+        decoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+          labelText: 'Email',
+        ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "Please enter your email";
+          }
+          return null;
+        },
+        onChanged: (value) {
+          email = value;
+        },
+      ),
+    );
+  }
+
+  CreatePassword() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+      child: TextFormField(
+        decoration: const InputDecoration(
+          border: UnderlineInputBorder(),
+          labelText: 'Password',
+        ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return "Please enter your password";
+          }
+          return null;
+        },
+        onChanged: (value) {
+          password = value;
+        },
+      ),
+    );
   }
 }
