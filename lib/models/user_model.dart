@@ -9,6 +9,7 @@ class User {
   final String? gender;
   int? height;
   int? weight;
+  int? drinkAttempt;
   final double? target;
   final int? targetHit;
   final double? todayDrink;
@@ -25,6 +26,7 @@ class User {
       this.gender,
       this.weight,
       this.height,
+      this.drinkAttempt,
       this.target,
       this.targetHit,
       this.todayDrink,
@@ -42,6 +44,7 @@ class User {
         gender = userMap['gender'],
         weight = userMap['weight'],
         height = userMap['height'],
+        drinkAttempt = userMap['drinkAttempt'],
         target = userMap['target'],
         targetHit = userMap['targetHit'],
         todayDrink = userMap['todayDrink'],
@@ -58,9 +61,10 @@ class User {
         'gender': gender,
         'weight': weight,
         'height': height,
-        'target': target,
+        'drinkAttempt': drinkAttempt ?? 0,
+        'target': target ?? 0.0,
         'targetHit': targetHit ?? 0,
-        'todayDrink': todayDrink ?? 0,
-        'totalDrink' : totalDrink ?? 0,
+        'todayDrink': todayDrink ?? 0.0,
+        'totalDrink' : totalDrink ?? 0.0,
       };
 }
