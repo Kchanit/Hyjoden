@@ -99,15 +99,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: 40),
                     InkWell(
                         onTap: () {
-                          registerHandle(context: context);
-                          authService.currentUser().then((currentUser) {
-                            setState(() {
-                              user = currentUser;
-                            });
-                            Navigator.pushReplacementNamed(
-                                context, '/register-data',
-                                arguments: user);
-                          });
+                          registerHandle(
+                            context: context,
+                          );
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -236,7 +230,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Future<void> registerHandle({required BuildContext context}) async {
+  Future<void> registerHandle(
+      {required BuildContext context, User? user}) async {
     final authService = Provider.of<AuthService>(context, listen: false);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -253,6 +248,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           username: username,
           password: password,
         );
+        authService.currentUser().then((currentUser) {
+          setState(() {
+            user = currentUser;
+          });
+          Navigator.pushReplacementNamed(context, '/register-data',
+              arguments: user);
+        });
       } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         showSnackBar(e.message);

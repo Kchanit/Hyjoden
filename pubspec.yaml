@@ -51,6 +51,7 @@ dependencies:
   fl_chart: ^0.55.2
   achievement_view: ^1.0.0
   awesome_bottom_bar: ^1.2.1
+  flutter_datetime_picker: ^1.5.1
   
 
 dev_dependencies:
