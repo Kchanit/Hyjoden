@@ -213,6 +213,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/add');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/achievement');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }
