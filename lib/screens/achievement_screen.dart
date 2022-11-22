@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hyjoden/screens/home_screen.dart';
 import 'package:hyjoden/themes/colors.dart';
 
-class AchievementScreen extends StatefulWidget {
-  const AchievementScreen({super.key});
+class RewardScreen extends StatefulWidget {
+  const RewardScreen({super.key});
 
   @override
-  State<AchievementScreen> createState() => _AchievementScreenState();
+  State<RewardScreen> createState() => _RewardScreenState();
 }
 
-class _AchievementScreenState extends State<AchievementScreen> {
+class _RewardScreenState extends State<RewardScreen> {
   List<String> value = [
     "achievement1", 
     "achievement2",
@@ -41,10 +42,10 @@ class _AchievementScreenState extends State<AchievementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 235, 233, 233),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: null,
-        backgroundColor: Color.fromARGB(255, 235, 233, 233),
+        backgroundColor: Colors.white,
         title: Container(
           alignment: Alignment.bottomCenter,
           child: Text('HYJODEN',
@@ -325,7 +326,9 @@ class _AchievementScreenState extends State<AchievementScreen> {
                         ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Image.asset('assets/container2.png', width: 40, height: 70,),
+                            // child: Image.asset('assets/container2.png', width: 40, height: 70,),
+                            child:
+                              IconButton(icon: SvgPicture.asset('assets/icons/award-solid.svg',), onPressed: () {  },)
                           ),
                       ]
                 )
@@ -353,7 +356,7 @@ class _AchievementScreenState extends State<AchievementScreen> {
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add');
           } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/achievement');
+            Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }
