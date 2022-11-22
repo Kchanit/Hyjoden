@@ -48,7 +48,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
   double target = 3700;
   User? user;
   List<int> value = [200, 300, 150, 600, 10];
-
+  double? result;
+  int? perc;
   int? _groupValue = 1;
 
   List<Color> gradientColors = [
@@ -67,12 +68,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final databaseService =
-        Provider.of<DatabaseService>(context, listen: false);
+          Provider.of<DatabaseService>(context, listen: false);
       final authservice = Provider.of<AuthService>(context, listen: false);
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        if (DateTime.now().hour == 0 ) {
+        result = user!.todayDrink! / user!.target!;
+        perc = (result! * 100).toInt();
+        if (DateTime.now().hour == 0) {
           user!.todayDrink = 0;
           databaseService.updateUserFromUid(uid: user!.uid, user: user!);
         }
@@ -82,8 +85,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double result = user!.todayDrink! / user!.target!;
-    int perc = (result * 100).toInt();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -144,50 +145,56 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         )
                       ],
                     ),
-                    Align(
-                      alignment: AlignmentDirectional.center,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CircularPercentIndicator(
-                              animation: true,
-                              animationDuration: 1000,
-                              radius: 100,
-                              lineWidth: 20,
-                              percent: result,
-                              progressColor: kColorsBlue,
-                              circularStrokeCap: CircularStrokeCap.round,
-                              center: Text(
-                                '${perc}%', style: TextStyle(fontSize: 40),
-                                // style: GoogleFonts.getFont('Poppins', fontSize: 40),
+                    result == null
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Align(
+                            alignment: AlignmentDirectional.center,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CircularPercentIndicator(
+                                    animation: true,
+                                    animationDuration: 1000,
+                                    radius: 100,
+                                    lineWidth: 20,
+                                    percent: result!,
+                                    progressColor: kColorsBlue,
+                                    circularStrokeCap: CircularStrokeCap.round,
+                                    center: Text(
+                                      '${perc}%',
+                                      style: TextStyle(fontSize: 40),
+                                      // style: GoogleFonts.getFont('Poppins', fontSize: 40),
+                                    ),
+                                  ),
+                                  // SizedBox(
+                                  //   height: 50,
+                                  // ),
+                                  // Container(
+                                  //   width: 945,
+                                  //   height: 444,
+                                  //   decoration: BoxDecoration(
+                                  //     color: Colors.grey[200],
+                                  //     borderRadius: BorderRadius.circular(42),
+                                  //   ),
+                                  //   child: Row(children: [
+                                  //     Padding(
+                                  //       padding: EdgeInsets.only(left: 10),
+                                  //       child: Image.asset(
+                                  //         'assets/container1.png',
+                                  //         scale: 6,
+                                  //       ),
+                                  //     )
+                                  //   ]),
+                                  // ),
+                                ],
                               ),
                             ),
-                            // SizedBox(
-                            //   height: 50,
-                            // ),
-                            // Container(
-                            //   width: 945,
-                            //   height: 444,
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.grey[200],
-                            //     borderRadius: BorderRadius.circular(42),
-                            //   ),
-                            //   child: Row(children: [
-                            //     Padding(
-                            //       padding: EdgeInsets.only(left: 10),
-                            //       child: Image.asset(
-                            //         'assets/container1.png',
-                            //         scale: 6,
-                            //       ),
-                            //     )
-                            //   ]),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          ),
                   ],
                 ),
               ),

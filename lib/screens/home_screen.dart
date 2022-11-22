@@ -70,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        if (DateTime.now().hour == 0 && DateTime.parse(user!.lastLogin!).hour != 0) {
+        if (DateTime.now().hour == 0 &&
+            DateTime.parse(user!.lastLogin!).hour != 0) {
           user!.todayDrink = 0;
         }
         user!.lastLogin = DateTime.now().toString();
@@ -164,105 +165,110 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: _riveArtboard == null
-                  ? const SizedBox()
-                  : Container(
-                      width: treeWidth,
-                      height: treeWidth,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(treeWidth / 2),
-                          border:
-                              Border.all(color: kColorsLightGrey, width: 10)),
-                      child: Rive(
-                          alignment: Alignment.center,
-                          artboard: _riveArtboard!),
-                    ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(bottom: 30),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0, bottom: 5),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+      body: user == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
               children: [
-                Text('600',
-                    style: TextStyle(
-                      fontSize: 17.0,
-                      fontWeight: FontWeight.w600,
-                      color: kColorsGrey,
-                    )),
+                Expanded(
+                  child: Center(
+                    child: _riveArtboard == null
+                        ? const SizedBox()
+                        : Container(
+                            width: treeWidth,
+                            height: treeWidth,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(treeWidth / 2),
+                                border: Border.all(
+                                    color: kColorsLightGrey, width: 10)),
+                            child: Rive(
+                                alignment: Alignment.center,
+                                artboard: _riveArtboard!),
+                          ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 30),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('${user!.todayDrink!.toInt()}',
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w600,
+                            color: kColorsGrey,
+                          )),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        'ml. / ${user!.target!.toInt()} ml.',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: LinearPercentIndicator(
+                    // animation: true,
+                    // animationDuration: 1000,
+                    center: Text(percent,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                          letterSpacing: 2,
+                        )),
+                    lineHeight: 30,
+                    barRadius: Radius.circular(20),
+                    percent: result,
+                    progressColor: Colors.blue[300],
+                  ),
+                ),
                 SizedBox(
-                  width: 5,
+                  height: 10,
                 ),
-                Text(
-                  'ml. / 2100 ml.',
-                  style: Theme.of(context).textTheme.subtitle1,
+                changText(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  child: Column(
+                    children: [
+                      TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.blue),
+                        ),
+                        onPressed: () {
+                          evolution();
+                          if (_treeProgress < _treeMaxProgress) {
+                            grow();
+                          } else {
+                            return;
+                          }
+                        },
+                        child: Text('GROW'),
+                      ),
+                      TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.blue),
+                        ),
+                        onPressed: () {
+                          if (_treeProgress > 0) deGrow();
+                        },
+                        child: Text('DeGROW'),
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: LinearPercentIndicator(
-              // animation: true,
-              // animationDuration: 1000,
-              center: Text(percent,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                    letterSpacing: 2,
-                  )),
-              lineHeight: 30,
-              barRadius: Radius.circular(20),
-              percent: result,
-              progressColor: Colors.blue[300],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          changText(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0),
-            child: Column(
-              children: [
-                TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                  ),
-                  onPressed: () {
-                    evolution();
-                    if (_treeProgress < _treeMaxProgress) {
-                      grow();
-                    } else {
-                      return;
-                    }
-                  },
-                  child: Text('GROW'),
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blue),
-                  ),
-                  onPressed: () {
-                    if (_treeProgress > 0) deGrow();
-                  },
-                  child: Text('DeGROW'),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
         backgroundColor: Colors.white,
