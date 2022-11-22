@@ -27,15 +27,15 @@ const List<TabItem> items = [
   ),
 ];
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class RewardScreen extends StatefulWidget {
+  const RewardScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<RewardScreen> createState() => _RewardScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int visit = 0;
+class _RewardScreenState extends State<RewardScreen> {
+  int visit = 3;
 
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'AWARD',
+    title: 'REWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
@@ -133,49 +133,50 @@ class _SummaryScreenState extends State<SummaryScreen> {
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Neumorphic(
-          style: NeumorphicStyle(
-          shape: NeumorphicShape.concave,
-          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)), 
-          depth: -5,
-          lightSource: LightSource.topLeft,
-          color: Colors.white
-            ),
-          child: SizedBox(
-            height: 170,
-            child: ListView.builder(
-              itemCount: value.length,
-              itemBuilder: (context, index) {
-                return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset('assets/container2.png', width: 40, height: 70,),
-                            SizedBox(width: 15,),
-                            Text('${value[index]} ml', style: Theme.of(context).textTheme.subtitle1,)
-                          ],
-                        ),
-                        Text('10 : 30 am', style: Theme.of(context).textTheme.subtitle1,)
-                      ]
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Container(
-                    height: 1.5,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(color: kColorsLightGrey),
+            style: NeumorphicStyle(
+            shape: NeumorphicShape.concave,
+            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)), 
+            depth: -5,
+            shadowLightColorEmboss: kColorsLightGrey,
+            lightSource: LightSource.topLeft,
+            color: Colors.white
+              ),
+            child: SizedBox(
+              height: 170,
+              child: ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15, top: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Image.asset('assets/container2.png', width: 40, height: 70,),
+                              SizedBox(width: 15,),
+                              Text('${value[index]} ml', style: Theme.of(context).textTheme.subtitle1,)
+                            ],
+                          ),
+                          Text('10 : 30 am', style: Theme.of(context).textTheme.subtitle1,)
+                        ]
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
-          )
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Container(
+                      height: 1.5,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: kColorsLightGrey),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
           ),
         ),
 
@@ -195,6 +196,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/add-water');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }

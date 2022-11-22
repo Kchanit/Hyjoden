@@ -20,7 +20,7 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'AWARD',
+    title: 'REWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
@@ -128,6 +128,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/add-water');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }

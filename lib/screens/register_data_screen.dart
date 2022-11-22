@@ -21,7 +21,7 @@ const List<TabItem> items = [
   ),
   TabItem(
     icon: Icons.star_rounded,
-    title: 'AWARD',
+    title: 'REWARD',
   ),
   TabItem(
     icon: Icons.person_rounded,
@@ -66,91 +66,95 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(
+        child: ListView(
           children: [
-            SizedBox(height: 35),
-            Text('Set up your data', style: Theme.of(context).textTheme.headline2,),
-      
-            SizedBox(height: 30),
-
-            DropdownButton<String>(
-              value: dropdownValue,
-              icon: const Icon(Icons.keyboard_arrow_down_rounded),
-              elevation: 16,
-              style: const TextStyle(color: kColorsGrey),
-              underline: Container(
-                height: 0.5,
-                color: kColorsGrey,
-              ),
-              onChanged: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  dropdownValue = value!;
-                });
-              },
-              items: list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-      
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Height',
+            Column(
+              children: [
+                SizedBox(height: 35),
+                Text('Set up your data', style: Theme.of(context).textTheme.headline2,),
+                
+                SizedBox(height: 30),
+          
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: const Icon(Icons.keyboard_arrow_down_rounded),
+                  elevation: 16,
+                  style: const TextStyle(color: kColorsGrey),
+                  underline: Container(
+                    height: 0.5,
+                    color: kColorsGrey,
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      dropdownValue = value!;
+                    });
+                  },
+                  items: list.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+                
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                    labelText: 'Height',
+                    )
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                    labelText: 'Weight',
+                    )
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                    labelText: 'Bedtime',
+                    )
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                    labelText: 'Wake up',
+                    )
+                  ),
+                ),
+          
+                SizedBox(height: 40),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/home');
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Let\'s start', style: Theme.of(context).textTheme.headline3),
+                      SizedBox(width: 5),
+                      Icon(Icons.arrow_right_alt_rounded)
+                    ],
+                  )
                 )
-              ),
+              ]
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Weight',
-                )
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Bedtime',
-                )
-              ),
-            ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Wake up',
-                )
-              ),
-            ),
-
-            SizedBox(height: 40),
-            InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/home');
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Let\'s start', style: Theme.of(context).textTheme.headline3),
-                  SizedBox(width: 5),
-                  Icon(Icons.arrow_right_alt_rounded)
-                ],
-              )
-            )
           ]
         ),
       ),
@@ -166,6 +170,10 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
             Navigator.pushReplacementNamed(context, '/home');
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/add-water');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }
