@@ -6,14 +6,14 @@ class User {
   String? bedtime;
   String? waketime;
   double? favContainer;
-  final String? gender;
+  String? gender;
   int? height;
   int? weight;
   int? drinkAttempt;
-  final double? target;
-  final int? targetHit;
-  final double? todayDrink;
-  final double? totalDrink;
+  double? target;
+  int? targetHit;
+  double? todayDrink;
+  double? totalDrink;
 
   User(
       {required this.uid,

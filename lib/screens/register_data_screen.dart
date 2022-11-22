@@ -1,10 +1,13 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:hyjoden/models/user_model.dart';
+import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:provider/provider.dart';
@@ -45,9 +48,13 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
   int visit = 4;
   String dropdownValue = list.first;
   User? user;
+  TimeOfDay default_bedtime = TimeOfDay(hour: 22, minute: 00);
+  TimeOfDay default_waketime = TimeOfDay(hour: 06, minute: 00);
   @override
   Widget build(BuildContext context) {
-     final authService = Provider.of<AuthService>(context, listen: false);
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    final authService = Provider.of<AuthService>(context, listen: false);
     authService.currentUser().then((currentUser) {
       setState(() {
         user = currentUser;
@@ -71,98 +78,116 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-
       body: InkWell(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: ListView(
-          children: [
-            SizedBox(height: 35),
-            Text('Set up your data', style: Theme.of(context).textTheme.headline2,),
-      
-            SizedBox(height: 30),
-
-            DropdownButton<String>(
-              value: dropdownValue,
-              icon: const Icon(Icons.keyboard_arrow_down_rounded),
-              elevation: 16,
-              style: const TextStyle(color: kColorsGrey),
-              underline: Container(
-                height: 0.5,
-                color: kColorsGrey,
-              ),
-              onChanged: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  dropdownValue = value!;
-                });
-              },
-              items: list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+        child: ListView(children: [
+          SizedBox(height: 35),
+          Text(
+            'Set up your data',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          SizedBox(height: 30),
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: const Icon(Icons.keyboard_arrow_down_rounded),
+            elevation: 16,
+            style: const TextStyle(color: kColorsGrey),
+            underline: Container(
+              height: 0.5,
+              color: kColorsGrey,
             ),
-      
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+                user!.gender = value;
+              });
+            },
+            items: list.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
                 labelText: 'Height',
-                )
               ),
+              onChanged: (String value) {
+                user!.height = int.parse(value);
+              },
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
                 labelText: 'Weight',
-                )
               ),
+              onChanged: (value) {
+                user!.weight = int.parse(value);
+              },
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
                 labelText: 'Bedtime',
-                )
               ),
+              onTap: () {
+                // DatePicker.showTimePicker(context,
+                //     showTitleActions: true,                    
+                //     onConfirm: (date) {
+                //   user!.bedtime = date.toString();
+                // }, currentTime: DateTime.now());
+                showTimePicker(context: context, initialTime: default_bedtime);
+              },
             ),
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-              child: TextFormField(
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0, right: 35.0),
+            child: TextFormField(
                 decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                labelText: 'Wake up',
-                )
-              ),
-            ),
-
-            SizedBox(height: 40),
-            InkWell(
+              border: UnderlineInputBorder(),
+              labelText: 'Wake up',
+            )),
+          ),
+          SizedBox(height: 40),
+          InkWell(
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/home');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Let\'s start', style: Theme.of(context).textTheme.headline3),
+                  Text('Let\'s start',
+                      style: Theme.of(context).textTheme.headline3),
                   SizedBox(width: 5),
                   Icon(Icons.arrow_right_alt_rounded)
                 ],
-              )
-            )
-          ]
-        ),
+              ))
+        ]),
       ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
