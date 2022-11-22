@@ -5,11 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hyjoden/models/drink_model.dart';
+import 'package:hyjoden/models/history_model.dart';
 import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -264,6 +267,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                       InkWell(
                         onTap: () {
                           selectedAmount = 1000;
+
                           setState(() {
                             _visibleCustom = false;
                           });
@@ -422,6 +426,10 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   user!.drinkAttempt = user!.drinkAttempt! + 1;
                   user!.todayDrink = user!.todayDrink! + selectedAmount;
                   user!.totalDrink = user!.totalDrink! + selectedAmount;
+                  if (user!.todayDrink! >= user!.target!) {
+                    user!.targetHit = user!.targetHit! + 1;
+                  }
+
                   addBtnHandle(uid: user!.uid, user: user!);
                 },
               ),
@@ -459,5 +467,17 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     databaseService.updateUserFromUid(uid: uid, user: user);
+    createHistory();
+  }
+
+  createHistory() {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    var now = DateTime.now();
+    String date = DateFormat.yMd().format(now).toString();
+    String time = DateFormat.Hm().format(now).toString();
+    final newDrink = Drink(amount: selectedAmount);
+    final newHistory = History(amount: selectedAmount, date: date, time: time);
+    databaseService.addHistory(drink: newDrink, uid: user!.uid);
   }
 }

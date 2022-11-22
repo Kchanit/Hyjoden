@@ -1,14 +1,14 @@
 class Drink {
-  final String name;
+  final String? name;
   final int amount;
-  final int price;
-  final int sugar;
+  final int? price;
+  final int? sugar;
 
   Drink(
-      {required this.name,
+      {this.name,
       required this.amount,
-      required this.price,
-      required this.sugar});
+      this.price,
+      this.sugar});
 
   Drink.fromMap({required Map<String, dynamic> drinkMap})
       : name = drinkMap['name'],
@@ -17,9 +17,9 @@ class Drink {
         sugar = drinkMap['sugar'];
 
   Map<String, dynamic> toMap() => {
-        'name': name,
+        'name': name ?? 'water',
         'amount': amount,
-        'price': price,
-        'sugar': sugar,
+        'price': price ?? 0,
+        'sugar': sugar ?? 0,
       };
 }

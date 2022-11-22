@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hyjoden/services/auth_service.dart';
+import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -65,12 +66,15 @@ class _SummaryScreenState extends State<SummaryScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
       final authservice = Provider.of<AuthService>(context, listen: false);
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        if (DateTime.now().hour == 0) {
+        if (DateTime.now().hour == 0 ) {
           user!.todayDrink = 0;
+          databaseService.updateUserFromUid(uid: user!.uid, user: user!);
         }
       });
     });
@@ -78,7 +82,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double result = currentProg / target;
+    double result = user!.todayDrink! / user!.target!;
     int perc = (result * 100).toInt();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -119,7 +123,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '${user!.todayDrink} ml',
+                              '${user!.todayDrink!.toInt()}',
                               style: TextStyle(
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.w600,
@@ -135,7 +139,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                           ],
                         ),
                         Text(
-                          '${user!.target} ml',
+                          '${user!.target!.toInt()} ml',
                           style: Theme.of(context).textTheme.subtitle1,
                         )
                       ],
@@ -156,7 +160,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                               progressColor: kColorsBlue,
                               circularStrokeCap: CircularStrokeCap.round,
                               center: Text(
-                                '$perc%', style: TextStyle(fontSize: 40),
+                                '${perc}%', style: TextStyle(fontSize: 40),
                                 // style: GoogleFonts.getFont('Poppins', fontSize: 40),
                               ),
                             ),

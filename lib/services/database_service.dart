@@ -36,4 +36,18 @@ class DatabaseService {
       .map((snapshot) => snapshot.docs
           .map((doc) => Drink.fromMap(drinkMap: doc.data()))
           .toList());
+
+  Future<void> addHistory({required Drink drink, required uid}) async {
+    _firebaseStore
+        .collection('users')
+        .doc(uid)
+        .collection('history')
+        .add(drink.toMap())
+        .then((documentSnapshot) => _firebaseStore
+            .collection('users')
+            .doc(uid)
+            .collection('history')
+            .doc('${documentSnapshot.id}')
+            .update({'uid': '${documentSnapshot.id}'}));
+  }
 }

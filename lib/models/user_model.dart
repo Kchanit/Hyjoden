@@ -14,6 +14,7 @@ class User {
   int? targetHit;
   double? todayDrink;
   double? totalDrink;
+  String? lastLogin;
 
   User(
       {required this.uid,
@@ -31,6 +32,7 @@ class User {
       this.targetHit,
       this.todayDrink,
       this.totalDrink,
+      this.lastLogin,
       });
 
   User.fromMap({required Map<String, dynamic> userMap})
@@ -48,7 +50,8 @@ class User {
         target = userMap['target'],
         targetHit = userMap['targetHit'],
         todayDrink = userMap['todayDrink'],
-        totalDrink = userMap['totalDrink'];
+        totalDrink = userMap['totalDrink'],
+        lastLogin = userMap['lastLogin'];
 
   Map<String, dynamic> toMap() => {
         'uid': uid,
@@ -66,5 +69,6 @@ class User {
         'targetHit': targetHit ?? 0,
         'todayDrink': todayDrink ?? 0.0,
         'totalDrink' : totalDrink ?? 0.0,
+        'lastLogin' : lastLogin,
       };
 }

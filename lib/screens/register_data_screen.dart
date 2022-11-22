@@ -282,7 +282,8 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                   //     style: Theme.of(context).textTheme.headline3),
                   TextButton(
                     onPressed: (() {
-                      user!.target = user!.weight! * 0.5 * 29.5735;
+                      user!.target = user!.weight! * 2.2 * 0.5 * 29.5735;
+                      user!.lastLogin = DateTime.now().toString();
                       startButtonHandle(uid: user!.uid, user: user);
                     }),
                     child: Text('Let\'s start '),
