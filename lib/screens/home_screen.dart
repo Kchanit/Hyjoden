@@ -10,6 +10,7 @@ import 'package:hyjoden/services/auth_service.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:intl/intl.dart';
 
 import '../models/user_model.dart';
 
@@ -64,9 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
+        if (DateTime.now().hour == 0) {
+          user!.todayDrink = 0;
+        }
       });
-      print(newUser!.username);
-      print(user!.uid);
     });
 
     // Load the animation file from the bundle, note that you could also
