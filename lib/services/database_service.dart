@@ -30,10 +30,10 @@ class DatabaseService {
     docUser.set(newUserInfo);
   }
 
-    Future<List<Drink?>> getFutureListDrink() async {
-    final snapshot = await _firebaseStore.collection('drinks').get();
-    return snapshot.docs
-        .map((doc) => Drink.fromMap(drinkMap: doc.data()))
-        .toList();
-  }
+  Stream<List<Drink>> getStreamListDrink() => _firebaseStore
+      .collection('drinks')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Drink.fromMap(drinkMap: doc.data()))
+          .toList());
 }
