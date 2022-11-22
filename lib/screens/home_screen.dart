@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hyjoden/themes/colors.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:rive/rive.dart';
 
@@ -49,11 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
   int _treeProgress = 0;
   int _treeMaxProgress = 100;
 
-  String buttonText = "";
+  late double result;
+  late String percent;
 
+  String buttonText = "";
+  String text = "";
+
+  
   @override
     void initState() {
       super.initState();
+      Future.delayed(Duration.zero, () {
+        changText();
+      });
+    
       // Load the animation file from the bundle, note that you could also
       // download this. The RiveFile just expects a list of bytes.
       if (_treeProgress == 0) {
@@ -118,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
     String percent = (result*100).toString() + "%";
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 235, 233, 233),
+      backgroundColor: kColorsWhite,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: kColorsWhite,
         title: Container(
           alignment: Alignment.bottomCenter,
           child: Text('HYJODEN',
@@ -145,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: treeWidth,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(treeWidth / 2),
-                            border: Border.all(color: Colors.white12, width: 10)),
+                            border: Border.all(color: kColorsLightGrey, width: 10)),
                           child: Rive(alignment: Alignment.center,artboard: _riveArtboard!),
                       ),
               ),
@@ -153,22 +163,38 @@ class _HomeScreenState extends State<HomeScreen> {
           const Padding(
             padding: EdgeInsets.only(bottom: 30),
           ),
-          SizedBox(height: 50),
-            LinearPercentIndicator(
+          Padding(
+            padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text('600', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, 
+                          color: kColorsGrey,)),
+                SizedBox(width: 5,),
+                Text('ml. / 2100 ml.', style: Theme.of(context).textTheme.subtitle1,)
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: LinearPercentIndicator(
               // animation: true,
               // animationDuration: 1000,
               center: Text(percent, style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
-                  letterSpacing: 2)),
+                  letterSpacing: 2,)),
               lineHeight: 30,
               barRadius: Radius.circular(20),
               percent: result,
-              progressColor: Color(0xFF3E3E3E),
+              progressColor: Colors.blue[300],
+            ),
           ),
+          SizedBox(height: 10,),
+          changText(),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.symmetric(vertical: 0),
             child: Column(
               children: [
                 TextButton(
@@ -227,4 +253,31 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  
+  Widget changText() {
+    if (_treeProgress == 10) {
+      return Text("It's a good start. 👍🏻", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 20) {
+      return Text("Do it for YOURSELF. 🪄", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 30) {
+      return Text("Keep Tryin\'! 👊🏻", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 40) {
+      return Text("Drink More 👄", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 50) {
+      return Text("A Little More ✨", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 60) {
+      return Text("You're Halfway There. 🏃‍♂️", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 70) {
+      return Text("Don't Give Up. ✌🏻", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 80) {
+      return Text("You Can Do It 🌻", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 90) {
+      return Text("Almost There. 💦", style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress == 100) {
+      return Text("You Did It 🎊", style: Theme.of(context).textTheme.headline2);
+    } else {
+      return Text("", style: Theme.of(context).textTheme.headline2);
+    }
+  }
+  
 }
