@@ -450,6 +450,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
         chipStyle: const ChipStyle(convexBridge: true),
         itemStyle: ItemStyle.circle,
         animated: true,
+        elevation: 20,
       ),
     );
   }

@@ -119,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
         chipStyle: const ChipStyle(convexBridge: true),
         itemStyle: ItemStyle.circle,
         animated: true,
+        elevation: 20,
       ),
     );
   }
