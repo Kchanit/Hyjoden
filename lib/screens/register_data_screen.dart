@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/themes/colors.dart';
+import 'package:hyjoden/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -41,9 +44,16 @@ class RegisterDataScreen extends StatefulWidget {
 class _RegisterDataScreenState extends State<RegisterDataScreen> {
   int visit = 4;
   String dropdownValue = list.first;
-
+  User? user;
   @override
   Widget build(BuildContext context) {
+     final authService = Provider.of<AuthService>(context, listen: false);
+    authService.currentUser().then((currentUser) {
+      setState(() {
+        user = currentUser;
+      });
+    });
+    // final User? user = ModalRoute.of(context)!.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -83,9 +93,9 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                 color: kColorsGrey,
               ),
               onChanged: (String? value) {
-                // This is called when the user selects an item.
                 setState(() {
                   dropdownValue = value!;
+                  print(value);
                 });
               },
               items: list.map<DropdownMenuItem<String>>((String value) {

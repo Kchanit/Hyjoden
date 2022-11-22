@@ -62,9 +62,9 @@ class User {
         'weight': weight,
         'height': height,
         'drinkAttempt': drinkAttempt ?? 0,
-        'target': target ?? 0,
+        'target': target ?? 0.0,
         'targetHit': targetHit ?? 0,
-        'todayDrink': todayDrink ?? 0,
-        'totalDrink' : totalDrink ?? 0,
+        'todayDrink': todayDrink ?? 0.0,
+        'totalDrink' : totalDrink ?? 0.0,
       };
 }

@@ -2,12 +2,13 @@ import 'dart:developer';
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/route_manager.dart';
+import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
@@ -45,11 +46,15 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   int visit = 4;
+  User? user;
   final formKey = GlobalKey<FormState>();
+
   String? username, email, password, confirmPassword;
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -71,42 +76,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(children: [
-          Form(
-            key: formKey,
-            child: Column(
-              children: [
-                SizedBox(height: 35),
-                Text(
-                  'Register',
-                  style: Theme.of(context).textTheme.headline2,
+        child: ListView(
+          children: [
+            Column(children: [
+              Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: 35),
+                    Text(
+                      'Register',
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    SizedBox(height: 30),
+                    CreateUsername(),
+                    SizedBox(height: 20),
+                    CreateEmail(),
+                    SizedBox(height: 20),
+                    CreatePassword(),
+                    SizedBox(height: 20),
+                    CreateConfirmPassword(),
+                    SizedBox(height: 40),
+                    InkWell(
+                        onTap: () {
+                          registerHandle(context: context);
+                          authService.currentUser().then((currentUser) {
+                            setState(() {
+                              user = currentUser;
+                            });
+                            Navigator.pushReplacementNamed(
+                                context, '/register-data',
+                                arguments: user);
+                          });
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Next',
+                                style: Theme.of(context).textTheme.headline3),
+                            SizedBox(width: 5),
+                            Icon(Icons.arrow_right_alt_rounded)
+                          ],
+                        ))
+                  ],
                 ),
-                SizedBox(height: 30),
-                CreateUsername(),
-                SizedBox(height: 20),
-                CreateEmail(),
-                SizedBox(height: 20),
-                CreatePassword(),
-                SizedBox(height: 20),
-                CreateConfirmPassword(),
-                SizedBox(height: 40),
-                InkWell(
-                    onTap: () {
-                      registerHandle(context: context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Next',
-                            style: Theme.of(context).textTheme.headline3),
-                        SizedBox(width: 5),
-                        Icon(Icons.arrow_right_alt_rounded)
-                      ],
-                    ))
-              ],
-            ),
-          )
-        ]),
+              )
+            ]),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
@@ -232,8 +249,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           username: username,
           password: password,
         );
-        Navigator.pushReplacementNamed(context, '/register-data');
-      } on FirebaseAuthException catch (e) {
+      } on auth.FirebaseAuthException catch (e) {
         log(e.message!);
         showSnackBar(e.message);
         Navigator.of(context).pop();
