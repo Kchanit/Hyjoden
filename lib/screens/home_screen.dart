@@ -209,9 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
         indexSelected: visit,
         onTap: (int index) => setState(() {
           visit = index;
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
+          if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');

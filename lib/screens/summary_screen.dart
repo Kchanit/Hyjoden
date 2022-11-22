@@ -331,8 +331,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
           visit = index;
           if (index == 0) {
             Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
           } else if (index == 3) {
