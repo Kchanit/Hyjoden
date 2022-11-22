@@ -3,9 +3,13 @@ import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user_model.dart';
 
 const List<TabItem> items = [
   TabItem(
@@ -41,7 +45,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   int visit = 1;
   double currentProg = 1690;
   double target = 3700;
-
+  User? user;
   List<int> value = [
     200, 300, 150, 600, 10
   ];
@@ -61,6 +65,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
     chart = weekMainData();
     avg = weekAvgData();
     super.initState();
+
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final authservice = Provider.of<AuthService>(context, listen: false);
+      User? newUser = await authservice.currentUser();
+      setState(() {
+        user = newUser;
+        if (DateTime.now().hour == 0) {
+          user!.todayDrink = 0;
+        }
+      });
+    });
   }
 
   @override
@@ -101,13 +116,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text('120', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, 
+                      Text('${user!.todayDrink} ml', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, 
                         color: kColorsGrey),),
                       SizedBox(width: 10,),
                       Text('ml. /', style: Theme.of(context).textTheme.subtitle1,)
                     ],
                   ),
-                  Text('2100 ml.', style: Theme.of(context).textTheme.subtitle1,)
+                  Text('${user!.target} ml', style: Theme.of(context).textTheme.subtitle1,)
                 ],
               ),
               Align(
@@ -331,8 +346,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
           visit = index;
           if (index == 0) {
             Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
           } else if (index == 3) {

@@ -4,7 +4,6 @@ import 'package:hyjoden/screens/home_screen.dart';
 import 'package:hyjoden/screens/login_screen.dart';
 import 'package:hyjoden/screens/register_data_screen.dart';
 import 'package:hyjoden/screens/register_screen.dart';
-import 'package:hyjoden/screens/reward_screen.dart';
 import 'package:hyjoden/screens/summary_screen.dart';
 import 'package:hyjoden/screens/reward_screen.dart';
 
