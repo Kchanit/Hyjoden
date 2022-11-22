@@ -46,9 +46,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
   double currentProg = 1690;
   double target = 3700;
   User? user;
-  List<int> value = [
-    200, 300, 150, 600, 10
-  ];
+  List<int> value = [200, 300, 150, 600, 10];
 
   int? _groupValue = 1;
 
@@ -66,7 +64,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     avg = weekAvgData();
     super.initState();
 
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final authservice = Provider.of<AuthService>(context, listen: false);
       User? newUser = await authservice.currentUser();
       setState(() {
@@ -99,243 +97,288 @@ class _SummaryScreenState extends State<SummaryScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-      body: ListView(
-        
-        children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Text('Today', style: Theme.of(context).textTheme.headline2),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 20, top: 15, bottom: 25, right: 20),
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('${user!.todayDrink} ml', style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w600, 
-                        color: kColorsGrey),),
-                      SizedBox(width: 10,),
-                      Text('ml. /', style: Theme.of(context).textTheme.subtitle1,)
-                    ],
-                  ),
-                  Text('${user!.target} ml', style: Theme.of(context).textTheme.subtitle1,)
-                ],
-              ),
-              Align(
-                alignment: AlignmentDirectional.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircularPercentIndicator(
-                        animation: true,
-                        animationDuration: 1000,
-                        radius: 100,
-                        lineWidth: 20,
-                        percent: result,
-                        progressColor: kColorsBlue,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        center: Text(
-                          '$perc%', style: TextStyle(fontSize: 40),
-                          // style: GoogleFonts.getFont('Poppins', fontSize: 40),
-                        ),
-                      ),
-                      // SizedBox(
-                      //   height: 50,
-                      // ),
-                      // Container(
-                      //   width: 945,
-                      //   height: 444,
-                      //   decoration: BoxDecoration(
-                      //     color: Colors.grey[200],
-                      //     borderRadius: BorderRadius.circular(42),
-                      //   ),
-                      //   child: Row(children: [
-                      //     Padding(
-                      //       padding: EdgeInsets.only(left: 10),
-                      //       child: Image.asset(
-                      //         'assets/container1.png',
-                      //         scale: 6,
-                      //       ),
-                      //     )
-                      //   ]),
-                      // ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Text('Recent Drink', style: Theme.of(context).textTheme.headline3),
-        ),
-
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Neumorphic(
-            style: NeumorphicStyle(
-              shape: NeumorphicShape.concave,
-              boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)), 
-              depth: -5,
-              shadowLightColorEmboss: kColorsLightGrey,
-              lightSource: LightSource.topLeft,
-              color: Colors.white
-            ),
-            child: SizedBox(
-              height: 170,
-              child: ListView.builder(
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, top: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Image.asset('assets/container2.png', width: 40, height: 70,),
-                              SizedBox(width: 15,),
-                              Text('${value[index]} ml', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                          Text('10 : 30 am', style: Theme.of(context).textTheme.subtitle1,)
-                        ]
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Container(
-                      height: 1.5,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(color: kColorsLightGrey),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+      body: user == null
+          ? Center(
+              child: CircularProgressIndicator(),
             )
-          ),
-        ),
-        SizedBox(height: 20,),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            children: <Widget>[
-              NeumorphicRadio(
-                child: SizedBox(
-                  height: 40,
-                  width: 70,
-                  child: Center(
-                    child: Text(
-                      "week",
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ),
-                ),
-                style: NeumorphicRadioStyle(
-                  unselectedColor: Colors.white,
-                  selectedColor: Colors.white,
-                  unselectedDepth: 0,
-                ) ,
-                value: 1,
-                groupValue: _groupValue,
-                onChanged: (value) {
-                  setState(() {
-                    _groupValue = value;
-                    showAvg = false;
-                    chart = weekMainData();
-                    avg = weekAvgData();
-                  });
-                },
+          : ListView(children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child:
+                    Text('Today', style: Theme.of(context).textTheme.headline2),
               ),
-              SizedBox(width: 12),
-              NeumorphicRadio(
-                child: SizedBox(
-                  height: 40,
-                  width: 70,
-                  child: Center(
-                    child: Text(
-                      "month",
-                      style: Theme.of(context).textTheme.subtitle1,
+              Padding(
+                padding:
+                    EdgeInsets.only(left: 20, top: 15, bottom: 25, right: 20),
+                child: Stack(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${user!.todayDrink} ml',
+                              style: TextStyle(
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: kColorsGrey),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'ml. /',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            )
+                          ],
+                        ),
+                        Text(
+                          '${user!.target} ml',
+                          style: Theme.of(context).textTheme.subtitle1,
+                        )
+                      ],
                     ),
-                  ),
-                ),
-                style: NeumorphicRadioStyle(
-                  unselectedColor: Colors.white,
-                  selectedColor: Colors.white,
-                  unselectedDepth: 0,
-                ) ,
-                value: 2,
-                groupValue: _groupValue,
-                onChanged: (value) {
-                  setState(() {
-                    _groupValue = value;
-                    showAvg = false;
-                    chart =  monthMainData();
-                    avg = monthAvgData();
-                  });
-                },
-              ),
-              SizedBox(width: 12),
-              NeumorphicRadio(
-                child: SizedBox(
-                  height: 40,
-                  width: 70,
-                  child: Center(
-                    child: Text(
-                      "year",
-                      style: Theme.of(context).textTheme.subtitle1,
+                    Align(
+                      alignment: AlignmentDirectional.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CircularPercentIndicator(
+                              animation: true,
+                              animationDuration: 1000,
+                              radius: 100,
+                              lineWidth: 20,
+                              percent: result,
+                              progressColor: kColorsBlue,
+                              circularStrokeCap: CircularStrokeCap.round,
+                              center: Text(
+                                '$perc%', style: TextStyle(fontSize: 40),
+                                // style: GoogleFonts.getFont('Poppins', fontSize: 40),
+                              ),
+                            ),
+                            // SizedBox(
+                            //   height: 50,
+                            // ),
+                            // Container(
+                            //   width: 945,
+                            //   height: 444,
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.grey[200],
+                            //     borderRadius: BorderRadius.circular(42),
+                            //   ),
+                            //   child: Row(children: [
+                            //     Padding(
+                            //       padding: EdgeInsets.only(left: 10),
+                            //       child: Image.asset(
+                            //         'assets/container1.png',
+                            //         scale: 6,
+                            //       ),
+                            //     )
+                            //   ]),
+                            // ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                style: NeumorphicRadioStyle(
-                  unselectedColor: Colors.white,
-                  selectedColor: Colors.white,
-                  unselectedDepth: 0,
-                ) ,
-                value: 3,
-                groupValue: _groupValue,
-                onChanged: (value) {
-                  setState(() {
-                    _groupValue = value;
-                    showAvg = false;
-                    chart = yearMainData();
-                    avg = yearAvgData();
-                  });
-                },
               ),
-            ],
-            ),
-        ),
-
-        CreateGraphSum(),
-
-        Padding(
-          padding: const EdgeInsets.only(left: 15, top: 10),
-          child: Text('Total Drink', style: Theme.of(context).textTheme.headline3),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 15.0 , top: 10),
-          child: Row(
-            children: [
-              Text('600', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600, 
-                color: kColorsGrey,)),
-              SizedBox( width: 10,),
-              Text('ml.', style: Theme.of(context).textTheme.subtitle1,)
-            ],
-          ),
-        )
-      ]),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text('Recent Drink',
+                    style: Theme.of(context).textTheme.headline3),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Neumorphic(
+                    style: NeumorphicStyle(
+                        shape: NeumorphicShape.concave,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                        depth: -5,
+                        shadowLightColorEmboss: kColorsLightGrey,
+                        lightSource: LightSource.topLeft,
+                        color: Colors.white),
+                    child: SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        itemCount: value.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 12),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/container2.png',
+                                            width: 40,
+                                            height: 70,
+                                          ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Text(
+                                            '${value[index]} ml',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1,
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        '10 : 30 am',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      )
+                                    ]),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: Container(
+                                  height: 1.5,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration:
+                                      BoxDecoration(color: kColorsLightGrey),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    )),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: <Widget>[
+                    NeumorphicRadio(
+                      child: SizedBox(
+                        height: 40,
+                        width: 70,
+                        child: Center(
+                          child: Text(
+                            "week",
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      ),
+                      style: NeumorphicRadioStyle(
+                        unselectedColor: Colors.white,
+                        selectedColor: Colors.white,
+                        unselectedDepth: 0,
+                      ),
+                      value: 1,
+                      groupValue: _groupValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _groupValue = value;
+                          showAvg = false;
+                          chart = weekMainData();
+                          avg = weekAvgData();
+                        });
+                      },
+                    ),
+                    SizedBox(width: 12),
+                    NeumorphicRadio(
+                      child: SizedBox(
+                        height: 40,
+                        width: 70,
+                        child: Center(
+                          child: Text(
+                            "month",
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      ),
+                      style: NeumorphicRadioStyle(
+                        unselectedColor: Colors.white,
+                        selectedColor: Colors.white,
+                        unselectedDepth: 0,
+                      ),
+                      value: 2,
+                      groupValue: _groupValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _groupValue = value;
+                          showAvg = false;
+                          chart = monthMainData();
+                          avg = monthAvgData();
+                        });
+                      },
+                    ),
+                    SizedBox(width: 12),
+                    NeumorphicRadio(
+                      child: SizedBox(
+                        height: 40,
+                        width: 70,
+                        child: Center(
+                          child: Text(
+                            "year",
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      ),
+                      style: NeumorphicRadioStyle(
+                        unselectedColor: Colors.white,
+                        selectedColor: Colors.white,
+                        unselectedDepth: 0,
+                      ),
+                      value: 3,
+                      groupValue: _groupValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _groupValue = value;
+                          showAvg = false;
+                          chart = yearMainData();
+                          avg = yearAvgData();
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              CreateGraphSum(),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, top: 10),
+                child: Text('Total Drink',
+                    style: Theme.of(context).textTheme.headline3),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0, top: 10),
+                child: Row(
+                  children: [
+                    Text('600',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: kColorsGrey,
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'ml.',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    )
+                  ],
+                ),
+              )
+            ]),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
         backgroundColor: Colors.white,
@@ -363,7 +406,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   Widget CreateGraphSum() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal : 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Stack(
         children: <Widget>[
           AspectRatio(
@@ -388,7 +431,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ),
             ),
           ),
-          
           Align(
             alignment: AlignmentDirectional.topEnd,
             child: SizedBox(
@@ -404,7 +446,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   'avg',
                   style: TextStyle(
                     fontSize: 12,
-                    color: showAvg ? kColorsGrey.withOpacity(0.5) : kColorsLightGrey,
+                    color: showAvg
+                        ? kColorsGrey.withOpacity(0.5)
+                        : kColorsLightGrey,
                   ),
                 ),
               ),
@@ -415,10 +459,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-
 /* week chart */
   Widget weekBottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
+    const style = TextStyle(
+        fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
     Widget text;
     switch (value.toInt()) {
       case 1:
@@ -474,15 +518,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
         },
       ),
       extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            HorizontalLine(
+        horizontalLines: [
+          HorizontalLine(
               y: 3.44,
               color: kColorsGrey.withOpacity(0.5),
               strokeWidth: 2,
-              dashArray: [2,2]
-            ),
-          ],
-        ),
+              dashArray: [2, 2]),
+        ],
+      ),
       titlesData: FlTitlesData(
         show: true,
         rightTitles: AxisTitles(
@@ -510,8 +553,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 8,
@@ -598,8 +642,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 8,
@@ -630,7 +675,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
           dotData: FlDotData(
             show: false,
           ),
-
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
@@ -649,10 +693,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
     );
   }
 
-
 /* month chart */
   Widget monthBottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
+    const style = TextStyle(
+        fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
     Widget text;
     switch (value.toInt()) {
       case 1:
@@ -699,15 +743,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
         },
       ),
       extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            HorizontalLine(
+        horizontalLines: [
+          HorizontalLine(
               y: 3.44,
               color: kColorsGrey.withOpacity(0.5),
               strokeWidth: 2,
-              dashArray: [2,2]
-            ),
-          ],
-        ),
+              dashArray: [2, 2]),
+        ],
+      ),
       titlesData: FlTitlesData(
         show: true,
         rightTitles: AxisTitles(
@@ -735,8 +778,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 8,
@@ -749,7 +793,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
             FlSpot(3, 5),
             FlSpot(5, 3.1),
             FlSpot(7, 4),
-  
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -821,8 +864,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 8,
@@ -850,7 +894,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
           dotData: FlDotData(
             show: false,
           ),
-
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
@@ -871,7 +914,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
 /* year chart */
   Widget yearBottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
+    const style = TextStyle(
+        fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
     Widget text;
     switch (value.toInt()) {
       case 1:
@@ -942,15 +986,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
         },
       ),
       extraLinesData: ExtraLinesData(
-          horizontalLines: [
-            HorizontalLine(
+        horizontalLines: [
+          HorizontalLine(
               y: 3.44,
               color: kColorsGrey.withOpacity(0.5),
               strokeWidth: 2,
-              dashArray: [2,2]
-            ),
-          ],
-        ),
+              dashArray: [2, 2]),
+        ],
+      ),
       titlesData: FlTitlesData(
         show: true,
         rightTitles: AxisTitles(
@@ -978,8 +1021,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 13,
@@ -1000,7 +1044,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
             FlSpot(10, 3),
             FlSpot(11, 4),
             FlSpot(12, 3.1),
-
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -1072,8 +1115,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border(left: BorderSide(color: kColorsLightGrey), 
-          bottom: BorderSide(color: kColorsLightGrey)),
+        border: Border(
+            left: BorderSide(color: kColorsLightGrey),
+            bottom: BorderSide(color: kColorsLightGrey)),
       ),
       minX: 0,
       maxX: 13,
@@ -1109,7 +1153,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
           dotData: FlDotData(
             show: false,
           ),
-
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
@@ -1130,7 +1173,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
 /* for all */
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
+    const style = TextStyle(
+        fontSize: 12.0, fontWeight: FontWeight.w500, color: kColorsGrey);
     String text;
     switch (value.toInt()) {
       case 1:
@@ -1151,6 +1195,4 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
     return Text(text, style: style, textAlign: TextAlign.left);
   }
-
-  
 }
