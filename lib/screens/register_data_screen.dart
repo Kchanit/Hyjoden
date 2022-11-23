@@ -375,7 +375,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
       //handle error
       showSnackBar(e, backgroundColor: Colors.red);
     });
-    Navigator.pushReplacementNamed(context, '/home', arguments: user);
+    // Navigator.pushReplacementNamed(context, '/home', arguments: user);
   }
 }
 
