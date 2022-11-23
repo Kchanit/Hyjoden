@@ -3,6 +3,7 @@ import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hyjoden/models/history_model.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
@@ -78,6 +79,9 @@ class _SummaryScreenState extends State<SummaryScreen> {
         } else {
           result = user!.todayDrink! / user!.target!;
         }
+        if(result!.isNaN){
+          result = 0;
+        }
         perc = (result! * 100).toInt();
         if (DateTime.now().hour == 0) {
           user!.todayDrink = 0.0;
@@ -89,6 +93,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -220,57 +226,62 @@ class _SummaryScreenState extends State<SummaryScreen> {
                         color: Colors.white),
                     child: SizedBox(
                       height: 170,
-                      child: ListView.builder(
-                        itemCount: value.length,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 15, right: 15, top: 12),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
+                      child: StreamBuilder<List<History>>(
+                        stream: databaseService.getStreamListHistory(uid: user!.uid),
+                        builder: (context, snapshot) {
+                          return ListView.builder(
+                            itemCount: value.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, right: 15, top: 12),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Image.asset(
-                                            'assets/container2.png',
-                                            width: 40,
-                                            height: 70,
-                                          ),
-                                          SizedBox(
-                                            width: 15,
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                'assets/container2.png',
+                                                width: 40,
+                                                height: 70,
+                                              ),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              Text(
+                                                '${value[index]} ml',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1,
+                                              )
+                                            ],
                                           ),
                                           Text(
-                                            '${value[index]} ml',
+                                            '10 : 30 am',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle1,
                                           )
-                                        ],
-                                      ),
-                                      Text(
-                                        '10 : 30 am',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1,
-                                      )
-                                    ]),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: Container(
-                                  height: 1.5,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration:
-                                      BoxDecoration(color: kColorsLightGrey),
-                                ),
-                              ),
-                            ],
+                                        ]),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Container(
+                                      height: 1.5,
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration:
+                                          BoxDecoration(color: kColorsLightGrey),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           );
-                        },
+                        }
                       ),
                     )),
               ),

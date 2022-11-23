@@ -86,8 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
           result = user!.todayDrink! / user!.target!;
         }
         percent = (result! * 100).toStringAsFixed(0) + "%";
+        if (((result! * 100) % 10).isNaN) {
+          growTimes = 0;
+        } else {
+          growTimes = ((result! * 100) % 10).toInt();
+        }
 
-        growTimes = ((result! * 100) % 10).toInt();
         for (var i = 0; i < growTimes!; i++) {
           grow();
         }

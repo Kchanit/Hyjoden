@@ -38,6 +38,13 @@ class DatabaseService {
           .map((doc) => Drink.fromMap(drinkMap: doc.data()))
           .toList());
 
+  Stream<List<History>> getStreamListHistory({required uid}) => _firebaseStore
+      .collection('users').doc('${uid}').collection('history')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => History.fromMap(historyMap: doc.data()))
+          .toList());
+
   Future<void> addHistory({required History history, required uid}) async {
     _firebaseStore
         .collection('users')
