@@ -11,7 +11,6 @@ import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
-import 'package:hyjoden/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -38,14 +37,17 @@ const List<TabItem> items = [
   ),
 ];
 
-class AddWaterScreen extends StatefulWidget {
-  const AddWaterScreen({super.key});
-
+class AddWater2Screen extends StatefulWidget {
+  const AddWater2Screen({
+    Key? key,
+    required this.payload,
+  }) : super(key: key);
+  final String payload;
   @override
-  State<AddWaterScreen> createState() => _AddWaterScreenState();
+  State<AddWater2Screen> createState() => _AddWater2ScreenState();
 }
 
-class _AddWaterScreenState extends State<AddWaterScreen> {
+class _AddWater2ScreenState extends State<AddWater2Screen> {
   User? user;
   int visit = 2;
   int selectedAmount = 0;
@@ -431,8 +433,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                     user!.targetHit = user!.targetHit! + 1;
                   }
 
-                  dialogHandle(uid: user!.uid, user: user!);
-                  // addBtnHandle(uid: user!.uid, user: user!);
+                  addBtnHandle(uid: user!.uid, user: user!);
                 },
               ),
             ),
@@ -465,50 +466,12 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     );
   }
 
-  dialogHandle({required uid, required User user}) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Add Water'),
-        content: Text('You drink ${selectedAmount} ml?'),
-        actionsAlignment: MainAxisAlignment.spaceAround,
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, 'Cancel');
-            },
-            child: Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              final databaseService =
-                  Provider.of<DatabaseService>(context, listen: false);
-              databaseService
-                  .updateUserFromUid(uid: uid, user: user)
-                  .then((value) {
-                //success state
-                showSnackBar('success', backgroundColor: Colors.green);
-              }).catchError((e) {
-                //handle error
-                showSnackBar(e, backgroundColor: Colors.red);
-              });
-              createHistory();
-              Navigator.pop(context, 'Ok');
-              Navigator.pushReplacementNamed(context, '/home', arguments: user.todayDrink);
-            },
-            child: Text('Ok'),
-          ),
-        ],
-      ),
-    );
+  addBtnHandle({required uid, required User user}) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+    databaseService.updateUserFromUid(uid: uid, user: user);
+    createHistory();
   }
-
-  // addBtnHandle({required uid, required User user}) {
-  //   final databaseService =
-  //       Provider.of<DatabaseService>(context, listen: false);
-  //   databaseService.updateUserFromUid(uid: uid, user: user);
-  //   createHistory();
-  // }
 
   createHistory() {
     final databaseService =
