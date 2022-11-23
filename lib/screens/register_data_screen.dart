@@ -72,7 +72,6 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        user!.gender = 'Men';
       });
     });
   }
@@ -83,6 +82,8 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     final authService = Provider.of<AuthService>(context, listen: false);
+    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -143,17 +144,19 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
             onChanged: (gender) {
               setState(() {
                 this.gender = gender;
+                user.gender = gender.name.toString();
               });
             },
           ),
 
           SizedBox(height: 5),
           _AgeField(
-            user: user,
             age: age,
             onChanged: (value) {
               setState(() {
                 age = value;
+                user.age = value.toInt();
+                print(user.age);
               });
             },
           ),
@@ -355,6 +358,12 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
               onPressed: () {
                 user.target = user.weight! * 2.2 * 0.5 * 29.5735;
                 user.lastLogin = DateTime.now().toString();
+                if (user.age == null) {
+                  user.age = 20;
+                }
+                if (user.gender == null) {
+                  user.gender = 'Men';
+                }
                 startButtonHandle(uid: user.uid, user: user);
                 Navigator.pushReplacementNamed(context, '/home');
               },
@@ -501,11 +510,10 @@ class __TextTimeFieldState extends State<_TextTimeField> {
 /* Age Style */
 
 class _AgeField extends StatelessWidget {
-  User? user;
   final double age;
   final ValueChanged<double> onChanged;
 
-  _AgeField({required User user, required this.age, required this.onChanged});
+  _AgeField({required this.age, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -530,8 +538,7 @@ class _AgeField extends StatelessWidget {
                   height: 12,
                   value: this.age,
                   onChanged: (value) {
-                    this.onChanged(value);
-                    user!.age = value.toInt();
+                    onChanged(value);
                   },
                 ),
               ),
