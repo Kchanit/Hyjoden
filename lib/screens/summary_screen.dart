@@ -79,7 +79,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
         } else {
           result = user!.todayDrink! / user!.target!;
         }
-        if(result!.isNaN){
+        if (result!.isNaN) {
           result = 0;
         }
         perc = (result! * 100).toInt();
@@ -227,62 +227,79 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     child: SizedBox(
                       height: 170,
                       child: StreamBuilder<List<History>>(
-                        stream: databaseService.getStreamListHistory(uid: user!.uid),
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                            itemCount: value.length,
-                            itemBuilder: (context, index) {
-                              return Column(
+                          stream: databaseService.getStreamListHistory(
+                              uid: user!.uid),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Column(
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15, right: 15, top: 12),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
+                                  Text('An error occure.'),
+                                  Text('${snapshot.error}')
+                                ],
+                              ));
+                            }
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: Text('No Transaction'),
+                              );
+                            } else {
+                              return ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, right: 15, top: 12),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Image.asset(
-                                                'assets/container2.png',
-                                                width: 40,
-                                                height: 70,
-                                              ),
-                                              SizedBox(
-                                                width: 15,
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/${snapshot.data![index].imageName}',
+                                                    // 'assets/container5.png',
+                                                    width: 40,
+                                                    height: 70,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 15,
+                                                  ),
+                                                  Text(
+                                                    '${snapshot.data![index].amount} ml',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle1,
+                                                  )
+                                                ],
                                               ),
                                               Text(
-                                                '${value[index]} ml',
+                                                '${snapshot.data![index].time}',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .subtitle1,
                                               )
-                                            ],
-                                          ),
-                                          Text(
-                                            '10 : 30 am',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1,
-                                          )
-                                        ]),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Container(
-                                      height: 1.5,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration:
-                                          BoxDecoration(color: kColorsLightGrey),
-                                    ),
-                                  ),
-                                ],
+                                            ]),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: Container(
+                                          height: 1.5,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                              color: kColorsLightGrey),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                            },
-                          );
-                        }
-                      ),
+                            }
+                          }),
                     )),
               ),
               SizedBox(

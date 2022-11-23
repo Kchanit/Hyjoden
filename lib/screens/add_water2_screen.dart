@@ -11,6 +11,7 @@ import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
+import 'package:hyjoden/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
@@ -433,7 +434,8 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
                     user!.targetHit = user!.targetHit! + 1;
                   }
 
-                  addBtnHandle(uid: user!.uid, user: user!);
+                  dialogHandle(uid: user!.uid, user: user!);
+                  // addBtnHandle(uid: user!.uid, user: user!);
                 },
               ),
             ),
@@ -466,21 +468,73 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
     );
   }
 
-  addBtnHandle({required uid, required User user}) {
-    final databaseService =
-        Provider.of<DatabaseService>(context, listen: false);
-    databaseService.updateUserFromUid(uid: uid, user: user);
-    createHistory();
+  dialogHandle({required uid, required User user}) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Add Water'),
+        content: Text('You drink ${selectedAmount} ml?'),
+        actionsAlignment: MainAxisAlignment.spaceAround,
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              final databaseService =
+                  Provider.of<DatabaseService>(context, listen: false);
+              databaseService
+                  .updateUserFromUid(uid: uid, user: user)
+                  .then((value) {
+                //success state
+                showSnackBar('success', backgroundColor: Colors.green);
+              }).catchError((e) {
+                //handle error
+                showSnackBar(e, backgroundColor: Colors.red);
+              });
+              createHistory();
+              Navigator.pop(context, 'Ok');
+              Navigator.pushReplacementNamed(context, '/home', arguments: user.todayDrink);
+            },
+            child: Text('Ok'),
+          ),
+        ],
+      ),
+    );
   }
+
+  // addBtnHandle({required uid, required User user}) {
+  //   final databaseService =
+  //       Provider.of<DatabaseService>(context, listen: false);
+  //   databaseService.updateUserFromUid(uid: uid, user: user);
+  //   createHistory();
+  // }
 
   createHistory() {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     var now = DateTime.now();
+    String? path;
     String date = DateFormat.yMd().format(now).toString();
     String time = DateFormat.Hm().format(now).toString();
-    final newDrink = Drink(amount: selectedAmount);
-    final newHistory = History(amount: selectedAmount, date: date, time: time);
+    // final newDrink = Drink(amount: selectedAmount);
+    if(selectedAmount <= 100){
+      path = 'assets/container1.png';
+    } else if(selectedAmount <= 200){
+      path = 'assets/container2.png';
+    } else if(selectedAmount <= 350){
+      path = 'assets/container3.png';
+    }else if(selectedAmount <= 750){
+      path = 'assets/container4.png';
+    }else if(selectedAmount <= 1000){
+      path = 'assets/container5.png';
+    }
+
+
+    final newHistory = History(amount: selectedAmount, date: date, time: time, imageName: path);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
 }

@@ -7,6 +7,7 @@ class History {
   final String? id;
   final int? sugar;
   final int? price;
+  final String? imageName;
 
   History(
       {required this.amount,
@@ -14,7 +15,8 @@ class History {
       required this.time,
       this.id,
       this.price,
-      this.sugar});
+      this.sugar,
+      required this.imageName});
 
   History.fromMap({required Map<String, dynamic> historyMap})
       : amount = historyMap['amount'],
@@ -22,7 +24,8 @@ class History {
         time = historyMap['time'],
         id = historyMap['id'],
         sugar = historyMap['sugar'],
-        price = historyMap['price'];
+        price = historyMap['price'],
+        imageName = historyMap['imagePath'];
 
   Map<String, dynamic> toMap() => {
         'amount': amount ,
@@ -31,5 +34,6 @@ class History {
         'id': id,
         'sugar': sugar ?? 0,
         'price': price ?? 0,
+        'imagePath': imageName ?? '',
       };
 }
