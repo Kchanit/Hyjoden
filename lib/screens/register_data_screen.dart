@@ -50,8 +50,8 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
   int visit = 4;
   String dropdownValue = list.first;
   User? user;
-  TimeOfDay input_bedtime = TimeOfDay(hour: 22, minute: 00);
   TimeOfDay input_waketime = TimeOfDay(hour: 06, minute: 00);
+  TimeOfDay input_bedtime = TimeOfDay(hour: 22, minute: 00);
   TextEditingController bedtimeInput = TextEditingController();
   TextEditingController waketimeInput = TextEditingController();
 
@@ -67,7 +67,6 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
         user = newUser;
         user!.gender = 'Men';
       });
-      print(user!.uid);
     });
   }
 
@@ -221,7 +220,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                     //converting to DateTime so that we can further format on different pattern.
                     print(parsedTime); //output 1970-01-01 22:53:00.000
                     String formattedTime =
-                        DateFormat('HH:mm:ss').format(parsedTime);
+                        DateFormat('HH:mm').format(parsedTime);
                     print(formattedTime); //output 14:59:00
                     //DateFormat() is from intl package, you can format the time on any pattern you need.
 
@@ -257,7 +256,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                     //converting to DateTime so that we can further format on different pattern.
                     print(parsedTime); //output 1970-01-01 22:53:00.000
                     String formattedTime =
-                        DateFormat('HH:mm:ss').format(parsedTime);
+                        DateFormat('HH:mm').format(parsedTime);
                     print(formattedTime); //output 14:59:00
                     //DateFormat() is from intl package, you can format the time on any pattern you need.
 
@@ -283,6 +282,8 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                   //     style: Theme.of(context).textTheme.headline3),
                   TextButton(
                     onPressed: (() {
+                      user!.target = user!.weight! * 2.2 * 0.5 * 29.5735;
+                      user!.lastLogin = DateTime.now().toString();
                       startButtonHandle(uid: user!.uid, user: user);
                     }),
                     child: Text('Let\'s start '),
