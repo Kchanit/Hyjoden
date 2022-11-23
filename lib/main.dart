@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       // ),
       // home: MotionTabBarScreen(),
         theme: appTheme(),
-        initialRoute: "/profile",
+        initialRoute: "/home",
         routes: routes,
       ),
     );
