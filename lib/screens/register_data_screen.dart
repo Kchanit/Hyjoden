@@ -47,7 +47,7 @@ class RegisterDataScreen extends StatefulWidget {
   State<RegisterDataScreen> createState() => _RegisterDataScreenState();
 }
 
-enum Gender { MALE, FEMALE}
+enum Gender { MALE, FEMALE }
 
 class _RegisterDataScreenState extends State<RegisterDataScreen> {
   int visit = 4;
@@ -79,6 +79,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User user = ModalRoute.of(context)!.settings.arguments as User;
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -145,13 +146,14 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
               });
             },
           ),
-          
+
           SizedBox(height: 5),
           _AgeField(
-            age: age, 
+            user: user,
+            age: age,
             onChanged: (value) {
               setState(() {
-               age = value;    
+                age = value;
               });
             },
           ),
@@ -171,7 +173,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
           //     },
           //   ),
           // ),
-            SizedBox(height: 20),
+          SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: _TextField(
@@ -179,25 +181,25 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
               hint: "",
               onChanged: (value) {
                 setState(() {
-                  user!.favContainer = double.parse(value);
+                  user.favContainer = double.parse(value);
                 });
               },
             ),
           ),
           SizedBox(height: 20),
 
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-             child: _TextField(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: _TextField(
               label: "Height (cm.)",
               hint: "",
               onChanged: (value) {
                 setState(() {
-                  user!.height = int.parse(value);
+                  user.height = int.parse(value);
                 });
               },
+            ),
           ),
-           ),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -206,40 +208,40 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
               hint: "",
               onChanged: (value) {
                 setState(() {
-                  user!.weight = int.parse(value);
+                  user.weight = int.parse(value);
                 });
               },
             ),
           ),
 
           SizedBox(height: 20),
-        
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-                  child: Text(
-                    'Wake Up Time',
-                    style: Theme.of(context).textTheme.subtitle1
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+                  child: Text('Wake Up Time',
+                      style: Theme.of(context).textTheme.subtitle1),
                 ),
                 Neumorphic(
                   margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
                   style: NeumorphicStyle(
-                    depth: NeumorphicTheme.embossDepth(context),
-                    boxShape: NeumorphicBoxShape.stadium(),
-                    color: Colors.grey[50]
-                  ),
+                      depth: NeumorphicTheme.embossDepth(context),
+                      boxShape: NeumorphicBoxShape.stadium(),
+                      color: Colors.grey[50]),
                   padding: EdgeInsets.symmetric(horizontal: 18),
                   child: TextField(
                     controller: waketimeInput,
                     decoration: InputDecoration(
-                        icon: Icon(Icons.timer,), //icon of text field
-                        border: InputBorder.none,
-                        ),
+                      icon: Icon(
+                        Icons.timer,
+                      ), //icon of text field
+                      border: InputBorder.none,
+                    ),
                     readOnly: true,
                     onTap: () async {
                       TimeOfDay? pickedTime = await showTimePicker(
@@ -256,11 +258,11 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                             DateFormat('HH:mm').format(parsedTime);
                         print(formattedTime); //output 14:59:00
                         //DateFormat() is from intl package, you can format the time on any pattern you need.
-                
+
                         setState(() {
                           waketimeInput.text =
                               formattedTime; //set the value of text field.
-                          user!.waketime = formattedTime;
+                          user.waketime = formattedTime;
                         });
                       } else {
                         print("Time is not selected");
@@ -275,29 +277,27 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-              children: [  
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-                  child: Text(
-                    'Bed Time',
-                    style: Theme.of(context).textTheme.subtitle1
-                  ),
-        ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+                  child: Text('Bed Time',
+                      style: Theme.of(context).textTheme.subtitle1),
+                ),
                 Neumorphic(
                   margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
                   style: NeumorphicStyle(
-                    depth: NeumorphicTheme.embossDepth(context),
-                    boxShape: NeumorphicBoxShape.stadium(),
-                    color: Colors.grey[50]
-                  ),
+                      depth: NeumorphicTheme.embossDepth(context),
+                      boxShape: NeumorphicBoxShape.stadium(),
+                      color: Colors.grey[50]),
                   padding: EdgeInsets.symmetric(horizontal: 18),
                   child: TextField(
                     controller: bedtimeInput,
                     decoration: InputDecoration(
-                        icon: Icon(Icons.timer), //icon of text field
-                        border: InputBorder.none,
-                        ),
+                      icon: Icon(Icons.timer), //icon of text field
+                      border: InputBorder.none,
+                    ),
                     readOnly: true,
                     onTap: () async {
                       TimeOfDay? pickedTime = await showTimePicker(
@@ -314,11 +314,11 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                             DateFormat('HH:mm').format(parsedTime);
                         print(formattedTime); //output 14:59:00
                         //DateFormat() is from intl package, you can format the time on any pattern you need.
-                
+
                         setState(() {
                           bedtimeInput.text =
                               formattedTime; //set the value of text field.
-                          user!.bedtime = formattedTime;
+                          user.bedtime = formattedTime;
                         });
                       } else {
                         print("Time is not selected");
@@ -341,20 +341,21 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
               ),
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
               child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Let\'s start',
-                        style: Theme.of(context).textTheme.headline3),
-                    SizedBox(width: 5),
-                    Icon(Icons.arrow_right_alt_rounded,)
-                  ],
-                )
-              ),
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Let\'s start',
+                      style: Theme.of(context).textTheme.headline3),
+                  SizedBox(width: 5),
+                  Icon(
+                    Icons.arrow_right_alt_rounded,
+                  )
+                ],
+              )),
               onPressed: () {
-                user!.target = user!.weight! * 2.2 * 0.5 * 29.5735;
-                user!.lastLogin = DateTime.now().toString();
-                startButtonHandle(uid: user!.uid, user: user);
+                user.target = user.weight! * 2.2 * 0.5 * 29.5735;
+                user.lastLogin = DateTime.now().toString();
+                startButtonHandle(uid: user.uid, user: user);
                 Navigator.pushReplacementNamed(context, '/home');
               },
             ),
@@ -386,7 +387,8 @@ class _TextField extends StatefulWidget {
 
   final ValueChanged<String> onChanged;
 
-  _TextField({required this.label, required this.hint, required this.onChanged});
+  _TextField(
+      {required this.label, required this.hint, required this.onChanged});
 
   @override
   __TextFieldState createState() => __TextFieldState();
@@ -408,18 +410,15 @@ class __TextFieldState extends State<_TextField> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-          child: Text(
-            this.widget.label,
-            style: Theme.of(context).textTheme.subtitle1
-          ),
+          child: Text(this.widget.label,
+              style: Theme.of(context).textTheme.subtitle1),
         ),
         Neumorphic(
           margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
           style: NeumorphicStyle(
-            depth: NeumorphicTheme.embossDepth(context),
-            boxShape: NeumorphicBoxShape.stadium(),
-            color: Colors.grey[50]
-          ),
+              depth: NeumorphicTheme.embossDepth(context),
+              boxShape: NeumorphicBoxShape.stadium(),
+              color: Colors.grey[50]),
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
           child: TextFormField(
             keyboardType: TextInputType.number,
@@ -433,8 +432,8 @@ class __TextFieldState extends State<_TextField> {
               if (value!.isEmpty) {
                 return "Please enter";
               }
-                return null;
-              },
+              return null;
+            },
           ),
         )
       ],
@@ -449,7 +448,8 @@ class _TextTimeField extends StatefulWidget {
 
   final ValueChanged<String> onChanged;
 
-  _TextTimeField({required this.label, required this.hint, required this.onChanged});
+  _TextTimeField(
+      {required this.label, required this.hint, required this.onChanged});
 
   @override
   __TextTimeFieldState createState() => __TextTimeFieldState();
@@ -471,18 +471,15 @@ class __TextTimeFieldState extends State<_TextTimeField> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-          child: Text(
-            this.widget.label,
-            style: Theme.of(context).textTheme.subtitle1
-          ),
+          child: Text(this.widget.label,
+              style: Theme.of(context).textTheme.subtitle1),
         ),
         Neumorphic(
           margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
           style: NeumorphicStyle(
-            depth: NeumorphicTheme.embossDepth(context),
-            boxShape: NeumorphicBoxShape.stadium(),
-            color: Colors.grey[50]
-          ),
+              depth: NeumorphicTheme.embossDepth(context),
+              boxShape: NeumorphicBoxShape.stadium(),
+              color: Colors.grey[50]),
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
           child: TextFormField(
             onChanged: this.widget.onChanged,
@@ -492,8 +489,8 @@ class __TextTimeFieldState extends State<_TextTimeField> {
               if (value!.isEmpty) {
                 return "Please enter";
               }
-                return null;
-              },
+              return null;
+            },
           ),
         )
       ],
@@ -504,10 +501,11 @@ class __TextTimeFieldState extends State<_TextTimeField> {
 /* Age Style */
 
 class _AgeField extends StatelessWidget {
+  User? user;
   final double age;
   final ValueChanged<double> onChanged;
 
-  _AgeField({required this.age, required this.onChanged});
+  _AgeField({required User user, required this.age, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -533,12 +531,15 @@ class _AgeField extends StatelessWidget {
                   value: this.age,
                   onChanged: (value) {
                     this.onChanged(value);
-                    // user!.age = int.parse(value);
+                    user!.age = value.toInt();
                   },
                 ),
               ),
             ),
-            Text("${this.age.floor()}", style: Theme.of(context).textTheme.subtitle1,),
+            Text(
+              "${this.age.floor()}",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
             SizedBox(
               width: 18,
             )
@@ -578,25 +579,21 @@ class _GenderField extends StatelessWidget {
               groupValue: gender,
               padding: EdgeInsets.all(20),
               style: NeumorphicRadioStyle(
-                boxShape: NeumorphicBoxShape.circle(),
-                selectedColor: Colors.grey[50],
-                unselectedColor: Colors.grey[50]
-              ),
+                  boxShape: NeumorphicBoxShape.circle(),
+                  selectedColor: Colors.grey[50],
+                  unselectedColor: Colors.grey[50]),
               value: Gender.MALE,
-
               child: Icon(Icons.man_rounded),
               onChanged: (value) => onChanged(value!),
             ),
-
             SizedBox(width: 12),
             NeumorphicRadio(
               groupValue: gender,
               padding: EdgeInsets.all(20),
               style: NeumorphicRadioStyle(
-                boxShape: NeumorphicBoxShape.circle(),
-                selectedColor: Colors.grey[50],
-                unselectedColor: Colors.grey[50]
-              ),
+                  boxShape: NeumorphicBoxShape.circle(),
+                  selectedColor: Colors.grey[50],
+                  unselectedColor: Colors.grey[50]),
               value: Gender.FEMALE,
               child: Icon(Icons.woman_rounded),
               onChanged: (value) => onChanged(value!),
