@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -29,20 +31,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   User? user;
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final authservice = Provider.of<AuthService>(context, listen: false);
-      User? newUser = await authservice.currentUser();
-      setState(() {
-        user = newUser;
-      });
-      print(user!.uid);
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+  //     final authservice = Provider.of<AuthService>(context, listen: false);
+  //     User? newUser = await authservice.currentUser();
+  //     setState(() {
+  //       user = newUser;
+  //     });
+  //     print(user!.uid);
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    authService.currentUser().then((currentUser) {
+      if (!mounted) return;
+      setState(() {
+        user = currentUser;
+      });
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -186,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Row(
                             children: [
                               SizedBox(width: 10,),
-                              Text('Weight: height: ${user!.height}', style: Theme.of(context).textTheme.subtitle1,)
+                              Text('Weight: ${user!.weight} height: ${user!.height}', style: Theme.of(context).textTheme.subtitle1,)
                             ],
                           ),
                         ),
@@ -225,35 +235,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ]
             ),
         ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 148.0, vertical: 15),
+          child: NeumorphicButton(
             style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
+              color: Colors.grey[50],
+              shape: NeumorphicShape.flat,
               depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+              boxShape: NeumorphicBoxShape.stadium(),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Lastest Login: ${user!.lastLogin}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                        ),
-                      ]
-                )
-              ]
+            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+            child: Center(
+              child: Text(
+                "Logout",
+                style: Theme.of(context).textTheme.headline3,
+              ),
             ),
+            onPressed: () {
+              LogoutHandle(context: context);
+            },
+          ),
         ),
         ],
       ),
@@ -266,14 +267,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         indexSelected: visit,
         onTap: (int index) => setState(() {
           visit = index;
-          if (index == 1) {
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/home');
+          } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
           } else if (index == 3) {
             Navigator.pushReplacementNamed(context, '/reward');
-          } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/profile');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
@@ -281,5 +282,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         animated: true,
       ),
     );
+  }
+  Future<void> LogoutHandle({required BuildContext context}) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    
+    try{
+      await authService.signOut();
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+    } on auth.FirebaseAuthException catch (e) {
+      print(e.message!);
+    }
   }
 }
