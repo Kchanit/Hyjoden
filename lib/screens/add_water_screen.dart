@@ -514,10 +514,24 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     var now = DateTime.now();
+    String? imageName;
     String date = DateFormat.yMd().format(now).toString();
     String time = DateFormat.Hm().format(now).toString();
-    final newDrink = Drink(amount: selectedAmount);
-    final newHistory = History(amount: selectedAmount, date: date, time: time);
+    // final newDrink = Drink(amount: selectedAmount);
+    if(selectedAmount <= 100){
+      imageName = 'container1.png';
+    } else if(selectedAmount <= 200){
+      imageName = 'container2.png';
+    } else if(selectedAmount <= 350){
+      imageName = 'container3.png';
+    }else if(selectedAmount <= 750){
+      imageName = 'container4.png';
+    }else if(selectedAmount <= 1000){
+      imageName = 'container5.png';
+    }
+
+
+    final newHistory = History(amount: selectedAmount, date: date, time: time, imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
 }
