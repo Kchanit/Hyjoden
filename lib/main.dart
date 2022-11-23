@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hyjoden/route.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
+import 'package:hyjoden/services/local_notification_service.dart';
 import 'package:hyjoden/services/storage_service.dart';
 import 'package:hyjoden/themes/style.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DatabaseService>(create: (_) => DatabaseService()),
+        Provider<LocalNotificationService>(create: (_) => LocalNotificationService()),
         Provider<StorageService>(create: (_) => StorageService()),
         ProxyProvider<DatabaseService, AuthService>(
             update: (_, dbService, __) => AuthService(dbService: dbService)),

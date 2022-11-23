@@ -7,8 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hyjoden/models/user_model.dart';
+import 'package:hyjoden/screens/add_water2_screen.dart';
+import 'package:hyjoden/screens/add_water_screen.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
+import 'package:hyjoden/services/local_notification_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
@@ -45,31 +48,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // NotificationsServices notificationsServices = NotificationsServices();
+  late final LocalNotificationService notificationService;
   int visit = 0;
   User? user;
   Artboard? _riveArtboard;
   StateMachineController? _controller;
   SMIInput<double>? _progress;
-
+  int? growTimes; //จำนวนครั้งที่จะกดgrow
   int _treeProgress = 0;
   int _treeMaxProgress = 100;
-
-  late double result;
-  late String percent;
+  double? amount;
+  double? result;
+  String? percent;
 
   String buttonText = "";
   String text = "";
 
   @override
   void initState() {
+    notificationService = LocalNotificationService();
+    notificationService.intialize();
+    listenNotifications();
     super.initState();
+    // notificationsServices.initializeNotification();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final databaseService =
           Provider.of<DatabaseService>(context, listen: false);
+
       final authservice = Provider.of<AuthService>(context, listen: false);
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
+        if (user!.todayDrink! / user!.target! > 1.00) {
+          result = 1.00;
+        } else {
+          result = user!.todayDrink! / user!.target!;
+        }
+
+        percent = (result! * 100).toStringAsFixed(0) + "%";
+        if (((result! * 100) / 10).isNaN) {
+          growTimes = 0;
+        } else {
+          growTimes = ((result! * 100) / 10).toInt();
+        }
+        for (var i = 0; i < growTimes!; i++) {
+          grow();
+        }
+
         if (DateTime.now().hour == 0 &&
             DateTime.parse(user!.lastLogin!).hour != 0) {
           user!.todayDrink = 0;
@@ -143,10 +169,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final notificationService =
+        Provider.of<LocalNotificationService>(context, listen: false);
     double treeWidth = MediaQuery.of(context).size.width - 40;
-
-    double result = _treeProgress / 100;
-    String percent = (result * 100).toString() + "%";
+    if (ModalRoute.of(context)!.settings.arguments == null) {
+      amount = 0.0;
+    } else {
+      amount = ModalRoute.of(context)!.settings.arguments as double;
+    }
+    // double result = _treeProgress / 100;
 
     return Scaffold(
       backgroundColor: kColorsWhite,
@@ -218,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: LinearPercentIndicator(
                     // animation: true,
                     // animationDuration: 1000,
-                    center: Text(percent,
+                    center: Text(percent!,
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w400,
@@ -227,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         )),
                     lineHeight: 30,
                     barRadius: Radius.circular(20),
-                    percent: result,
+                    percent: result!,
                     progressColor: Colors.blue[300],
                   ),
                 ),
@@ -263,6 +294,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (_treeProgress > 0) deGrow();
                         },
                         child: Text('DeGROW'),
+                      ),
+                      TextButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.blue),
+                        ),
+                        onPressed: () async {
+                          print("Test Noti Clicked");
+                          print("todayDrink: ${user!.todayDrink}");
+                          print("target: ${user!.target}");
+                          // while (user!.todayDrink! < user!.target!) {
+                          await notificationService.showScheduledNotification(
+                              id: 0,
+                              title: 'Message from your mom',
+                              body: 'It\'s time to drink your damn water.',
+                              payload: 'payload',
+                              seconds: 4);
+                          // }
+                        },
+                        child: Text('Test Notification'),
                       )
                     ],
                   ),
@@ -277,9 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
         indexSelected: visit,
         onTap: (int index) => setState(() {
           visit = index;
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
+          if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
@@ -329,6 +378,19 @@ class _HomeScreenState extends State<HomeScreen> {
           style: Theme.of(context).textTheme.headline2);
     } else {
       return Text("", style: Theme.of(context).textTheme.headline2);
+    }
+  }
+
+  void listenNotifications() => notificationService.onNotificationClick.stream
+      .listen(onNotificationListener);
+  void onNotificationListener(String? payload) {
+    if (payload != null && payload.isNotEmpty) {
+      print('payload $payload');
+      // Navigator.pushReplacementNamed(context, '/add-water');
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: ((context) => AddWater2Screen(payload: payload))));
     }
   }
 }
