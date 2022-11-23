@@ -4,6 +4,7 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -97,21 +98,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: 20),
                     CreateConfirmPassword(),
                     SizedBox(height: 40),
-                    InkWell(
-                        onTap: () {
-                          registerHandle(
-                            context: context,
-                          );
-                        },
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 140.0),
+                    child: NeumorphicButton(
+                      style: NeumorphicStyle(
+                        color: Colors.grey[50],
+                        shape: NeumorphicShape.flat,
+                        depth: 5,
+                        boxShape: NeumorphicBoxShape.stadium(),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                      child: Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Next',
                                 style: Theme.of(context).textTheme.headline3),
                             SizedBox(width: 5),
-                            Icon(Icons.arrow_right_alt_rounded)
+                            Icon(Icons.arrow_right_alt_rounded,)
                           ],
-                        ))
+                        )
+                      ),
+                      onPressed: () {
+                        registerHandle(
+                            context: context,
+                          );
+                      },
+                    ),
+                  ),
                   ],
                 ),
               )
@@ -119,47 +133,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomBarInspiredInside(
-        items: items,
-        backgroundColor: Colors.white,
-        color: Colors.blue,
-        colorSelected: Colors.white,
-        indexSelected: visit,
-        onTap: (int index) => setState(() {
-          visit = index;
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushReplacementNamed(context, '/summary');
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/add-water');
-          } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/reward');
-          } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/login');
-          }
-        }),
-        chipStyle: const ChipStyle(convexBridge: true),
-        itemStyle: ItemStyle.circle,
-        animated: true,
-      ),
     );
   }
 
   Widget CreateEmail() {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-      child: TextFormField(
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Email',
-        ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please enter email";
-          }
-          return null;
-        },
+      child: _TextField(
+        label: "email",
+        hint: "",
         onChanged: (value) {
           email = value;
         },
@@ -170,17 +152,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget CreateUsername() {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-      child: TextFormField(
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Username',
-        ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please enter username";
-          }
-          return null;
-        },
+      child: _TextField(
+        label: "username",
+        hint: "",
         onChanged: (value) {
           username = value;
         },
@@ -191,17 +165,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget CreatePassword() {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-      child: TextFormField(
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Password',
-        ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please enter password";
-          }
-          return null;
-        },
+      child: _TextField(
+        label: "password",
+        hint: "",
         onChanged: (value) {
           password = value;
         },
@@ -212,17 +178,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget CreateConfirmPassword() {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-      child: TextFormField(
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Confirm Password',
-        ),
-        validator: (value) {
-          if (value!.isEmpty) {
-            return "Please enter password";
-          }
-          return null;
-        },
+      child: _TextField(
+        label: "confirm password",
+        hint: "",
         onChanged: (value) {
           confirmPassword = value;
         },
@@ -263,3 +221,64 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 }
+
+/* Text Field Style */
+class _TextField extends StatefulWidget {
+  final String label;
+  final String hint;
+
+  final ValueChanged<String> onChanged;
+
+  _TextField({required this.label, required this.hint, required this.onChanged});
+
+  @override
+  __TextFieldState createState() => __TextFieldState();
+}
+
+class __TextFieldState extends State<_TextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.hint);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+          child: Text(
+            this.widget.label,
+            style: Theme.of(context).textTheme.subtitle1
+          ),
+        ),
+        Neumorphic(
+          margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+          style: NeumorphicStyle(
+            depth: NeumorphicTheme.embossDepth(context),
+            boxShape: NeumorphicBoxShape.stadium(),
+            color: Colors.grey[50]
+          ),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+          child: TextFormField(
+            onChanged: this.widget.onChanged,
+            controller: _controller,
+            decoration: InputDecoration.collapsed(hintText: this.widget.hint),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter";
+              }
+                return null;
+              },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+
