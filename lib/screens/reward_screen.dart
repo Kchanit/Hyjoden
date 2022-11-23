@@ -507,8 +507,6 @@ class _RewardScreenState extends State<RewardScreen> {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
-          } else if (index == 3) {
-            Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }

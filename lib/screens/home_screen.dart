@@ -80,14 +80,18 @@ class _HomeScreenState extends State<HomeScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        result = user!.todayDrink! / user!.target!;
+        if (user!.todayDrink! / user!.target! > 1.00) {
+          result = 1.00;
+        } else {
+          result = user!.todayDrink! / user!.target!;
+        }
         percent = (result! * 100).toStringAsFixed(0) + "%";
 
         growTimes = ((result! * 100) % 10).toInt();
         for (var i = 0; i < growTimes!; i++) {
           grow();
         }
-        
+
         if (DateTime.now().hour == 0 &&
             DateTime.parse(user!.lastLogin!).hour != 0) {
           user!.todayDrink = 0;
@@ -320,9 +324,7 @@ class _HomeScreenState extends State<HomeScreen> {
         indexSelected: visit,
         onTap: (int index) => setState(() {
           visit = index;
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/home');
-          } else if (index == 1) {
+          if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');

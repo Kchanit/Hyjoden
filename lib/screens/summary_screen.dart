@@ -73,7 +73,11 @@ class _SummaryScreenState extends State<SummaryScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-        result = user!.todayDrink! / user!.target!;
+        if (user!.todayDrink! / user!.target! > 1.00) {
+          result = 1.00;
+        } else {
+          result = user!.todayDrink! / user!.target!;
+        }
         perc = (result! * 100).toInt();
         if (DateTime.now().hour == 0) {
           user!.todayDrink = 0.0;
@@ -373,7 +377,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 padding: const EdgeInsets.only(left: 15.0, top: 10),
                 child: Row(
                   children: [
-                    Text('600',
+                    Text('${user!.todayDrink!.toInt()}',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w600,
