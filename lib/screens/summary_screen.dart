@@ -76,7 +76,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
         result = user!.todayDrink! / user!.target!;
         perc = (result! * 100).toInt();
         if (DateTime.now().hour == 0) {
-          user!.todayDrink = 0;
+          user!.todayDrink = 0.0;
           databaseService.updateUserFromUid(uid: user!.uid, user: user!);
         }
       });

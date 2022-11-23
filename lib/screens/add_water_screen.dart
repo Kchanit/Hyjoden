@@ -478,6 +478,6 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     String time = DateFormat.Hm().format(now).toString();
     final newDrink = Drink(amount: selectedAmount);
     final newHistory = History(amount: selectedAmount, date: date, time: time);
-    databaseService.addHistory(drink: newDrink, uid: user!.uid);
+    databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
 }

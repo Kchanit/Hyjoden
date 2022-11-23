@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hyjoden/models/history_model.dart';
 import 'package:hyjoden/models/user_model.dart';
 
 import '../models/drink_model.dart';
@@ -37,17 +38,17 @@ class DatabaseService {
           .map((doc) => Drink.fromMap(drinkMap: doc.data()))
           .toList());
 
-  Future<void> addHistory({required Drink drink, required uid}) async {
+  Future<void> addHistory({required History history, required uid}) async {
     _firebaseStore
         .collection('users')
         .doc(uid)
         .collection('history')
-        .add(drink.toMap())
+        .add(history.toMap())
         .then((documentSnapshot) => _firebaseStore
             .collection('users')
             .doc(uid)
             .collection('history')
             .doc('${documentSnapshot.id}')
-            .update({'uid': '${documentSnapshot.id}'}));
+            .update({'id': '${documentSnapshot.id}'}));
   }
 }
