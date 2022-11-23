@@ -18,6 +18,7 @@ ThemeData appTheme() {
 
       // subtitle
       subtitle1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, color: kColorsGrey),
+      subtitle2: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: kColorsGrey),
 
       // error msg
       bodyText1: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: kColorsGrey),

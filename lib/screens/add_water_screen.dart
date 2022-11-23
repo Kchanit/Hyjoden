@@ -465,7 +465,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
           } else if (index == 3) {
             Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/profile');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),

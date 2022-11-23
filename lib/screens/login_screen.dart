@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
         await authService.signInWithEmailAndPassword(
             email: email, password: password);
         Navigator.of(context)
-            .pushNamedAndRemoveUntil('/profile', (route) => false);
+            .pushNamedAndRemoveUntil('/home', (route) => false);
       } on FirebaseAuthException catch (e) {
         log(e.message!);
         Navigator.pop(context);

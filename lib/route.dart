@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hyjoden/screens/add_water_screen.dart';
+import 'package:hyjoden/screens/edit_profile_screen.dart';
 import 'package:hyjoden/screens/home_screen.dart';
 import 'package:hyjoden/screens/login_screen.dart';
 import 'package:hyjoden/screens/register_data_screen.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/add-water" : (BuildContext context) => AddWaterScreen(),
   "/reward" : (BuildContext context) => RewardScreen(),
   "/profile" : (BuildContext context) => ProfileScreen(),
+  "/edit-profile" : (BuildContext context) => EditProfileScreen(),
 };

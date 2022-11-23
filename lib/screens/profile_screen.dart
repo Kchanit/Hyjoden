@@ -41,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print(user!.uid);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,204 +61,118 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-
-      body: Column(
-        // crossAxisAlignment: CrossAxisAlignment.left,
-        // mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 225, bottom: 10, top: 75),
-            child: Text('Profile',
-             style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    letterSpacing: 2)
-            ),
-          ),
-          Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+      body: user == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ListView(
+              // crossAxisAlignment: CrossAxisAlignment.left,
+              // mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Username: ${user!.username}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
+                SizedBox(height: 15,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('${user!.username}', style: Theme.of(context).textTheme.headline2,),
+                          Text('${user!.email}', style: Theme.of(context).textTheme.headline3,)
+                        ],
+                      ),
+                      SizedBox(
+                        height: 60,
+                        child: NeumorphicButton(
+                          style: NeumorphicStyle(
+                            color: Colors.white,
+                            lightSource: LightSource.topLeft,
+                            shape: NeumorphicShape.convex,
+                            depth: 5,
+                            boxShape: NeumorphicBoxShape.circle(),
                           ),
-                        ),
-                      ]
-                )
-              ]
-            ),
-        ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Gender: ${user!.gender}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
+                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+                          child: Center(
+                            child: Icon(Icons.edit)
                           ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/edit-profile');
+                          },
                         ),
-                      ]
-                )
-              ]
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: 25,),
+                Neumorphic(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+                  style: NeumorphicStyle(
+                    boxShape:
+                        NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    color: Colors.grey[50],
+                    depth: -5
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Gender :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.gender}', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Weight :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.weight} kg', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Bed Time :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.bedtime}', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Goal :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.target!.toInt()} ml', style: Theme.of(context).textTheme.headline3,),
+                        ]),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Age :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.gender}', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Height :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.weight} kg', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Wake Up Time :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.bedtime}', style: Theme.of(context).textTheme.headline3,),
+                          SizedBox(height: 15,),
+                          Text('Favorite Container :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.target!.toInt()} ml', style: Theme.of(context).textTheme.headline3,),
+                        ]),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 150.0, vertical: 70),
+                  child: NeumorphicButton(
+                  style: NeumorphicStyle(
+                    color: Colors.grey[50],
+                    shape: NeumorphicShape.flat,
+                    depth: 5,
+                    boxShape: NeumorphicBoxShape.stadium(),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
+                  child: Center(
+                    child: Text(
+                      "Log Out",
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ),
+                  onPressed: () {
+                    // addBtnHandle(uid: user!.uid, user: user!);
+                  },
+              ),
+                ),
+              ],
             ),
-        ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Age: ${user!.age}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                        ),
-                      ]
-                )
-              ]
-            ),
-        ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Weight: height: ${user!.height}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                        ),
-                      ]
-                )
-              ]
-            ),
-        ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Waketime: ${user!.waketime} Bedtime: ${user!.bedtime}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                        ),
-                      ]
-                )
-              ]
-            ),
-        ),
-        Neumorphic(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            padding: EdgeInsets.all(12),
-            style: NeumorphicStyle(
-              shadowLightColor: kColorsLightGrey,
-              depth: 5,
-              color: Colors.white,
-              boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 10,),
-                              Text('Lastest Login: ${user!.lastLogin}', style: Theme.of(context).textTheme.subtitle1,)
-                            ],
-                          ),
-                        ),
-                      ]
-                )
-              ]
-            ),
-        ),
-        ],
-      ),
-
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
         backgroundColor: Colors.white,
@@ -272,8 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Navigator.pushReplacementNamed(context, '/add-water');
           } else if (index == 3) {
             Navigator.pushReplacementNamed(context, '/reward');
-          } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/profile');
+          } else if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/home');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),

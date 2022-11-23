@@ -508,7 +508,7 @@ class _RewardScreenState extends State<RewardScreen> {
           } else if (index == 2) {
             Navigator.pushReplacementNamed(context, '/add-water');
           } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/profile');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
