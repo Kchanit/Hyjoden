@@ -6,6 +6,7 @@ import 'package:hyjoden/screens/register_data_screen.dart';
 import 'package:hyjoden/screens/register_screen.dart';
 import 'package:hyjoden/screens/summary_screen.dart';
 import 'package:hyjoden/screens/achievement_screen.dart';
+import 'package:hyjoden/screens/profile_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/home" : (BuildContext context) => HomeScreen(),
@@ -14,5 +15,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/register" : (BuildContext context) => RegisterScreen(),
   "/register-data" : (BuildContext context) => RegisterDataScreen(),
   "/add-water" : (BuildContext context) => AddWaterScreen(),
-  "/reward" : (BuildContext context) => RewardScreen(),
+  "/achievement" : (BuildContext context) => AchievementScreen(),
+  "/profile" : (BuildContext context) => ProfileScreen(),
 };

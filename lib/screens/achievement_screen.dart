@@ -4,48 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hyjoden/screens/home_screen.dart';
 import 'package:hyjoden/themes/colors.dart';
 
-class RewardScreen extends StatefulWidget {
-  const RewardScreen({super.key});
+class AchievementScreen extends StatefulWidget {
+  const AchievementScreen({super.key});
 
   @override
-  State<RewardScreen> createState() => _RewardScreenState();
+  State<AchievementScreen> createState() => _AchievementScreenState();
 }
 
-class _RewardScreenState extends State<RewardScreen> {
-  List<String> value = [
-    "achievement1", 
-    "achievement2",
-    "achievement3", 
-    "achievement4",
-    "achievement5", 
-    "achievement6",
-    "achievement7", 
-    "achievement8"
-  ];
-
-  List<String> detail = [
-    "detail1", 
-    "detail2",
-    "detail3", 
-    "detail4",
-    "detail5", 
-    "detail6",
-    "detail7", 
-    "detail8"
-  ];
+class _AchievementScreenState extends State<AchievementScreen> {
 
   int visit = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 235, 233, 233),
       appBar: AppBar(
         leading: null,
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 235, 233, 233),
         title: Container(
           alignment: Alignment.bottomCenter,
           child: Text('HYJODEN',
@@ -326,9 +304,7 @@ class _RewardScreenState extends State<RewardScreen> {
                         ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            // child: Image.asset('assets/container2.png', width: 40, height: 70,),
-                            child:
-                              IconButton(icon: SvgPicture.asset('assets/icons/award-solid.svg',), onPressed: () {  },)
+                            child: Image.asset('assets/container2.png', width: 40, height: 70,),
                           ),
                       ]
                 )
@@ -354,7 +330,9 @@ class _RewardScreenState extends State<RewardScreen> {
           } else if (index == 1) {
             Navigator.pushReplacementNamed(context, '/summary');
           } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/add-water');
+            Navigator.pushReplacementNamed(context, '/add');
+          } else if (index == 3) {
+            Navigator.pushReplacementNamed(context, '/achievement');
           } else if (index == 4) {
             Navigator.pushReplacementNamed(context, '/login');
           }
