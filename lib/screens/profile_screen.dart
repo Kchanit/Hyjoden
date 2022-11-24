@@ -134,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text('${user!.age}', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
                           Text('Height :', style: Theme.of(context).textTheme.subtitle2,),
-                          Text('${user!.height} kg', style: Theme.of(context).textTheme.headline3,),
+                          Text('${user!.height} cm', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
                           Text('Wake Up Time :', style: Theme.of(context).textTheme.subtitle2,),
                           Text('${user!.waketime}', style: Theme.of(context).textTheme.headline3,),

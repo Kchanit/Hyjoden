@@ -12,6 +12,7 @@ import 'package:hyjoden/screens/add_water_screen.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
+import 'package:hyjoden/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,12 +30,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   int visit = 4;
 
   User? user;
-  bool _ageVisible = true;
-  bool _weightVisible = true;
-  bool _heightVisible = true;
-  bool _favVisible = true;
-  bool _bedVisible = true;
-  bool _wakeVisible = true;
+  bool _ageVisible = false;
+  bool _weightVisible = false;
+  bool _heightVisible = false;
+  bool _favVisible = false;
+  bool _bedVisible = false;
+  bool _wakeVisible = false;
 
 
   TimeOfDay input_waketime = TimeOfDay(hour: 06, minute: 00);
@@ -52,7 +53,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         user = newUser;
       });
-      print(user!.uid);
     });
   }
 
@@ -186,7 +186,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 _heightVisible = true;
                               });
                             },
-                            child: Text('${user!.height} kg', 
+                            child: Text('${user!.height} cm', 
                               style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500, 
                               color: kColorsBlue),)),
                           SizedBox(height: 15,),
@@ -516,7 +516,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     onPressed: () {
-                      // addBtnHandle(uid: user!.uid, user: user!);
+                      final databaseService = Provider.of<DatabaseService>(context, listen: false);
+                       databaseService
+                        .updateUserFromUid(uid: user!.uid, user: user!)
+                        .then((value) {
+                //success state
+                showSnackBar('success', backgroundColor: Colors.green);
+                    }).catchError((e) {
+                      //handle error
+                      showSnackBar(e, backgroundColor: Colors.red);
+                    });
+                    Navigator.pop(context, 'Ok');
                     },
                 ),
                 ),
