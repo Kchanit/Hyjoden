@@ -250,10 +250,13 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                   DateTime(now.year, now.month, now.day);
                               int i = 0;
 
+                                print('today: ${now.day}');
                               while (i < snapshot.data!.length) {
+                                print('data: ${DateTime.parse(
+                                        '${snapshot.data![i].date}').day}');
                                 if (DateTime.parse(
-                                        '${snapshot.data![i].date.toString()}') ==
-                                    today) {
+                                        '${snapshot.data![i].date}').day.toString() ==
+                                    today.toString()) {
                                   showList!.add(snapshot.data![i]);
                                 }
                                 i++;

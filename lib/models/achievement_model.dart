@@ -4,7 +4,7 @@ class Achievement {
   final String? id;
   bool unlocked;
 
-  Achievement({required this.name, required this.detail, this.id, required this.unlocked});
+  Achievement({required this.name, required this.detail,required this.id, required this.unlocked});
 
   Achievement.fromMap({required Map<String, dynamic> achievementMap})
       : name = achievementMap['name'],
