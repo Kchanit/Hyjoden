@@ -8,6 +8,8 @@ import 'package:hyjoden/services/storage_service.dart';
 import 'package:hyjoden/themes/style.dart';
 import 'package:provider/provider.dart';
 
+import 'models/user_model.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,22 +37,26 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<DatabaseService>(create: (_) => DatabaseService()),
-        Provider<LocalNotificationService>(create: (_) => LocalNotificationService()),
+        Provider<LocalNotificationService>(
+            create: (_) => LocalNotificationService()),
         Provider<StorageService>(create: (_) => StorageService()),
         ProxyProvider<DatabaseService, AuthService>(
             update: (_, dbService, __) => AuthService(dbService: dbService)),
+        StreamProvider<User?>(
+            create: (context) =>
+                Provider.of<AuthService>(context, listen: false).userStream,
+            initialData: null)
       ],
-      
       child: MaterialApp(
         scaffoldMessengerKey: messageKey,
         debugShowCheckedModeBanner: false,
         // theme: appTheme(),
-      //   theme: NeumorphicThemeData(
-      //   baseColor: Color(0xFFFFFFFF),
-      //   lightSource: LightSource.topLeft,
-      //   depth: 10,
-      // ),
-      // home: MotionTabBarScreen(),
+        //   theme: NeumorphicThemeData(
+        //   baseColor: Color(0xFFFFFFFF),
+        //   lightSource: LightSource.topLeft,
+        //   depth: 10,
+        // ),
+        // home: MotionTabBarScreen(),
         theme: appTheme(),
         initialRoute: "/login",
         routes: routes,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hyjoden/models/achievement_model.dart';
 import 'package:hyjoden/models/history_model.dart';
 import 'package:hyjoden/models/user_model.dart';
 
@@ -31,18 +32,26 @@ class DatabaseService {
     docUser.set(newUserInfo);
   }
 
-  Stream<List<Drink>> getStreamListDrink() => _firebaseStore
-      .collection('drinks')
-      .snapshots()
-      .map((snapshot) => snapshot.docs
-          .map((doc) => Drink.fromMap(drinkMap: doc.data()))
-          .toList());
+  // Stream<List<Drink>> getStreamListDrink() => _firebaseStore
+  //     .collection('drinks')
+  //     .snapshots()
+  //     .map((snapshot) => snapshot.docs
+  //         .map((doc) => Drink.fromMap(drinkMap: doc.data()))
+  //         .toList());
 
   Stream<List<History>> getStreamListHistory({required uid}) => _firebaseStore
-      .collection('users').doc('${uid}').collection('history')
+      .collection('users')
+      .doc('${uid}')
+      .collection('history')
       .snapshots()
       .map((snapshot) => snapshot.docs
           .map((doc) => History.fromMap(historyMap: doc.data()))
+          .toList());
+  Stream<List<Achievement>> getStreamListAchievement() => _firebaseStore
+      .collection('achievements')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Achievement.fromMap(achievementMap: doc.data()))
           .toList());
 
   Future<void> addHistory({required History history, required uid}) async {

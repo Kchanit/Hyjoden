@@ -45,10 +45,7 @@ class SummaryScreen extends StatefulWidget {
 
 class _SummaryScreenState extends State<SummaryScreen> {
   int visit = 1;
-  double currentProg = 1690;
-  double target = 3700;
   User? user;
-  List<int> value = [200, 300, 150, 600, 10];
   double? result;
   int? perc;
   int? _groupValue = 1;
@@ -241,7 +238,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             }
                             if (!snapshot.hasData) {
                               return Center(
-                                child: Text('No Transaction'),
+                                child: Text('No Recent Drink Data', style: TextStyle(color: Colors.black),),
                               );
                             } else {
                               return ListView.builder(
@@ -405,7 +402,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 padding: const EdgeInsets.only(left: 15.0, top: 10),
                 child: Row(
                   children: [
-                    Text('${user!.todayDrink!.toInt()}',
+                    Text('${user!.totalDrink!.toInt()}',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w600,

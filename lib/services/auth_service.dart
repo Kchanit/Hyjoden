@@ -50,4 +50,10 @@ class AuthService {
 
     return newUser;
   }
+
+  Stream<User?>? get userStream {
+    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
+      return await _databaseService.getUserFromUid(uid: firebaseUser?.uid);
+    });
+  }
 }

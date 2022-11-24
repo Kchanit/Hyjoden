@@ -386,11 +386,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void onNotificationListener(String? payload) {
     if (payload != null && payload.isNotEmpty) {
       print('payload $payload');
-      // Navigator.pushReplacementNamed(context, '/add-water');
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: ((context) => AddWater2Screen(payload: payload))));
+      Navigator.pushReplacementNamed(context, '/add-water');
+      // Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: ((context) => AddWater2Screen(payload: payload))));
     }
   }
 }
