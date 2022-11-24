@@ -528,12 +528,12 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   });
                 },
                 child: Text(
-                  'avg',
+                  'sugar',
                   style: TextStyle(
                     fontSize: 12,
                     color: showAvg
-                        ? kColorsGrey.withOpacity(0.5)
-                        : kColorsLightGrey,
+                        ? kColorsBlue
+                        : kColorsGrey,
                   ),
                 ),
               ),
