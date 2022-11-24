@@ -110,12 +110,12 @@ class DatabaseService {
 
   void set_archievements({required User user}) {
     Achievement achievement1 = Achievement(
-        name: 'First Drink!',
+        name: 'First Ever Drink!',
         id: 'achievement1',
-        detail: 'Take your first drink.',
+        detail: 'first ever drink you have with us.',
         unlocked: false);
     Achievement achievement2 = Achievement(
-        name: 'First Success',
+        name: 'Its aint hard to drink. Isnt it?',
         id: 'achievement2',
         detail: 'Reach your goal for the first time.',
         unlocked: false);
@@ -125,7 +125,7 @@ class DatabaseService {
         detail: 'Reach your goal for 5 consecutive days.',
         unlocked: false);
     Achievement achievement4 = Achievement(
-        name: '7 Days Streak',
+        name: 'Week-Long drinking streak!',
         id: 'achievement4',
         detail: 'Reach your goal for 7 consecutive days',
         unlocked: false);
@@ -135,12 +135,12 @@ class DatabaseService {
         detail: 'Drink total up to 10 liters.',
         unlocked: false);
     Achievement achievement6 = Achievement(
-        name: 'Beginner Water Drinkers',
+        name: 'Noob Water Drinkers',
         id: 'achievement6',
         detail: 'Drink total up to 100 liters.',
         unlocked: false);
     Achievement achievement7 = Achievement(
-        name: 'Expert Water Drinkers',
+        name: 'Holy Expert Water Drinker',
         id: 'achievement7',
         detail: 'Drink total up to 1000 liters.',
         unlocked: false);
