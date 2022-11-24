@@ -153,14 +153,27 @@ class DatabaseService {
     addAchievement(achievement: achievement7, uid: user.uid);
   }
 
-  void checkAchievement({required User user}) {
-    checkFirstDrink(user: user);
-    checkFirstSuccess(user: user);
-    checkFiveDaysStreak(user: user);
-    checkSevenDaysStreak(user: user);
-    checkTenLitre(user: user);
-    checkHundredLitre(user: user);
-    checkThousandLitre(user: user);
+  // void checkAchievement({required User user}) {
+
+  //   checkFirstDrink(user: user);
+  //   checkFirstSuccess(user: user);
+  //   checkFiveDaysStreak(user: user);
+  //   checkSevenDaysStreak(user: user);
+  //   checkTenLitre(user: user);
+  //   checkHundredLitre(user: user);
+  //   checkThousandLitre(user: user);
+  // }
+  Future<void> checkAchievement({required User user}) async {
+    int count = 0;
+    if (checkFirstDrink(user: user)) count += 1;
+    if (checkFirstSuccess(user: user)) count += 1;
+    if (checkFiveDaysStreak(user: user)) count += 1;
+    if (checkSevenDaysStreak(user: user)) count += 1;
+    if (checkTenLitre(user: user)) count += 1;
+    if (checkHundredLitre(user: user)) count += 1;
+    if (checkThousandLitre(user: user)) count += 1;
+    user.achievementCount = count;
+    updateUserFromUid(uid: user.uid, user: user);
   }
 
   int countAchievement({required User user}) {
