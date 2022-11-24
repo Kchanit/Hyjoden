@@ -163,6 +163,18 @@ class DatabaseService {
     checkThousandLitre(user: user);
   }
 
+  int countAchievement({required User user}) {
+    int count = 0;
+    if (checkFirstDrink(user: user)) count += 1;
+    if (checkFirstSuccess(user: user)) count += 1;
+    if (checkFiveDaysStreak(user: user)) count += 1;
+    if (checkSevenDaysStreak(user: user)) count += 1;
+    if (checkTenLitre(user: user)) count += 1;
+    if (checkHundredLitre(user: user)) count += 1;
+    if (checkThousandLitre(user: user)) count += 1;
+    return count;
+  }
+
   bool checkFirstDrink({required User user}) {
     if (user.drinkAttempt! >= 1) {
       _firebaseStore
@@ -188,7 +200,7 @@ class DatabaseService {
     }
     return false;
   }
-  
+
   bool checkFiveDaysStreak({required User user}) {
     if (user.targetHit! >= 5) {
       _firebaseStore
@@ -201,6 +213,7 @@ class DatabaseService {
     }
     return false;
   }
+
   bool checkSevenDaysStreak({required User user}) {
     if (user.targetHit! >= 7) {
       _firebaseStore

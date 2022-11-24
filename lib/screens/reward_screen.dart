@@ -25,7 +25,7 @@ class _RewardScreenState extends State<RewardScreen> {
   int visit = 3;
   bool achieved = false;
   User? user;
-  
+
   @override
   void initState() {
     super.initState();
@@ -58,8 +58,8 @@ class _RewardScreenState extends State<RewardScreen> {
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
-    
-    double c_width = MediaQuery.of(context).size.width*0.6;
+
+    double c_width = MediaQuery.of(context).size.width * 0.6;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -83,7 +83,7 @@ class _RewardScreenState extends State<RewardScreen> {
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : Text('${user!.achievementCount}',
+                    : Text('${databaseService.countAchievement(user: user!)}',
                         style: Theme.of(context).textTheme.subtitle1)
               ],
             ),
@@ -166,10 +166,13 @@ class _RewardScreenState extends State<RewardScreen> {
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.all(10.0),
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
                                                   width: c_width,
                                                   child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                         '${snapshot.data![index].name}',
@@ -178,7 +181,8 @@ class _RewardScreenState extends State<RewardScreen> {
                                                             .subtitle1,
                                                       ),
                                                       SizedBox(height: 5),
-                                                      Text('${snapshot.data![index].detail}',
+                                                      Text(
+                                                        '${snapshot.data![index].detail}',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .subtitle2,
