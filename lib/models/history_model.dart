@@ -1,5 +1,3 @@
-import 'package:hyjoden/models/drink_model.dart';
-
 class History {
   final String name;
   final int amount;

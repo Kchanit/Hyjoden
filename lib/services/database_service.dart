@@ -3,8 +3,6 @@ import 'package:hyjoden/models/achievement_model.dart';
 import 'package:hyjoden/models/history_model.dart';
 import 'package:hyjoden/models/user_model.dart';
 
-import '../models/drink_model.dart';
-
 class DatabaseService {
   final FirebaseFirestore _firebaseStore = FirebaseFirestore.instance;
 
