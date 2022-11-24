@@ -238,7 +238,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             }
                             if (!snapshot.hasData) {
                               return Center(
-                                child: Text('No Recent Drink Data', style: TextStyle(color: Colors.black),),
+                                child: Text('No Recent Drink Data', style: Theme.of(context).textTheme.subtitle1,),
                               );
                             } else {
                               return ListView.builder(
@@ -264,11 +264,18 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                                   SizedBox(
                                                     width: 15,
                                                   ),
-                                                  Text(
-                                                    '${snapshot.data![index].amount} ml',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle1,
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${snapshot.data![index].amount} ml',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle1,
+                                                      ),
+                                                      Text('\$ ${snapshot.data![index].price}  sugar ${snapshot.data![index].sugar} tps',
+                                                        style: Theme.of(context).textTheme.subtitle1, )
+                                                    ],
                                                   )
                                                 ],
                                               ),

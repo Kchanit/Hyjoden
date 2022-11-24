@@ -49,7 +49,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   User? user;
   int visit = 2;
   int selectedAmount = 100;
-  String? watertype = 'Milk Tea';
+  String? watertype = 'Water';
   bool _visibleOther = false;
   bool _visibleCustom = false;
   int? _groupValue = 1;
@@ -64,6 +64,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   }
 
   List<String> type = [
+    'Water',
     'Milk Tea',
     'Coke',
     'Sprite',
@@ -377,44 +378,65 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                       watertype = value.toString();
                       if (watertype == 'other') {
                         _visibleOther = true;
+                      } else {
+                        _visibleOther = false;
                       }
                     });
                   }),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Visibility(
-                visible: _visibleOther,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter your drink',
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Visibility(
-                visible: _visibleCustom,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: InputDecoration(
-                    hintText: 'Enter your drinks volume',
-                    suffixText: 'ml.',
-                    suffixStyle: Theme.of(context).textTheme.subtitle1,
-                  ),
+            
+            Visibility(
+              visible: _visibleOther,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
+                child: _TextField(
+                  label: "Enter your drink", 
+                  hint: "", 
                   onChanged: (value) {
-                    selectedAmount = int.parse(value);
-                  },
+                    // selectedAmount = int.parse(value);
+                  }
                 ),
               ),
             ),
+            Visibility(
+              visible: _visibleCustom,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: _TextField(
+                        label: "Price", 
+                        hint: "", 
+                        onChanged: (value) {
+                          // selectedAmount = int.parse(value);
+                        }
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text('\$', style: Theme.of(context).textTheme.subtitle1),
+                    ),
+                    SizedBox(width: 20,),
+                    Flexible(
+                      child: _NumTextField(
+                        label: "Drink volume", 
+                        hint: "", 
+                        onChanged: (value) {
+                          selectedAmount = int.parse(value);
+                        }
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: Text('ml', style: Theme.of(context).textTheme.subtitle1),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             SizedBox(
               height: 40,
             ),
@@ -446,6 +468,9 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   // addBtnHandle(uid: user!.uid, user: user!);
                 },
               ),
+            ),
+            SizedBox(
+              height: 60,
             ),
           ],
         ),
@@ -544,5 +569,135 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
 
     final newHistory = History(amount: selectedAmount, date: date, time: time, imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
+  }
+}
+
+
+/* text field */
+class _TextField extends StatefulWidget {
+  final String label;
+  final String hint;
+
+  final ValueChanged<String> onChanged;
+
+  _TextField({required this.label, required this.hint, required this.onChanged});
+
+  @override
+  __TextFieldState createState() => __TextFieldState();
+}
+
+class __TextFieldState extends State<_TextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.hint);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+          child: Text(
+            this.widget.label,
+            style: Theme.of(context).textTheme.subtitle1
+          ),
+        ),
+        Neumorphic(
+          margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+          style: NeumorphicStyle(
+            depth: NeumorphicTheme.embossDepth(context),
+            boxShape: NeumorphicBoxShape.stadium(),
+            color: Colors.grey[50]
+          ),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+          child: TextFormField(
+            // initialValue: "",
+            onChanged: this.widget.onChanged,
+            controller: _controller,
+            decoration: InputDecoration.collapsed(hintText: this.widget.hint, 
+              hintStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, 
+              color: kColorsLightGrey)),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter you drink.";
+              }
+                return null;
+              },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+/* num text field */
+class _NumTextField extends StatefulWidget {
+  final String label;
+  final String hint;
+
+  final ValueChanged<String> onChanged;
+
+  _NumTextField({required this.label, required this.hint, required this.onChanged});
+
+  @override
+  __NumTextFieldState createState() => __NumTextFieldState();
+}
+
+class __NumTextFieldState extends State<_NumTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.hint);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+          child: Text(
+            this.widget.label,
+            style: Theme.of(context).textTheme.subtitle1
+          ),
+        ),
+        Neumorphic(
+          margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+          style: NeumorphicStyle(
+            depth: NeumorphicTheme.embossDepth(context),
+            boxShape: NeumorphicBoxShape.stadium(),
+            color: Colors.grey[50]
+          ),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+          child: TextFormField(
+            keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.digitsOnly
+                  ],
+            onChanged: this.widget.onChanged,
+            controller: _controller,
+            decoration: InputDecoration.collapsed(hintText: this.widget.hint, 
+              hintStyle: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500, 
+              color: kColorsLightGrey), 
+            ),
+              
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter your drink volume.";
+              }
+                return null;
+              },
+          ),
+        )
+      ],
+    );
   }
 }

@@ -220,7 +220,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     Text('*tap', style: Theme.of(context).textTheme.subtitle2,),
                     Text(' BLUE ', style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: kColorsBlue),),
-                    Text('text to EDIT', style: Theme.of(context).textTheme.subtitle2,),
+                    Text('text for choose EDIT', style: Theme.of(context).textTheme.subtitle2,),
                   ],
                 ),
 
