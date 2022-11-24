@@ -182,7 +182,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: _TextField(
-              label: "Favorite Container (ml.)",
+              label: "Favorite Container Capacity (ml.)",
               hint: "",
               onChanged: (value) {
                 setState(() {
@@ -229,7 +229,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-                  child: Text('Wake Up Time',
+                  child: Text('What time do you wake up in the morning ?',
                       style: Theme.of(context).textTheme.subtitle1),
                 ),
                 Neumorphic(
@@ -287,7 +287,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
-                  child: Text('Bed Time',
+                  child: Text('When do you go to sleep ?',
                       style: Theme.of(context).textTheme.subtitle1),
                 ),
                 Neumorphic(
