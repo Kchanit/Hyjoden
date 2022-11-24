@@ -543,7 +543,6 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
       imageName = 'container5.png';
     }
 
-
     final newHistory = History(day: day,name: watertype!,amount: selectedAmount, date: date, time: time, imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
