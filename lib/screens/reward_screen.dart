@@ -25,6 +25,7 @@ class _RewardScreenState extends State<RewardScreen> {
   int visit = 3;
   bool achieved = false;
   User? user;
+  
   @override
   void initState() {
     super.initState();
@@ -57,6 +58,8 @@ class _RewardScreenState extends State<RewardScreen> {
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+    
+    double c_width = MediaQuery.of(context).size.width*0.6;
 
     return Scaffold(
         backgroundColor: Colors.white,
@@ -160,20 +163,30 @@ class _RewardScreenState extends State<RewardScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    '${snapshot.data![index].name} \n${snapshot.data![index].detail}',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle2,
-                                                  )
-                                                ],
-                                              ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.all(10.0),
+                                                  width: c_width,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        '${snapshot.data![index].name}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle1,
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text('${snapshot.data![index].detail}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle2,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                             Padding(
                                                 padding:
@@ -247,11 +260,3 @@ class _RewardScreenState extends State<RewardScreen> {
     return double.tryParse(s) != null;
   }
 }
-
-Achievement achievement1 = Achievement(name: 'First Drink!', detail: 'Take your first drink.', unlocked: false);
-Achievement achievement2 = Achievement(name: 'First Success', detail: 'Drink water reach the goal for the first time', unlocked: false);
-Achievement achievement3 = Achievement(name: '5 Days Streak', detail: 'Reach the goal for 5 consecutive days', unlocked: false);
-Achievement achievement4 = Achievement(name: '7 Days Streak', detail: 'Reach the goal for 7 consecutive days', unlocked: false);
-Achievement achievement5 = Achievement(name: 'Apprentice Water Drinkers', detail: 'Drink total up to 10 liters.', unlocked: false);
-Achievement achievement6 = Achievement(name: 'Beginner Water Drinkers', detail: 'Drink total up to 100 liters.', unlocked: false);
-Achievement achievement7 = Achievement(name: 'Expert Water Drinkers', detail: 'Drink total up to 1000 liters.', unlocked: false);

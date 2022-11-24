@@ -117,12 +117,12 @@ class DatabaseService {
     Achievement achievement2 = Achievement(
         name: 'First Success',
         id: 'achievement2',
-        detail: 'Reach your goal for the first time',
+        detail: 'Reach your goal for the first time.',
         unlocked: false);
     Achievement achievement3 = Achievement(
         name: '5 Days Streak',
         id: 'achievement3',
-        detail: 'Reach your goal for 5 consecutive days',
+        detail: 'Reach your goal for 5 consecutive days.',
         unlocked: false);
     Achievement achievement4 = Achievement(
         name: '7 Days Streak',
