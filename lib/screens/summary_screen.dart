@@ -44,6 +44,7 @@ class SummaryScreen extends StatefulWidget {
 }
 
 class _SummaryScreenState extends State<SummaryScreen> {
+  List<History?>? showList = [];
   int visit = 1;
   User? user;
   double? result;
@@ -238,63 +239,103 @@ class _SummaryScreenState extends State<SummaryScreen> {
                             }
                             if (!snapshot.hasData) {
                               return Center(
-                                child: Text('No Recent Drink Data', style: TextStyle(color: Colors.black),),
+                                child: Text(
+                                  'No Recent Drink Data',
+                                  style: TextStyle(color: Colors.black),
+                                ),
                               );
                             } else {
-                              return ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  return Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, right: 15, top: 12),
-                                        child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Image.asset(
-                                                    'assets/${snapshot.data![index].imageName}',
-                                                    // 'assets/container5.png',
-                                                    width: 40,
-                                                    height: 70,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  Text(
-                                                    '${snapshot.data![index].amount} ml',
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .subtitle1,
-                                                  )
-                                                ],
-                                              ),
-                                              Text(
-                                                '${snapshot.data![index].time}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1,
-                                              )
-                                            ]),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: Container(
-                                          height: 1.5,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                              color: kColorsLightGrey),
+                              final now = DateTime.now();
+                              final today =
+                                  DateTime(now.year, now.month, now.day);
+                              int i = 0;
+
+                              while (i < snapshot.data!.length) {
+                                if (DateTime.parse(
+                                        '${snapshot.data![i].date.toString()}') ==
+                                    today) {
+                                  showList!.add(snapshot.data![i]);
+                                }
+                                i++;
+                              }
+                              if (showList == null) {
+                                return Center(
+                                  child: Text(
+                                    'No Recent Drink Data',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                );
+                              } else
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15, right: 15, top: 12),
+                                          child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/${snapshot.data![index].imageName}',
+                                                          // 'assets/container5.png',
+                                                          width: 40,
+                                                          height: 70,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          '${snapshot.data![index].name}',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .subtitle1,
+                                                        )
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    Text(
+                                                      '${snapshot.data![index].amount} ml',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Text(
+                                                  '${snapshot.data![index].time}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle1,
+                                                )
+                                              ]),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5),
+                                          child: Container(
+                                            height: 1.5,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                color: kColorsLightGrey),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                             }
                           }),
                     )),
