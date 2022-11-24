@@ -88,6 +88,8 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -498,7 +500,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   if (user!.todayDrink! >= user!.target!) {
                     user!.targetHit = user!.targetHit! + 1;
                   }
-
+                  databaseService.checkAchievement(user: user!);
                   dialogHandle(uid: user!.uid, user: user!);
                   // addBtnHandle(uid: user!.uid, user: user!);
                 },
@@ -601,7 +603,6 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     }else if(selectedAmount <= 1000){
       imageName = 'container5.png';
     }
-
 
     final newHistory = History(day: day,name: watertype!,amount: selectedAmount, date: date, time: time, imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);

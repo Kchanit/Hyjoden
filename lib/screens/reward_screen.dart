@@ -97,114 +97,124 @@ class _RewardScreenState extends State<RewardScreen> {
           elevation: 0,
           toolbarHeight: 80,
         ),
-        body: StreamBuilder<List<Achievement>>(
-            stream: databaseService.getStreamListAchievement(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                    child: Column(
-                  children: [
-                    Text('An error occure.'),
-                    Text('${snapshot.error}')
-                  ],
-                ));
-              }
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Text(
-                    'No Achievement Found',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                );
-              } else {
-                List<String> check = checkAchievement(user: user!).split(',');
-                // for (var i = 0; i < snapshot.data!.length; i++) {
-                for (var i = 0; i < 3; i++) {
-                  if (isNumeric(check[i])) {
-                    print(check[i]);
-                    snapshot.data![i].unlocked = true;
-                    achieved = true;
+        body: user == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : StreamBuilder<List<Achievement>>(
+                stream:
+                    databaseService.getStreamListAchievement(uid: user!.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Column(
+                      children: [
+                        Text('An error occure.'),
+                        Text('${snapshot.error}')
+                      ],
+                    ));
                   }
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text(
+                        'No Achievement Found',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    );
+                  } else {
+                    // List<String> check = checkAchievement(user: user!).split(',');
+                    // // for (var i = 0; i < snapshot.data!.length; i++) {
+                    // for (var i = 0; i < 3; i++) {
+                    //   if (isNumeric(check[i])) {
+                    //     print(check[i]);
+                    //     snapshot.data![i].unlocked = true;
+                    //     achieved = true;
+                    //   }
 
-                  // try {
-                  //   double.parse(check[i]);
-                  // } on FormatException {
-                  //   snapshot.data![i].unlocked = true;
-                  // }
-                }
-                return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Neumorphic(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 5),
-                            padding: EdgeInsets.all(12),
-                            style: NeumorphicStyle(
-                              shadowLightColor: kColorsLightGrey,
-                              depth: 5,
-                              color: Colors.white,
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(12)),
-                            ),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                '${snapshot.data![index].name} \n${snapshot.data![index].detail}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Stack(
-                                                alignment:
-                                                    AlignmentDirectional.center,
+                    //   try {
+                    //     double.parse(check[i]);
+                    //   } on FormatException {
+                    //     snapshot.data![i].unlocked = true;
+                    //   }
+                    // }
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Neumorphic(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 25, vertical: 5),
+                                padding: EdgeInsets.all(12),
+                                style: NeumorphicStyle(
+                                  shadowLightColor: kColorsLightGrey,
+                                  depth: 5,
+                                  color: Colors.white,
+                                  boxShape: NeumorphicBoxShape.roundRect(
+                                      BorderRadius.circular(12)),
+                                ),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Row(
                                                 children: [
-                                                  Container(
-                                                    height: 50,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: _BgColor(
-                                                            achieved: snapshot
-                                                                .data![index]
-                                                                .unlocked)),
-                                                  ),
-                                                  IconButton(
-                                                    icon: SvgPicture.asset(
-                                                      'assets/icons/trophy-solid.svg',
-                                                      color: _TrophyColor(
-                                                          achieved: snapshot
-                                                              .data![index]
-                                                              .unlocked),
-                                                    ),
-                                                    onPressed: () {},
+                                                  Text(
+                                                    '${snapshot.data![index].name} \n${snapshot.data![index].detail}',
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .subtitle2,
                                                   )
-                                                ])),
-                                      ])
-                                ]),
-                          ),
-                        ],
-                      );
-                    });
-              }
-            }),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Stack(
+                                                    alignment:
+                                                        AlignmentDirectional
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                        decoration: BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: _BgColor(
+                                                                achieved: snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .unlocked)),
+                                                      ),
+                                                      IconButton(
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/trophy-solid.svg',
+                                                          color: _TrophyColor(
+                                                              achieved: snapshot
+                                                                  .data![index]
+                                                                  .unlocked),
+                                                        ),
+                                                        onPressed: () {},
+                                                      )
+                                                    ])),
+                                          ])
+                                    ]),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                }),
         bottomNavigationBar: BottomBarInspiredInside(
           items: items,
           backgroundColor: kColorsWhite,
