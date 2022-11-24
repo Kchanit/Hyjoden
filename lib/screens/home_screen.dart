@@ -119,10 +119,10 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     }
-    print(achievementCount);
-    if (achievementCount == 1) {
-      rootBundle.load('assets/animations/tree_demo (1).riv');
-    }
+    // print('hey yo:  ${user!.achievementCount}');
+    // if (achievementCount == 1) {
+    //   rootBundle.load('assets/animations/tree_demo (1).riv');
+    // }
   }
 
   // แบบถ้าทำ acheivement แล้วเราจะ load riv ใหม่

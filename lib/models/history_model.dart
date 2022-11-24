@@ -7,8 +7,8 @@ class History {
   final String date;
   final String time;
   final String? id;
-  final int? sugar;
-  final int? price;
+  final double? sugar;
+  final double? price;
   final String? imageName;
 
   History(
@@ -40,8 +40,8 @@ class History {
         'date': date,
         'time': time,
         'id': id,
-        'sugar': sugar ?? 0,
-        'price': price ?? 0,
+        'sugar': sugar ?? 0.0,
+        'price': price ?? 0.0,
         'imagePath': imageName ?? '',
       };
 }
