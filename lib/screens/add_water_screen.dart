@@ -549,7 +549,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 18),
                 child: Center(
                   child: Text(
-                    "add",
+                    "drink",
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
