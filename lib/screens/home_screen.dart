@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late final LocalNotificationService notificationService;
   int visit = 0;
   User? user;
-  // User? curuser;
   Artboard? _riveArtboard;
   StateMachineController? _controller;
   SMIInput<double>? _progress;
@@ -104,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     if (_treeProgress == 0) {
+      print('tree without flower');
       rootBundle.load('assets/animations/tree_og.riv').then(
         (data) async {
           final file = RiveFile.import(data);
@@ -118,33 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       );
     }
-    print(achievementCount);
-    if (achievementCount == 1) {
-      rootBundle.load('assets/animations/tree_demo (1).riv');
-    }
   }
-
-  // แบบถ้าทำ acheivement แล้วเราจะ load riv ใหม่
-  // void evolution() {
-  //   setState(() {
-  //     if (_treeProgress == 100) {
-  //       rootBundle.load('assets/animations/tree_demo (1).riv').then(
-  //         (data) async {
-  //           final file = RiveFile.import(data);
-  //           final artboard = file.mainArtboard;
-  //           var controller = StateMachineController.fromArtboard(
-  //               artboard, 'State Machine 1');
-  //           if (controller != null) {
-  //             artboard.addController(controller);
-  //             _progress = controller.findInput('input');
-  //           }
-  //           setState(() => _riveArtboard = artboard);
-  //         },
-  //       );
-  //       _treeProgress = 0;
-  //     }
-  //   });
-  // }
 
   void grow(int percent) {
     setState(() {
@@ -152,14 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _progress?.value = _treeProgress.toDouble();
     });
   }
-
-  void deGrow() {
-    setState(() {
-      _treeProgress -= 10;
-      _progress?.value = _treeProgress.toDouble();
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     final notificationService =
@@ -170,6 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       amount = ModalRoute.of(context)!.settings.arguments as double;
     }
+
+    // print(user!.achievementCount);
+    // if (user!.achievementCount == 1) {
+    //   rootBundle.load('assets/animations/tree_demo (1).riv');
+    //   print('tree with flower');
+    // }
 
     return Scaffold(
       backgroundColor: kColorsWhite,

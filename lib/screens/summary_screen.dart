@@ -281,7 +281,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     return Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(
+                                          padding: const EdgeInsets.only( left: 10,
                                               right: 20, top: 10, bottom: 5),
                                           child: Row(
                                               mainAxisAlignment:
@@ -325,8 +325,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                                               .textTheme
                                                               .subtitle1,
                                                         ),
-                                                        SizedBox(height: 3,),
-                                                        Text('\$ ${snapshot.data![index].price} sugar ${snapshot.data![index].sugar} tsp',
+                                                        // SizedBox(height: 3,),
+                                                        Text("sugar ${snapshot.data![index].sugar} tsp",
+                                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: kColorsGrey),),
+                                                        Text('${snapshot.data![index].price} \$',
                                                           style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: kColorsGrey),)
                                                       ],
                                                     ),

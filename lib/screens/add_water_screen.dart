@@ -50,10 +50,13 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   int visit = 2;
   int selectedAmount = 100;
   String? watertype = 'Water';
+  String? watertypeOther = '';
   bool _visibleOther = false;
   bool _visibleCustom = false;
   bool _visiblePrice = false;
   int? _groupValue = 1;
+  double selectedSugar = 0;
+  double selectedPrice = 0;
 
   bool selectedComponent = false;
   Color _SelectedColor() {
@@ -90,6 +93,16 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+    
+    var drinksMap = {
+      'Water': '0',
+      'Milk Tea': '9',
+      'Coke': '16',
+      'Sprite': '13',
+      'Orange Juice': '6',
+      'Coffee': '2',
+      'Other': '',
+    };
         
     return Scaffold(
       backgroundColor: Colors.white,
@@ -401,6 +414,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                         onChanged: (value) {
                           setState(() {
                             watertype = value.toString();
+
                             if (watertype == 'Other') {
                               _visibleOther = true;
                             } else {
@@ -411,6 +425,10 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                               _visiblePrice = false;
                             } else {
                               _visiblePrice = true;
+                            }
+
+                            if (watertype != 'Other') {
+                              selectedSugar = double.parse(drinksMap['${watertype}']!);
                             }
                           });
                         }),
@@ -426,7 +444,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                     label: "Enter your drink",
                     hint: "",
                     onChanged: (value) {
-                      // watertype
+                      watertypeOther = value.toString();
                     }),
               ),
             ),
@@ -447,7 +465,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                 label: "Price",
                                 hint: "",
                                 onChanged: (value) {
-                                  // selectedAmount = int.parse(value);
+                                  selectedPrice = double.parse(value);
                                 }),
                           ),
                           Padding(
@@ -470,9 +488,10 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                           Flexible(
                             child: _NumTextField(
                               label: "sugar",
-                              hint: "",
+                              hint: drinksMap['${watertype}']!,
                               onChanged: (value) {
-                                // selectedAmount = int.parse(value);
+                                  selectedSugar = double.parse(value);
+                                
                               }
                             ),
                           ),
@@ -646,16 +665,23 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
       imageName = 'container5.png';
     }
 
+    if (watertype == 'Other') {
+      watertype = watertypeOther;
+    }
+
     final newHistory = History(
         day: day,
         name: watertype!,
         amount: selectedAmount,
+        sugar: selectedSugar,
+        price: selectedPrice,
         date: date,
         time: time,
         imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
 }
+
 
 /* text field */
 class _TextField extends StatefulWidget {
