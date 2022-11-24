@@ -607,7 +607,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
       imageName = 'container3.png';
     } else if (selectedAmount <= 750) {
       imageName = 'container4.png';
-    } else if (selectedAmount <= 1000) {
+    } else {
       imageName = 'container5.png';
     }
 

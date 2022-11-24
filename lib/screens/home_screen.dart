@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double? amount;
   double? result;
   String? percent;
-
+  int? achievementCount;
   String buttonText = "";
   String text = "";
 
@@ -76,15 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final databaseService =
           Provider.of<DatabaseService>(context, listen: false);
-
       final authservice = Provider.of<AuthService>(context, listen: false);
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
 
-        final databaseService =
-        Provider.of<DatabaseService>(context, listen: false);
-        int acheivementCount = databaseService.countAchievement(user: user!);
+        achievementCount = databaseService.countAchievement(user: user!);
 
         if (user!.todayDrink! / user!.target! > 1.00) {
           result = 1.00;
@@ -94,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
         percent = (result! * 100).toStringAsFixed(0) + "%";
         grow((result! * 100).toInt());
-
 
         if (DateTime.now().hour == 0 &&
             DateTime.parse(user!.lastLogin!).hour != 0) {
@@ -122,11 +118,11 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _riveArtboard = artboard);
         },
       );
-  }
-      // print(acheivementCount);
-      //   if (acheivementCount == 1) {
-      //     rootBundle.load('assets/animations/tree_demo (1).riv');
-      // }
+    }
+    print(achievementCount);
+    if (achievementCount == 1) {
+      rootBundle.load('assets/animations/tree_demo (1).riv');
+    }
   }
 
   // แบบถ้าทำ acheivement แล้วเราจะ load riv ใหม่
@@ -175,7 +171,6 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       amount = ModalRoute.of(context)!.settings.arguments as double;
     }
-    
 
     return Scaffold(
       backgroundColor: kColorsWhite,
@@ -198,74 +193,72 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: [
-                Expanded(
-                  child: Center(
-                    child: _riveArtboard == null
-                        ? const SizedBox()
-                        : Container(
-                            width: treeWidth,
-                            height: treeWidth,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(treeWidth / 2),
-                                border: Border.all(
-                                    color: kColorsLightGrey, width: 10)),
-                            child: Rive(
-                                alignment: Alignment.center,
-                                artboard: _riveArtboard!),
-                          ),
-                  ),
+          : Column(children: [
+              Expanded(
+                child: Center(
+                  child: _riveArtboard == null
+                      ? const SizedBox()
+                      : Container(
+                          width: treeWidth,
+                          height: treeWidth,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(treeWidth / 2),
+                              border: Border.all(
+                                  color: kColorsLightGrey, width: 10)),
+                          child: Rive(
+                              alignment: Alignment.center,
+                              artboard: _riveArtboard!),
+                        ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 30),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30.0, bottom: 5),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('${user!.todayDrink!.toInt()}',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.w600,
-                            color: kColorsGrey,
-                          )),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        'ml. / ${user!.target!.toInt()} ml.',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: LinearPercentIndicator(
-                    // animation: true,
-                    // animationDuration: 1000,
-                    center: Text(percent!,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 30),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0, bottom: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('${user!.todayDrink!.toInt()}',
                         style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
-                          letterSpacing: 2,
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w600,
+                          color: kColorsGrey,
                         )),
-                    lineHeight: 30,
-                    barRadius: Radius.circular(20),
-                    percent: result!,
-                    progressColor: Colors.blue[300],
-                  ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'ml. / ${user!.target!.toInt()} ml.',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: LinearPercentIndicator(
+                  // animation: true,
+                  // animationDuration: 1000,
+                  center: Text(percent!,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                      )),
+                  lineHeight: 30,
+                  barRadius: Radius.circular(20),
+                  percent: result!,
+                  progressColor: Colors.blue[300],
                 ),
-                changText(),
-
-      ]),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              changText(),
+            ]),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
         backgroundColor: Colors.white,
