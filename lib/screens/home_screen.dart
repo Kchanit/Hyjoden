@@ -80,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
-
-        achievementCount = databaseService.countAchievement(user: user!);
+        databaseService.checkAchievement(user: user!);
+        // achievementCount = databaseService.countAchievement(user: user!);
 
         if (user!.todayDrink! / user!.target! > 1.00) {
           result = 1.00;
