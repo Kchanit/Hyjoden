@@ -81,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         user = newUser;
         databaseService.checkAchievement(user: user!);
-        // achievementCount = databaseService.countAchievement(user: user!);
 
         if (user!.todayDrink! / user!.target! > 1.00) {
           result = 1.00;
@@ -193,24 +192,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : Column(children: [
-              Expanded(
-                child: Center(
-                  child: _riveArtboard == null
-                      ? const SizedBox()
-                      : Container(
-                          width: treeWidth,
-                          height: treeWidth,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(treeWidth / 2),
-                              border: Border.all(
-                                  color: kColorsLightGrey, width: 10)),
-                          child: Rive(
-                              alignment: Alignment.center,
-                              artboard: _riveArtboard!),
-                        ),
-                ),
+          : ListView(
+            children: [
+              SizedBox(height: 30,),
+              Center(
+                child: _riveArtboard == null
+                    ? const SizedBox()
+                    : Container(
+                        width: treeWidth,
+                        height: treeWidth,
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(treeWidth / 2),
+                            border: Border.all(
+                                color: kColorsLightGrey, width: 10)),
+                        child: Rive(
+                            alignment: Alignment.center,
+                            artboard: _riveArtboard!),
+                      ),
               ),
               const Padding(
                 padding: EdgeInsets.only(bottom: 30),
@@ -255,9 +254,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
-              changText(),
+              Center(child: changText()),
             ]),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
@@ -285,7 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget changText() {
-    if (_treeProgress <= 10) {
+    if (_treeProgress <= 5) {
+      return Text("Let's Do It ☀️",
+          style: Theme.of(context).textTheme.headline2);
+    } else if (_treeProgress <= 10) {
       return Text("It's a good start. 👍🏻",
           style: Theme.of(context).textTheme.headline2);
     } else if (_treeProgress <= 20) {

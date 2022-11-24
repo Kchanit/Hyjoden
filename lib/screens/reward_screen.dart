@@ -197,33 +197,33 @@ class _RewardScreenState extends State<RewardScreen> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 child: Stack(
-                                                    alignment:
-                                                        AlignmentDirectional
-                                                            .center,
-                                                    children: [
-                                                      Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                        decoration: BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            color: _BgColor(
-                                                                achieved: snapshot
-                                                                    .data![
-                                                                        index]
-                                                                    .unlocked)),
-                                                      ),
-                                                      IconButton(
-                                                        icon: SvgPicture.asset(
-                                                          'assets/icons/trophy-solid.svg',
-                                                          color: _TrophyColor(
+                                                  alignment:
+                                                      AlignmentDirectional
+                                                          .center,
+                                                  children: [
+                                                    Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: _BgColor(
                                                               achieved: snapshot
-                                                                  .data![index]
-                                                                  .unlocked),
-                                                        ),
-                                                        onPressed: () {},
-                                                      )
-                                                    ])),
+                                                                  .data![
+                                                                      index]
+                                                                  .unlocked)),
+                                                    ),
+                                                    IconButton(
+                                                      icon: SvgPicture.asset(
+                                                        'assets/icons/trophy-solid.svg',
+                                                        color: _TrophyColor(
+                                                            achieved: snapshot
+                                                                .data![index]
+                                                                .unlocked),
+                                                      ),
+                                                      onPressed: () {},
+                                                    )
+                                                  ])),
                                           ])
                                     ]),
                               ),

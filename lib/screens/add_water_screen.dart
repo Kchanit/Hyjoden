@@ -90,6 +90,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+        
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -425,7 +426,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                     label: "Enter your drink",
                     hint: "",
                     onChanged: (value) {
-                      // selectedAmount = int.parse(value);
+                      // watertype
                     }),
               ),
             ),
@@ -442,7 +443,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                       child: Row(
                         children: [
                           Flexible(
-                            child: _TextField(
+                            child: _NumTextField(
                                 label: "Price",
                                 hint: "",
                                 onChanged: (value) {
@@ -477,7 +478,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 20.0),
-                            child: Text('tps',
+                            child: Text('tsp',
                                 style: Theme.of(context).textTheme.subtitle1),
                           ),
                         ],

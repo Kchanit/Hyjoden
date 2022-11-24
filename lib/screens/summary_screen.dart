@@ -55,6 +55,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
+  List<Color> gradientColors2 = [
+    Color.fromARGB(255, 230, 35, 45),
+    Color.fromARGB(255, 211, 89, 2),
+  ];
 
   bool showAvg = false;
   late LineChartData chart;
@@ -93,6 +97,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
   Widget build(BuildContext context) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
+    double c_width = MediaQuery.of(context).size.width * 0.2;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -268,7 +274,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 );
-                              } else
+                              } else {
                                 return ListView.builder(
                                   itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {
@@ -276,7 +282,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 15, right: 15, top: 12),
+                                              right: 20, top: 10, bottom: 5),
                                           child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -289,29 +295,40 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                                         Image.asset(
                                                           'assets/${snapshot.data![index].imageName}',
                                                           // 'assets/container5.png',
-                                                          width: 40,
-                                                          height: 70,
+                                                          width: 30,
+                                                          height: 60,
                                                         ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Text(
-                                                          '${snapshot.data![index].name}',
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .subtitle1,
+                                                        Container(
+                                                          padding: const EdgeInsets.all(
+                                                          2.0),
+                                                          width: c_width,
+                                                          child: Text(
+                                                            '${snapshot.data![index].name}',
+                                                            style:
+                                                                Theme.of(context)
+                                                                    .textTheme
+                                                                    .subtitle2,
+                                                            textAlign: TextAlign.center,
+                                                          ),
                                                         )
                                                       ],
                                                     ),
                                                     SizedBox(
-                                                      width: 15,
+                                                      width: 5,
                                                     ),
-                                                    Text(
-                                                      '${snapshot.data![index].amount} ml',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .subtitle1,
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text(
+                                                          '${snapshot.data![index].amount} ml',
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .subtitle1,
+                                                        ),
+                                                        SizedBox(height: 3,),
+                                                        Text('\$ ${snapshot.data![index].price} sugar ${snapshot.data![index].sugar} tsp',
+                                                          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400, color: kColorsGrey),)
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
@@ -339,6 +356,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                     );
                                   },
                                 );
+                              }
                             }
                           }),
                     )),
@@ -438,12 +456,12 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ),
               CreateGraphSum(),
               Padding(
-                padding: const EdgeInsets.only(left: 15, top: 10),
+                padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Text('Total Drink',
                     style: Theme.of(context).textTheme.headline3),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15.0, top: 10),
+                padding: const EdgeInsets.only(left: 20.0, top: 10),
                 child: Row(
                   children: [
                     Text('${user!.totalDrink!.toInt()}',
@@ -461,7 +479,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
                     )
                   ],
                 ),
-              )
+              ),
+              SizedBox(height: 40,)
             ]),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
@@ -681,48 +700,56 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   LineChartData weekAvgData() {
     return LineChartData(
-      lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: false,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
+        drawVerticalLine: true,
         horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
+        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xff37434d),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+              y: 2,
+              color: kColorsGrey.withOpacity(0.5),
+              strokeWidth: 2,
+              dashArray: [2, 2]),
+        ],
       ),
       titlesData: FlTitlesData(
         show: true,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            getTitlesWidget: weekBottomTitleWidgets,
             interval: 1,
+            getTitlesWidget: weekBottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
+            interval: 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
-            interval: 1,
           ),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
         ),
       ),
       borderData: FlBorderData(
@@ -738,39 +765,29 @@ class _SummaryScreenState extends State<SummaryScreen> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(1, 3.44),
-            FlSpot(2, 3.44),
-            FlSpot(3, 3.44),
-            FlSpot(4, 3.44),
-            FlSpot(5, 3.44),
-            FlSpot(6, 3.44),
-            FlSpot(7, 3.44),
+            FlSpot(1, 4),
+            FlSpot(2, 4),
+            FlSpot(3, 3),
+            FlSpot(4, 6),
+            FlSpot(5, 3.1),
+            FlSpot(6, 5),
+            FlSpot(7, 2),
           ],
           isCurved: true,
           gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
+            colors: gradientColors2,
           ),
-          barWidth: 3,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
             ),
           ),
         ),
@@ -903,48 +920,56 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   LineChartData monthAvgData() {
     return LineChartData(
-      lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: false,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
+        drawVerticalLine: true,
         horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
+        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xff37434d),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+              y: 2,
+              color: kColorsGrey.withOpacity(0.5),
+              strokeWidth: 2,
+              dashArray: [2, 2]),
+        ],
       ),
       titlesData: FlTitlesData(
         show: true,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            getTitlesWidget: monthBottomTitleWidgets,
             interval: 1,
+            getTitlesWidget: monthBottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
+            interval: 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
-            interval: 1,
           ),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
         ),
       ),
       borderData: FlBorderData(
@@ -960,36 +985,26 @@ class _SummaryScreenState extends State<SummaryScreen> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(1, 3.44),
-            FlSpot(3, 3.44),
-            FlSpot(5, 3.44),
-            FlSpot(7, 3.44),
+            FlSpot(1, 7),
+            FlSpot(3, 5),
+            FlSpot(5, 6),
+            FlSpot(7, 3),
           ],
           isCurved: true,
           gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
+            colors: gradientColors2,
           ),
-          barWidth: 3,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
             ),
           ),
         ),
@@ -1154,48 +1169,56 @@ class _SummaryScreenState extends State<SummaryScreen> {
 
   LineChartData yearAvgData() {
     return LineChartData(
-      lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
         show: false,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
+        drawVerticalLine: true,
         horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: const Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
+        verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return FlLine(
             color: const Color(0xff37434d),
             strokeWidth: 1,
           );
         },
+        getDrawingVerticalLine: (value) {
+          return FlLine(
+            color: const Color(0xff37434d),
+            strokeWidth: 1,
+          );
+        },
+      ),
+      extraLinesData: ExtraLinesData(
+        horizontalLines: [
+          HorizontalLine(
+              y: 2,
+              color: kColorsGrey.withOpacity(0.5),
+              strokeWidth: 2,
+              dashArray: [2, 2]),
+        ],
       ),
       titlesData: FlTitlesData(
         show: true,
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
-            getTitlesWidget: yearBottomTitleWidgets,
             interval: 1,
+            getTitlesWidget: yearBottomTitleWidgets,
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
+            interval: 1,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
-            interval: 1,
           ),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
         ),
       ),
       borderData: FlBorderData(
@@ -1211,44 +1234,34 @@ class _SummaryScreenState extends State<SummaryScreen> {
       lineBarsData: [
         LineChartBarData(
           spots: const [
-            FlSpot(1, 3.44),
-            FlSpot(2, 3.44),
-            FlSpot(3, 3.44),
-            FlSpot(4, 3.44),
-            FlSpot(5, 3.44),
-            FlSpot(6, 3.44),
-            FlSpot(7, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9, 3.44),
-            FlSpot(10, 3.44),
-            FlSpot(11, 3.44),
-            FlSpot(12, 3.44),
+            FlSpot(1, 3.1),
+            FlSpot(2, 4),
+            FlSpot(3, 3),
+            FlSpot(4, 4),
+            FlSpot(5, 3.1),
+            FlSpot(6, 5),
+            FlSpot(7, 2),
+            FlSpot(8, 3),
+            FlSpot(9, 4),
+            FlSpot(10, 3.1),
+            FlSpot(11, 5),
+            FlSpot(12, 2),
           ],
           isCurved: true,
           gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
+            colors: gradientColors2,
           ),
-          barWidth: 3,
+          barWidth: 2,
           isStrokeCapRound: true,
           dotData: FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: false,
             gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
             ),
           ),
         ),
