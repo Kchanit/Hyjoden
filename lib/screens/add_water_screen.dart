@@ -52,6 +52,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   String? watertype = 'Water';
   bool _visibleOther = false;
   bool _visibleCustom = false;
+  bool _visiblePrice = false;
   int? _groupValue = 1;
 
   bool selectedComponent = false;
@@ -71,7 +72,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
     'Orange Juice',
     'Coffee',
     'Green Tea',
-    'other'
+    'Other'
   ];
   void initState() {
     super.initState();
@@ -351,38 +352,57 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120.0),
-              child: DropdownButton(
-                  isExpanded: true,
-                  value: watertype,
-                  icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: kColorsGrey),
-                  elevation: 3,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w400,
-                    color: kColorsGrey,
+              padding: const EdgeInsets.symmetric(horizontal: 110.0),
+              child: Flexible(
+                child: Neumorphic(
+                  margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+                  style: NeumorphicStyle(
+                    depth: NeumorphicTheme.embossDepth(context),
+                    boxShape: NeumorphicBoxShape.stadium(),
+                    color: Colors.grey[50]
                   ),
-                  items: type.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Center(
-                          child: Text(
-                        value,
-                        textAlign: TextAlign.center,
-                      )),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      watertype = value.toString();
-                      if (watertype == 'other') {
-                        _visibleOther = true;
-                      } else {
-                        _visibleOther = false;
-                      }
-                    });
-                  }),
+                  padding: EdgeInsets.symmetric(horizontal: 18),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        isExpanded: true,
+                        value: watertype,
+                        icon: Icon(Icons.keyboard_arrow_down_rounded,
+                            color: kColorsGrey),
+                        elevation: 3,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400,
+                          color: kColorsGrey,
+                        ),
+                        items: type.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(
+                                child: Text(
+                              value,
+                              textAlign: TextAlign.center,
+                            )),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            watertype = value.toString();
+                            if (watertype == 'Other') {
+                              _visibleOther = true;
+                            } else {
+                              _visibleOther = false;
+                            }
+                                
+                            if (watertype == 'Water') {
+                              _visiblePrice = false;
+                            } else {
+                              _visiblePrice = true;
+                            }
+                          });
+                        }),
+                  ),
+                ),
+              ),
             ),
             
             Visibility(
@@ -398,42 +418,57 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 ),
               ),
             ),
-            Visibility(
-              visible: _visibleCustom,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: _TextField(
-                        label: "Price", 
-                        hint: "", 
-                        onChanged: (value) {
-                          // selectedAmount = int.parse(value);
-                        }
+            Padding(
+              padding: const EdgeInsets.only(left: 35.0, right: 45, top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: _visiblePrice,
+                    child: Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: _TextField(
+                              label: "Price", 
+                              hint: "", 
+                              onChanged: (value) {
+                                // selectedAmount = int.parse(value);
+                              }
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text('\$', style: Theme.of(context).textTheme.subtitle1),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Text('\$', style: Theme.of(context).textTheme.subtitle1),
-                    ),
-                    SizedBox(width: 20,),
-                    Flexible(
-                      child: _NumTextField(
-                        label: "Drink volume", 
-                        hint: "", 
-                        onChanged: (value) {
-                          selectedAmount = int.parse(value);
-                        }
+                  ),
+                  SizedBox(width: 20,),
+                  Visibility(
+                    visible: _visibleCustom,
+                    child: Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: _NumTextField(
+                              label: "Drink volume", 
+                              hint: "", 
+                              onChanged: (value) {
+                                selectedAmount = int.parse(value);
+                              }
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text('ml', style: Theme.of(context).textTheme.subtitle1),
+                          ),
+                        ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Text('ml', style: Theme.of(context).textTheme.subtitle1),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
