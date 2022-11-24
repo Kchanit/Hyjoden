@@ -12,6 +12,7 @@ import 'package:hyjoden/screens/add_water_screen.dart';
 import 'package:hyjoden/services/auth_service.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
+import 'package:hyjoden/utils/calculateTarget.dart';
 import 'package:hyjoden/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
@@ -517,6 +518,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     onPressed: () {
                       final databaseService = Provider.of<DatabaseService>(context, listen: false);
+                      user!.target = calculateTarget(user: user!);
                        databaseService
                         .updateUserFromUid(uid: user!.uid, user: user!)
                         .then((value) {

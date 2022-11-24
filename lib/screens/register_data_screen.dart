@@ -11,6 +11,7 @@ import 'package:hyjoden/models/user_model.dart';
 import 'package:hyjoden/services/database_service.dart';
 import 'package:hyjoden/themes/colors.dart';
 import 'package:hyjoden/services/auth_service.dart';
+import 'package:hyjoden/utils/calculateTarget.dart';
 import 'package:hyjoden/utils/showSnackBar.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -54,6 +55,7 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
   String dropdownValue = list.first;
   User? user;
   double age = 20;
+  int? multiplyBy;
   late Gender gender = Gender.MALE;
 
   TimeOfDay input_waketime = TimeOfDay(hour: 06, minute: 00);
@@ -356,7 +358,9 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
                 ],
               )),
               onPressed: () {
-                user.target = user.weight! * 2.2 * 0.5 * 29.5735;
+                
+                // user.target = user.weight! * 2.2 * 0.5 * 29.5735;
+                user.target = calculateTarget(user: user);
                 user.lastLogin = DateTime.now().toString();
                 if (user.age == null) {
                   user.age = 20;
