@@ -52,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late final LocalNotificationService notificationService;
   int visit = 0;
   User? user;
+  // User? curuser;
   Artboard? _riveArtboard;
   StateMachineController? _controller;
   SMIInput<double>? _progress;
@@ -80,6 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
       User? newUser = await authservice.currentUser();
       setState(() {
         user = newUser;
+
+        final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
+        int acheivementCount = databaseService.countAchievement(user: user!);
+
         if (user!.todayDrink! / user!.target! > 1.00) {
           result = 1.00;
         } else {
@@ -87,14 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
 
         percent = (result! * 100).toStringAsFixed(0) + "%";
-        if (((result! * 100) / 10).isNaN) {
-          growTimes = 0;
-        } else {
-          growTimes = ((result! * 100) / 10).toInt();
-        }
-        for (var i = 0; i < growTimes!; i++) {
-          grow();
-        }
+        grow((result! * 100).toInt());
+
 
         if (DateTime.now().hour == 0 &&
             DateTime.parse(user!.lastLogin!).hour != 0) {
@@ -108,16 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
       changText();
     });
 
-    // Load the animation file from the bundle, note that you could also
-    // download this. The RiveFile just expects a list of bytes.
     if (_treeProgress == 0) {
-      rootBundle.load('assets/tree_demo.riv').then(
+      rootBundle.load('assets/animations/tree_og.riv').then(
         (data) async {
-          // Load the RiveFile from the binary data.
           final file = RiveFile.import(data);
-
-          // The artboard is the root of the animation and gets drawn in the
-          // Rive widget.
           final artboard = file.mainArtboard;
           var controller =
               StateMachineController.fromArtboard(artboard, 'State Machine 1');
@@ -128,34 +122,38 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _riveArtboard = artboard);
         },
       );
-    }
+  }
+      // print(acheivementCount);
+      //   if (acheivementCount == 1) {
+      //     rootBundle.load('assets/animations/tree_demo (1).riv');
+      // }
   }
 
   // แบบถ้าทำ acheivement แล้วเราจะ load riv ใหม่
-  void evolution() {
-    setState(() {
-      if (_treeProgress == 100) {
-        rootBundle.load('assets/tree_demo (1).riv').then(
-          (data) async {
-            final file = RiveFile.import(data);
-            final artboard = file.mainArtboard;
-            var controller = StateMachineController.fromArtboard(
-                artboard, 'State Machine 1');
-            if (controller != null) {
-              artboard.addController(controller);
-              _progress = controller.findInput('input');
-            }
-            setState(() => _riveArtboard = artboard);
-          },
-        );
-        _treeProgress = 0;
-      }
-    });
-  }
+  // void evolution() {
+  //   setState(() {
+  //     if (_treeProgress == 100) {
+  //       rootBundle.load('assets/animations/tree_demo (1).riv').then(
+  //         (data) async {
+  //           final file = RiveFile.import(data);
+  //           final artboard = file.mainArtboard;
+  //           var controller = StateMachineController.fromArtboard(
+  //               artboard, 'State Machine 1');
+  //           if (controller != null) {
+  //             artboard.addController(controller);
+  //             _progress = controller.findInput('input');
+  //           }
+  //           setState(() => _riveArtboard = artboard);
+  //         },
+  //       );
+  //       _treeProgress = 0;
+  //     }
+  //   });
+  // }
 
-  void grow() {
+  void grow(int percent) {
     setState(() {
-      _treeProgress += 10;
+      _treeProgress += percent;
       _progress?.value = _treeProgress.toDouble();
     });
   }
@@ -177,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       amount = ModalRoute.of(context)!.settings.arguments as double;
     }
-    // double result = _treeProgress / 100;
+    
 
     return Scaffold(
       backgroundColor: kColorsWhite,
@@ -266,60 +264,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 10,
                 ),
                 changText(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 0),
-                  child: Column(
-                    children: [
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.blue),
-                        ),
-                        onPressed: () {
-                          evolution();
-                          if (_treeProgress < _treeMaxProgress) {
-                            grow();
-                          } else {
-                            return;
-                          }
-                        },
-                        child: Text('GROW'),
-                      ),
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.blue),
-                        ),
-                        onPressed: () {
-                          if (_treeProgress > 0) deGrow();
-                        },
-                        child: Text('DeGROW'),
-                      ),
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.blue),
-                        ),
-                        onPressed: () async {
-                          print("Test Noti Clicked");
-                          print("todayDrink: ${user!.todayDrink}");
-                          print("target: ${user!.target}");
-                          // while (user!.todayDrink! < user!.target!) {
-                          await notificationService.showScheduledNotification(
-                              id: 0,
-                              title: 'Message from your mom',
-                              body: 'It\'s time to drink your damn water.',
-                              payload: 'payload',
-                              seconds: 4);
-                          // }
-                        },
-                        child: Text('Test Notification'),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+
+      ]),
       bottomNavigationBar: BottomBarInspiredInside(
         items: items,
         backgroundColor: Colors.white,
