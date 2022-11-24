@@ -107,7 +107,12 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
         elevation: 0,
         toolbarHeight: 80,
       ),
-      body: InkWell(
+      body: user == null
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : 
+        InkWell(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -332,6 +337,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                           onChanged: (value) {
                             setState(() {
                               _groupValue = value;
+                              selectedAmount = user!.favContainer!.toInt();
                               _visibleCustom = true;
                             });
                           },
@@ -414,8 +420,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
             Visibility(
               visible: _visibleOther,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
                 child: _TextField(
                     label: "Enter your drink",
                     hint: "",
@@ -424,9 +429,10 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                     }),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.only(
-                  left: 35.0, right: 45, top: 10, bottom: 10),
+                  left: 35.0, right: 45, top: 0, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -456,21 +462,22 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                     width: 20,
                   ),
                   Visibility(
-                    visible: _visibleCustom,
+                    visible: _visiblePrice,
                     child: Flexible(
                       child: Row(
                         children: [
                           Flexible(
                             child: _NumTextField(
-                                label: "Drink volume",
-                                hint: "",
-                                onChanged: (value) {
-                                  selectedAmount = int.parse(value);
-                                }),
+                              label: "sugar",
+                              hint: "",
+                              onChanged: (value) {
+                                // selectedAmount = int.parse(value);
+                              }
+                            ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 20.0),
-                            child: Text('ml',
+                            child: Text('tps',
                                 style: Theme.of(context).textTheme.subtitle1),
                           ),
                         ],
@@ -480,6 +487,33 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                 ],
               ),
             ),
+
+            Visibility(
+              visible: _visibleCustom,
+              child: Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 35.0, right: 45, top: 10, bottom: 10),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: _NumTextField(
+                            label: "Enter your drink volume",
+                            hint: "${user!.favContainer!.toInt()}",
+                            onChanged: (value) {
+                              selectedAmount = int.parse(value);
+                            }),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: Text('ml',
+                            style: Theme.of(context).textTheme.subtitle1),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            
             SizedBox(
               height: 40,
             ),
@@ -663,7 +697,6 @@ class __TextFieldState extends State<_TextField> {
               color: Colors.grey[50]),
           padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
           child: TextFormField(
-            // initialValue: "",
             onChanged: this.widget.onChanged,
             controller: _controller,
             decoration: InputDecoration.collapsed(
@@ -694,7 +727,8 @@ class _NumTextField extends StatefulWidget {
 
   _NumTextField(
       {required this.label, required this.hint, required this.onChanged});
-
+  
+  
   @override
   __NumTextFieldState createState() => __NumTextFieldState();
 }
