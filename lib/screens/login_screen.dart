@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
       child: _TextField(
-        label: "email",
+        label: "Email",
         hint: "",
         onChanged: (value) {
           email = value;
@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: const EdgeInsets.only(left: 35.0, right: 35.0),
       child: _TextField(
-        label: "password",
+        label: "Password",
         hint: "",
         onChanged: (value) {
           password = value;

@@ -237,3 +237,11 @@ class _RewardScreenState extends State<RewardScreen> {
     return double.tryParse(s) != null;
   }
 }
+
+Achievement achievement1 = Achievement(name: 'First Drink!', detail: 'Take your first drink.', unlocked: false);
+Achievement achievement2 = Achievement(name: 'First Success', detail: 'Drink water reach the goal for the first time', unlocked: false);
+Achievement achievement3 = Achievement(name: '5 Days Streak', detail: 'Reach the goal for 5 consecutive days', unlocked: false);
+Achievement achievement4 = Achievement(name: '7 Days Streak', detail: 'Reach the goal for 7 consecutive days', unlocked: false);
+Achievement achievement5 = Achievement(name: 'Apprentice Water Drinkers', detail: 'Drink total up to 10 liters.', unlocked: false);
+Achievement achievement6 = Achievement(name: 'Beginner Water Drinkers', detail: 'Drink total up to 100 liters.', unlocked: false);
+Achievement achievement7 = Achievement(name: 'Expert Water Drinkers', detail: 'Drink total up to 1000 liters.', unlocked: false);
