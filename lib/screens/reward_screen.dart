@@ -160,9 +160,6 @@ class _RewardScreenState extends State<RewardScreen> {
                                               horizontal: 10),
                                           child: Row(
                                             children: [
-                                              SizedBox(
-                                                width: 15,
-                                              ),
                                               Text(
                                                 '${snapshot.data![index].name} \n${snapshot.data![index].detail}',
                                                 style: Theme.of(context)
