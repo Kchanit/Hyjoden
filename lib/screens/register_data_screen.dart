@@ -378,7 +378,8 @@ class _RegisterDataScreenState extends State<RegisterDataScreen> {
   startButtonHandle({required uid, required User? user}) {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
-    databaseService.updateUserFromUid(uid: uid, user: user!).then((value) {
+    databaseService.set_archievements(user: user!);
+    databaseService.updateUserFromUid(uid: uid, user: user).then((value) {
       //success state
       showSnackBar('success', backgroundColor: Colors.green);
     }).catchError((e) {

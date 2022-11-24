@@ -25,6 +25,7 @@ class _RewardScreenState extends State<RewardScreen> {
   int visit = 3;
   bool achieved = false;
   User? user;
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +59,8 @@ class _RewardScreenState extends State<RewardScreen> {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
 
+    double c_width = MediaQuery.of(context).size.width * 0.6;
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -80,7 +83,7 @@ class _RewardScreenState extends State<RewardScreen> {
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : Text('${user!.achievementCount}',
+                    : Text('${databaseService.countAchievement(user: user!)}',
                         style: Theme.of(context).textTheme.subtitle1)
               ],
             ),
@@ -97,117 +100,138 @@ class _RewardScreenState extends State<RewardScreen> {
           elevation: 0,
           toolbarHeight: 80,
         ),
-        body: StreamBuilder<List<Achievement>>(
-            stream: databaseService.getStreamListAchievement(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                    child: Column(
-                  children: [
-                    Text('An error occure.'),
-                    Text('${snapshot.error}')
-                  ],
-                ));
-              }
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Text(
-                    'No Achievement Found',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                );
-              } else {
-                List<String> check = checkAchievement(user: user!).split(',');
-                // for (var i = 0; i < snapshot.data!.length; i++) {
-                for (var i = 0; i < 3; i++) {
-                  if (isNumeric(check[i])) {
-                    print(check[i]);
-                    snapshot.data![i].unlocked = true;
-                    achieved = true;
+        body: user == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : StreamBuilder<List<Achievement>>(
+                stream:
+                    databaseService.getStreamListAchievement(uid: user!.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Column(
+                      children: [
+                        Text('An error occure.'),
+                        Text('${snapshot.error}')
+                      ],
+                    ));
                   }
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text(
+                        'No Achievement Found',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    );
+                  } else {
+                    // List<String> check = checkAchievement(user: user!).split(',');
+                    // // for (var i = 0; i < snapshot.data!.length; i++) {
+                    // for (var i = 0; i < 3; i++) {
+                    //   if (isNumeric(check[i])) {
+                    //     print(check[i]);
+                    //     snapshot.data![i].unlocked = true;
+                    //     achieved = true;
+                    //   }
 
-                  // try {
-                  //   double.parse(check[i]);
-                  // } on FormatException {
-                  //   snapshot.data![i].unlocked = true;
-                  // }
-                }
-                return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          Neumorphic(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 5),
-                            padding: EdgeInsets.all(12),
-                            style: NeumorphicStyle(
-                              shadowLightColor: kColorsLightGrey,
-                              depth: 5,
-                              color: Colors.white,
-                              boxShape: NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(12)),
-                            ),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 15,
-                                              ),
-                                              Text(
-                                                '${snapshot.data![index].name} \n${snapshot.data![index].detail}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
-                                            child: Stack(
-                                                alignment:
-                                                    AlignmentDirectional.center,
-                                                children: [
-                                                  Container(
-                                                    height: 50,
-                                                    width: 50,
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: _BgColor(
-                                                            achieved: snapshot
-                                                                .data![index]
-                                                                .unlocked)),
+                    //   try {
+                    //     double.parse(check[i]);
+                    //   } on FormatException {
+                    //     snapshot.data![i].unlocked = true;
+                    //   }
+                    // }
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              Neumorphic(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 25, vertical: 5),
+                                padding: EdgeInsets.all(12),
+                                style: NeumorphicStyle(
+                                  shadowLightColor: kColorsLightGrey,
+                                  depth: 5,
+                                  color: Colors.white,
+                                  boxShape: NeumorphicBoxShape.roundRect(
+                                      BorderRadius.circular(12)),
+                                ),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.all(
+                                                      10.0),
+                                                  width: c_width,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        '${snapshot.data![index].name}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle1,
+                                                      ),
+                                                      SizedBox(height: 5),
+                                                      Text(
+                                                        '${snapshot.data![index].detail}',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .subtitle2,
+                                                      )
+                                                    ],
                                                   ),
-                                                  IconButton(
-                                                    icon: SvgPicture.asset(
-                                                      'assets/icons/trophy-solid.svg',
-                                                      color: _TrophyColor(
-                                                          achieved: snapshot
-                                                              .data![index]
-                                                              .unlocked),
-                                                    ),
-                                                    onPressed: () {},
-                                                  )
-                                                ])),
-                                      ])
-                                ]),
-                          ),
-                        ],
-                      );
-                    });
-              }
-            }),
+                                                ),
+                                              ],
+                                            ),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Stack(
+                                                    alignment:
+                                                        AlignmentDirectional
+                                                            .center,
+                                                    children: [
+                                                      Container(
+                                                        height: 50,
+                                                        width: 50,
+                                                        decoration: BoxDecoration(
+                                                            shape:
+                                                                BoxShape.circle,
+                                                            color: _BgColor(
+                                                                achieved: snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .unlocked)),
+                                                      ),
+                                                      IconButton(
+                                                        icon: SvgPicture.asset(
+                                                          'assets/icons/trophy-solid.svg',
+                                                          color: _TrophyColor(
+                                                              achieved: snapshot
+                                                                  .data![index]
+                                                                  .unlocked),
+                                                        ),
+                                                        onPressed: () {},
+                                                      )
+                                                    ])),
+                                          ])
+                                    ]),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                }),
         bottomNavigationBar: BottomBarInspiredInside(
           items: items,
           backgroundColor: kColorsWhite,
@@ -223,7 +247,7 @@ class _RewardScreenState extends State<RewardScreen> {
             } else if (index == 2) {
               Navigator.pushReplacementNamed(context, '/add-water');
             } else if (index == 4) {
-              Navigator.pushReplacementNamed(context, '/login');
+              Navigator.pushReplacementNamed(context, '/profile');
             }
           }),
           chipStyle: const ChipStyle(convexBridge: true),

@@ -346,34 +346,34 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget changText() {
-    if (_treeProgress == 10) {
+    if (_treeProgress <= 10) {
       return Text("It's a good start. 👍🏻",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 20) {
+    } else if (_treeProgress <= 20) {
       return Text("Do it for YOURSELF. 🪄",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 30) {
+    } else if (_treeProgress <= 30) {
       return Text("Keep Tryin\'! 👊🏻",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 40) {
+    } else if (_treeProgress <= 40) {
       return Text("Drink More 👄",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 50) {
+    } else if (_treeProgress <= 50) {
       return Text("A Little More ✨",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 60) {
+    } else if (_treeProgress <= 60) {
       return Text("You're Halfway There. 🏃‍♂️",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 70) {
+    } else if (_treeProgress <= 70) {
       return Text("Don't Give Up. ✌🏻",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 80) {
+    } else if (_treeProgress <= 80) {
       return Text("You Can Do It 🌻",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 90) {
+    } else if (_treeProgress <= 90) {
       return Text("Almost There. 💦",
           style: Theme.of(context).textTheme.headline2);
-    } else if (_treeProgress == 100) {
+    } else if (_treeProgress <= 100) {
       return Text("You Did It 🎊",
           style: Theme.of(context).textTheme.headline2);
     } else {

@@ -49,9 +49,10 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   User? user;
   int visit = 2;
   int selectedAmount = 100;
-  String? watertype = 'Milk Tea';
+  String? watertype = 'Water';
   bool _visibleOther = false;
   bool _visibleCustom = false;
+  bool _visiblePrice = false;
   int? _groupValue = 1;
 
   bool selectedComponent = false;
@@ -64,13 +65,14 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
   }
 
   List<String> type = [
+    'Water',
     'Milk Tea',
     'Coke',
     'Sprite',
     'Orange Juice',
     'Coffee',
     'Green Tea',
-    'other'
+    'Other'
   ];
   void initState() {
     super.initState();
@@ -86,6 +88,8 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final databaseService =
+        Provider.of<DatabaseService>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -126,13 +130,13 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                         crossAxisCount: 3, childAspectRatio: 0.9),
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 1,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -156,20 +160,21 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                   ),
                                   Text(
                                     '100 ml.',
-                                    style: Theme.of(context).textTheme.subtitle1,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
                                   ),
                                 ]),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 2,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -193,20 +198,21 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                   ),
                                   Text(
                                     '200 ml.',
-                                    style: Theme.of(context).textTheme.subtitle1,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
                                   )
                                 ]),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 3,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -230,20 +236,21 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                   ),
                                   Text(
                                     '350 ml.',
-                                    style: Theme.of(context).textTheme.subtitle1,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
                                   )
                                 ]),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 4,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -267,20 +274,21 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                   ),
                                   Text(
                                     '750 ml.',
-                                    style: Theme.of(context).textTheme.subtitle1,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
                                   )
                                 ]),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 5,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -304,20 +312,21 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                                   ),
                                   Text(
                                     '1000 ml.',
-                                    style: Theme.of(context).textTheme.subtitle1,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
                                   )
                                 ]),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
                         child: NeumorphicRadio(
                           style: NeumorphicRadioStyle(
-                            unselectedColor: Colors.grey[50],
-                            selectedColor: Colors.grey[50],
-                            lightSource: LightSource.topRight
-                          ),
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
                           value: 6,
                           groupValue: _groupValue,
                           onChanged: (value) {
@@ -350,69 +359,125 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 120.0),
-              child: DropdownButton(
-                  isExpanded: true,
-                  value: watertype,
-                  icon: Icon(Icons.keyboard_arrow_down_rounded,
-                      color: kColorsGrey),
-                  elevation: 3,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w400,
-                    color: kColorsGrey,
-                  ),
-                  items: type.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Center(
-                          child: Text(
-                        value,
-                        textAlign: TextAlign.center,
-                      )),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      watertype = value.toString();
-                      if (watertype == 'other') {
-                        _visibleOther = true;
-                      }
-                    });
-                  }),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Visibility(
-                visible: _visibleOther,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter your drink',
+              padding: const EdgeInsets.symmetric(horizontal: 110.0),
+              child: Flexible(
+                child: Neumorphic(
+                  margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+                  style: NeumorphicStyle(
+                      depth: NeumorphicTheme.embossDepth(context),
+                      boxShape: NeumorphicBoxShape.stadium(),
+                      color: Colors.grey[50]),
+                  padding: EdgeInsets.symmetric(horizontal: 18),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        isExpanded: true,
+                        value: watertype,
+                        icon: Icon(Icons.keyboard_arrow_down_rounded,
+                            color: kColorsGrey),
+                        elevation: 3,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w400,
+                          color: kColorsGrey,
+                        ),
+                        items:
+                            type.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Center(
+                                child: Text(
+                              value,
+                              textAlign: TextAlign.center,
+                            )),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            watertype = value.toString();
+                            if (watertype == 'Other') {
+                              _visibleOther = true;
+                            } else {
+                              _visibleOther = false;
+                            }
+
+                            if (watertype == 'Water') {
+                              _visiblePrice = false;
+                            } else {
+                              _visiblePrice = true;
+                            }
+                          });
+                        }),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
+            Visibility(
+              visible: _visibleOther,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 35.0, vertical: 10),
+                child: _TextField(
+                    label: "Enter your drink",
+                    hint: "",
+                    onChanged: (value) {
+                      // selectedAmount = int.parse(value);
+                    }),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Visibility(
-                visible: _visibleCustom,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: InputDecoration(
-                    hintText: 'Enter your drinks volume',
-                    suffixText: 'ml.',
-                    suffixStyle: Theme.of(context).textTheme.subtitle1,
+              padding: const EdgeInsets.only(
+                  left: 35.0, right: 45, top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Visibility(
+                    visible: _visiblePrice,
+                    child: Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: _TextField(
+                                label: "Price",
+                                hint: "",
+                                onChanged: (value) {
+                                  // selectedAmount = int.parse(value);
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text('\$',
+                                style: Theme.of(context).textTheme.subtitle1),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  onChanged: (value) {
-                    selectedAmount = int.parse(value);
-                  },
-                ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Visibility(
+                    visible: _visibleCustom,
+                    child: Flexible(
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: _NumTextField(
+                                label: "Drink volume",
+                                hint: "",
+                                onChanged: (value) {
+                                  selectedAmount = int.parse(value);
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Text('ml',
+                                style: Theme.of(context).textTheme.subtitle1),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -441,11 +506,13 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
                   if (user!.todayDrink! >= user!.target!) {
                     user!.targetHit = user!.targetHit! + 1;
                   }
-
                   dialogHandle(uid: user!.uid, user: user!);
                   // addBtnHandle(uid: user!.uid, user: user!);
                 },
               ),
+            ),
+            SizedBox(
+              height: 60,
             ),
           ],
         ),
@@ -494,6 +561,7 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
             onPressed: () {
               final databaseService =
                   Provider.of<DatabaseService>(context, listen: false);
+              databaseService.checkAchievement(user: user);
               databaseService
                   .updateUserFromUid(uid: uid, user: user)
                   .then((value) {
@@ -505,7 +573,8 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
               });
               createHistory();
               Navigator.pop(context, 'Ok');
-              Navigator.pushReplacementNamed(context, '/home', arguments: user.todayDrink);
+              Navigator.pushReplacementNamed(context, '/home',
+                  arguments: user.todayDrink);
             },
             child: Text('Ok'),
           ),
@@ -526,23 +595,159 @@ class _AddWaterScreenState extends State<AddWaterScreen> {
         Provider.of<DatabaseService>(context, listen: false);
     var now = DateTime.now();
     String? imageName;
-    String date = DateFormat.yMd().format(now).toString();
-    String time = DateFormat.Hm().format(now).toString();
+    String day = DateFormat('EEE').format(now);
+    String date = DateFormat('yyyy-MM-dd').format(now);
+    String time = DateFormat.Hm().format(now);
     // final newDrink = Drink(amount: selectedAmount);
-    if(selectedAmount <= 100){
+    if (selectedAmount <= 100) {
       imageName = 'container1.png';
-    } else if(selectedAmount <= 200){
+    } else if (selectedAmount <= 200) {
       imageName = 'container2.png';
-    } else if(selectedAmount <= 350){
+    } else if (selectedAmount <= 350) {
       imageName = 'container3.png';
-    }else if(selectedAmount <= 750){
+    } else if (selectedAmount <= 750) {
       imageName = 'container4.png';
-    }else if(selectedAmount <= 1000){
+    } else if (selectedAmount <= 1000) {
       imageName = 'container5.png';
     }
 
-
-    final newHistory = History(amount: selectedAmount, date: date, time: time, imageName: imageName);
+    final newHistory = History(
+        day: day,
+        name: watertype!,
+        amount: selectedAmount,
+        date: date,
+        time: time,
+        imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
+  }
+}
+
+/* text field */
+class _TextField extends StatefulWidget {
+  final String label;
+  final String hint;
+
+  final ValueChanged<String> onChanged;
+
+  _TextField(
+      {required this.label, required this.hint, required this.onChanged});
+
+  @override
+  __TextFieldState createState() => __TextFieldState();
+}
+
+class __TextFieldState extends State<_TextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.hint);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+          child: Text(this.widget.label,
+              style: Theme.of(context).textTheme.subtitle1),
+        ),
+        Neumorphic(
+          margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+          style: NeumorphicStyle(
+              depth: NeumorphicTheme.embossDepth(context),
+              boxShape: NeumorphicBoxShape.stadium(),
+              color: Colors.grey[50]),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+          child: TextFormField(
+            // initialValue: "",
+            onChanged: this.widget.onChanged,
+            controller: _controller,
+            decoration: InputDecoration.collapsed(
+                hintText: this.widget.hint,
+                hintStyle: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                    color: kColorsLightGrey)),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter you drink.";
+              }
+              return null;
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
+/* num text field */
+class _NumTextField extends StatefulWidget {
+  final String label;
+  final String hint;
+
+  final ValueChanged<String> onChanged;
+
+  _NumTextField(
+      {required this.label, required this.hint, required this.onChanged});
+
+  @override
+  __NumTextFieldState createState() => __NumTextFieldState();
+}
+
+class __NumTextFieldState extends State<_NumTextField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.hint);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 0),
+          child: Text(this.widget.label,
+              style: Theme.of(context).textTheme.subtitle1),
+        ),
+        Neumorphic(
+          margin: EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 4),
+          style: NeumorphicStyle(
+              depth: NeumorphicTheme.embossDepth(context),
+              boxShape: NeumorphicBoxShape.stadium(),
+              color: Colors.grey[50]),
+          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+          child: TextFormField(
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            onChanged: this.widget.onChanged,
+            controller: _controller,
+            decoration: InputDecoration.collapsed(
+              hintText: this.widget.hint,
+              hintStyle: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                  color: kColorsLightGrey),
+            ),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter your drink volume.";
+              }
+              return null;
+            },
+          ),
+        )
+      ],
+    );
   }
 }

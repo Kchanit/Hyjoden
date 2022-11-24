@@ -1,7 +1,9 @@
 import 'package:hyjoden/models/drink_model.dart';
 
 class History {
+  final String name;
   final int amount;
+  final String day;
   final String date;
   final String time;
   final String? id;
@@ -10,7 +12,9 @@ class History {
   final String? imageName;
 
   History(
-      {required this.amount,
+      {required this.name,
+      required this.amount,
+      required this.day,
       required this.date,
       required this.time,
       this.id,
@@ -19,7 +23,9 @@ class History {
       required this.imageName});
 
   History.fromMap({required Map<String, dynamic> historyMap})
-      : amount = historyMap['amount'],
+      : name = historyMap['name'],
+        amount = historyMap['amount'],
+        day = historyMap['day'],
         date = historyMap['date'],
         time = historyMap['time'],
         id = historyMap['id'],
@@ -28,7 +34,9 @@ class History {
         imageName = historyMap['imagePath'];
 
   Map<String, dynamic> toMap() => {
-        'amount': amount ,
+        'name': name,
+        'amount': amount,
+        'day': day,
         'date': date,
         'time': time,
         'id': id,

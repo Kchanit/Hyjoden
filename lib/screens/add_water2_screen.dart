@@ -51,10 +51,12 @@ class AddWater2Screen extends StatefulWidget {
 class _AddWater2ScreenState extends State<AddWater2Screen> {
   User? user;
   int visit = 2;
-  int selectedAmount = 0;
-  String? watertype = 'Milk Tea';
+  int selectedAmount = 100;
+  String? watertype = 'Water';
+  String? waterName;
   bool _visibleOther = false;
   bool _visibleCustom = false;
+  int? _groupValue = 1;
 
   bool selectedComponent = false;
   Color _SelectedColor() {
@@ -66,7 +68,8 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
   }
 
   List<String> type = [
-    'Milk Tea',
+    'Water'
+        'Milk Tea',
     'Coke',
     'Sprite',
     'Orange Juice',
@@ -127,215 +130,230 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, childAspectRatio: 0.9),
                     children: [
-                      InkWell(
-                        onTap: () {
-                          selectedAmount = 100;
-                          selectedComponent = true;
-                          setState(() {
-                            _visibleCustom = false;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 15),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: _SelectedColor(),
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 1,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            selectedAmount = 100;
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container1.png',
+                                    height: 35,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    '100 ml.',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  ),
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container1.png',
-                                  height: 35,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '100 ml.',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                ),
-                              ]),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          selectedAmount = 200;
-                          setState(() {
-                            _visibleCustom = false;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 15),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: Colors.white,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 2,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            selectedAmount = 200;
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container2.png',
+                                    height: 50,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    '200 ml.',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  )
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container2.png',
-                                  height: 50,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '200 ml.',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ]),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          selectedAmount = 350;
-                          setState(() {
-                            _visibleCustom = false;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 15),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: Colors.white,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 3,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            selectedAmount = 350;
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container3.png',
+                                    height: 60,
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Text(
+                                    '350 ml.',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  )
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container3.png',
-                                  height: 60,
-                                ),
-                                SizedBox(
-                                  height: 7,
-                                ),
-                                Text(
-                                  '350 ml.',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ]),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          selectedAmount = 750;
-                          setState(() {
-                            _visibleCustom = false;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 12),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: Colors.white,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 4,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            selectedAmount = 750;
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container4.png',
+                                    height: 55,
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    '750 ml.',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  )
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container4.png',
-                                  height: 55,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  '750 ml.',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ]),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          selectedAmount = 1000;
-
-                          setState(() {
-                            _visibleCustom = false;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 12),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: Colors.white,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 5,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            selectedAmount = 1000;
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = false;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container5.png',
+                                    height: 60,
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Text(
+                                    '1000 ml.',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  )
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container5.png',
-                                  height: 60,
-                                ),
-                                SizedBox(
-                                  height: 8,
-                                ),
-                                Text(
-                                  '1000 ml.',
-                                  style: Theme.of(context).textTheme.subtitle1,
-                                )
-                              ]),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            _visibleCustom = true;
-                          });
-                        },
-                        child: Neumorphic(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
-                          padding: EdgeInsets.only(bottom: 15),
-                          style: NeumorphicStyle(
-                            shadowLightColor: kColorsLightGrey,
-                            depth: 3,
-                            color: Colors.white,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                                BorderRadius.circular(12)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 12),
+                        child: NeumorphicRadio(
+                          style: NeumorphicRadioStyle(
+                              unselectedColor: Colors.grey[50],
+                              selectedColor: Colors.grey[50],
+                              lightSource: LightSource.topRight),
+                          value: 6,
+                          groupValue: _groupValue,
+                          onChanged: (value) {
+                            setState(() {
+                              _groupValue = value;
+                              _visibleCustom = true;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 12.0),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.asset(
+                                    'assets/container2.png',
+                                    height: 50,
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Icon(
+                                    Icons.add_rounded,
+                                    size: 20,
+                                  )
+                                ]),
                           ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image.asset(
-                                  'assets/container2.png',
-                                  height: 50,
-                                ),
-                                SizedBox(
-                                  height: 7,
-                                ),
-                                Icon(
-                                  Icons.add_rounded,
-                                  size: 20,
-                                )
-                              ]),
                         ),
                       ),
                     ]),
@@ -366,7 +384,7 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      watertype = value.toString();
+                      waterName = value.toString();
                       if (watertype == 'other') {
                         _visibleOther = true;
                       }
@@ -414,7 +432,7 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
               padding: const EdgeInsets.symmetric(horizontal: 150),
               child: NeumorphicButton(
                 style: NeumorphicStyle(
-                  color: Colors.white,
+                  color: Colors.grey[50],
                   shape: NeumorphicShape.flat,
                   depth: 5,
                   boxShape: NeumorphicBoxShape.stadium(),
@@ -457,7 +475,7 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
           } else if (index == 3) {
             Navigator.pushReplacementNamed(context, '/reward');
           } else if (index == 4) {
-            Navigator.pushReplacementNamed(context, '/login');
+            Navigator.pushReplacementNamed(context, '/profile');
           }
         }),
         chipStyle: const ChipStyle(convexBridge: true),
@@ -497,7 +515,8 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
               });
               createHistory();
               Navigator.pop(context, 'Ok');
-              Navigator.pushReplacementNamed(context, '/home', arguments: user.todayDrink);
+              Navigator.pushReplacementNamed(context, '/home',
+                  arguments: user.todayDrink);
             },
             child: Text('Ok'),
           ),
@@ -517,24 +536,30 @@ class _AddWater2ScreenState extends State<AddWater2Screen> {
     final databaseService =
         Provider.of<DatabaseService>(context, listen: false);
     var now = DateTime.now();
-    String? path;
-    String date = DateFormat.yMd().format(now).toString();
-    String time = DateFormat.Hm().format(now).toString();
+    String? imageName;
+    String day = DateFormat('EEE').format(now);
+    String date = DateFormat('yyyy-MM-dd').format(now);
+    String time = DateFormat.Hm().format(now);
     // final newDrink = Drink(amount: selectedAmount);
-    if(selectedAmount <= 100){
-      path = 'assets/container1.png';
-    } else if(selectedAmount <= 200){
-      path = 'assets/container2.png';
-    } else if(selectedAmount <= 350){
-      path = 'assets/container3.png';
-    }else if(selectedAmount <= 750){
-      path = 'assets/container4.png';
-    }else if(selectedAmount <= 1000){
-      path = 'assets/container5.png';
+    if (selectedAmount <= 100) {
+      imageName = 'container1.png';
+    } else if (selectedAmount <= 200) {
+      imageName = 'container2.png';
+    } else if (selectedAmount <= 350) {
+      imageName = 'container3.png';
+    } else if (selectedAmount <= 750) {
+      imageName = 'container4.png';
+    } else if (selectedAmount <= 1000) {
+      imageName = 'container5.png';
     }
 
-
-    final newHistory = History(amount: selectedAmount, date: date, time: time, imageName: path);
+    final newHistory = History(
+        name: waterName!,
+        amount: selectedAmount,
+        day: day,
+        date: date,
+        time: time,
+        imageName: imageName);
     databaseService.addHistory(history: newHistory, uid: user!.uid);
   }
 }
