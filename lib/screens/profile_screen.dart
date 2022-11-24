@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:flutter/material.dart';
@@ -30,20 +30,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   User? user;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final authservice = Provider.of<AuthService>(context, listen: false);
-      User? newUser = await authservice.currentUser();
-      setState(() {
-        user = newUser;
-      });
-      print(user!.uid);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    authService.currentUser().then((currentUser) {
+      if (!mounted) return;
+      setState(() {
+        user = currentUser;
+      });
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -126,8 +121,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text('Weight :', style: Theme.of(context).textTheme.subtitle2,),
                           Text('${user!.weight} kg', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
-                          Text('Bed Time :', style: Theme.of(context).textTheme.subtitle2,),
-                          Text('${user!.bedtime}', style: Theme.of(context).textTheme.headline3,),
+                          Text('Wake up Time :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.waketime}', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
                           Text('Goal :', style: Theme.of(context).textTheme.subtitle2,),
                           Text('${user!.target!.toInt()} ml', style: Theme.of(context).textTheme.headline3,),
@@ -141,8 +136,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text('Height :', style: Theme.of(context).textTheme.subtitle2,),
                           Text('${user!.height} kg', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
-                          Text('Wake Up Time :', style: Theme.of(context).textTheme.subtitle2,),
-                          Text('${user!.waketime}', style: Theme.of(context).textTheme.headline3,),
+                          Text('Bed Time :', style: Theme.of(context).textTheme.subtitle2,),
+                          Text('${user!.bedtime}', style: Theme.of(context).textTheme.headline3,),
                           SizedBox(height: 15,),
                           Text('Favorite Container :', style: Theme.of(context).textTheme.subtitle2,),
                           Text('${user!.favContainer!.toInt()} ml', style: Theme.of(context).textTheme.headline3,),
@@ -167,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   onPressed: () {
-                    // addBtnHandle(uid: user!.uid, user: user!);
+                    LogoutHandle(context: context);
                   },
               ),
                 ),
@@ -196,5 +191,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         animated: true,
       ),
     );
+  }
+  Future<void> LogoutHandle({required BuildContext context}) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    
+    try{
+      await authService.signOut();
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+    } on auth.FirebaseAuthException catch (e) {
+      print(e.message!);
+    }
   }
 }
